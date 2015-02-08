@@ -1,0 +1,24 @@
+{
+  "name": "aaf-assignment",
+  "version": "0.0.1",
+  "description": "A node.js GIS framework designed to allow a user functionality to ccalculate and store geographical information.",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/simonrose121/aaf-assignment.git"
+  },
+  "keywords": [
+    "GIS",
+    "node.js",
+    "node"
+  ],
+  "author": "Simon Rose",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/simonrose121/aaf-assignment/issues"
+  },
+  "homepage": "https://github.com/simonrose121/aaf-assignment"
+}
