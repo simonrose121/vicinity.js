@@ -16,15 +16,17 @@ node.prototype.distance = function(otherNode) {
             Math.cos(φ1) * Math.cos(φ2) *
             Math.sin(Δλ/2) * Math.sin(Δλ/2);
     var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
-    
     var d = R * c;
-    return Math.round(d);
+    return Math.round(d);   //round to metres
+}
+
+node.prototype.midpoint = function(otherNode) {
+
 }
 
 module.exports = node;
 
-if (typeof(Number.prototype.toRad) === "undefined") {
-  Number.prototype.toRad = function() {
+// convert number to radians
+Number.prototype.toRad = function() {
     return this * Math.PI / 180;
-  }
 }
