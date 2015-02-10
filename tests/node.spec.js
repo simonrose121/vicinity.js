@@ -1,4 +1,4 @@
-var node = require("../objects/node");
+var node = require("../model/node");
 
 describe("Constructing a node object", function() {
     it("Node Object Construction", function() {
