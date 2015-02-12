@@ -2,17 +2,16 @@ var DAO = require("../DAO");
 var mongoose = require("mongoose");
 
 describe("DAO unit tests", function() {
-    it("If singleton is instantiated correctly", function() {
+    it("Connection to database", function() {
         runs(function(){
-            var DAO1 = DAO.getInstance();
-            var DAO2 = DAO.getInstance();
-            expect(DAO1).toEqual(DAO2);
+            var newDOA = new DAO();
+            newDOA.connect();
         });
     });
     it("Connection to database", function() {
         runs(function(){
-            DAO.getInstance().connect();
-            DAO.getInstance().createSchemas();
+            var newDOA = new DAO();
+            newDOA.createSchemas();
         });
     });
     it("Save node", function() {
