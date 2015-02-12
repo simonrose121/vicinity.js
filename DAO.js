@@ -30,8 +30,12 @@ var DAO = (function() {
                     newNode.alt = alt;
                     newNode.save(function(err, newNode) {
                         if (err) return console.error(err);
-                        console.dir(newNode);
+                        //console.dir(newNode);
                     });
+                }
+                
+                nodeSchema.statics.delete = function(id) {
+                    this.find({lat: lat, lon: lon}).remove().exec();
                 }
                 
                 // create model

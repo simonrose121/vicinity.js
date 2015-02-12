@@ -28,8 +28,14 @@ describe("DAO unit tests", function() {
             expect(node).toBeDefined();
             node.find(function(err, node) {
                 if (err) return console.error(err);
-                //console.log(node);
+                console.log(node);
             });
        });
+    });
+    it("Delete node", function() {
+        runs(function() {
+            var node = mongoose.model("node");
+            node.remove(53.373656, -1.450626);
+        });
     });
 });
