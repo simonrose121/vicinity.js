@@ -10,7 +10,7 @@ describe("DAO unit tests", function() {
     });
     it("Connection to database", function() {
         runs(function(){
-            expect(DAO.getInstance().connect()).toEqual(true);
+            expect(DAO.getInstance().connect()).toBeDefined();
         });
     });
 });
