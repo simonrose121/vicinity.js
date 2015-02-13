@@ -1,7 +1,7 @@
 var node = require("../model/node");
 
-describe("Node", function() {
-    it("Node Object Construction", function() {
+describe("node tests", function() {
+    it("object construction", function() {
         runs(function(){
             var myNode = new node(0.0, 1.4, 4.5);
             expect(myNode._lat).toEqual(0.0);
@@ -9,7 +9,7 @@ describe("Node", function() {
             expect(myNode._alt).toEqual(4.5);
         });
     });
-    it("Distance calculation", function() {
+    it("distance calculation", function() {
         runs(function(){
             var myNode = new node(53.378491, -1.472634, 4.5);
             var otherNode = new node(53.379720, -1.445426, 0);

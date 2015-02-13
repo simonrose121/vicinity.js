@@ -1,15 +1,18 @@
 var mongoose = require('mongoose');
 
-function DAO() {};
+function DAO() {
+    var db;
+};
  
 DAO.prototype.connect = function() {
     mongoose.connect('mongodb://localhost/vicinity');
-    var db = mongoose.connection;
+    db = mongoose.connection;
     db.on('error', console.error.bind(console, 'connection error:'));
 };
             
 DAO.prototype.close = function() {
     mongoose.connection.close();
+    db.close();
 }
             
 DAO.prototype.createSchemas = function() {
@@ -20,24 +23,36 @@ DAO.prototype.createSchemas = function() {
         alt: Number
     });
     
-    nodeSchema.statics.create = function(lat, lon, alt) {
-        var newNode = new this();
-        newNode.lat = lat;
-        newNode.lon = lon,
-        newNode.alt = alt;
-        newNode.save(function(err, newNode) {
+    mongoose.model('node', nodeSchema);
+    
+    /*nodeSchema.statics.getAllNodes = function() {
+        this.find(function(err, node) {
             if (err) return console.error(err);
-            //console.dir(newNode);
         });
     }
     
     nodeSchema.statics.delete = function(id) {
-        this.find({lat: lat, lon: lon}).remove().exec();
+        this.find({_id: id}).remove().exec();
     }
     
-    // create model
-    mongoose.model('node', nodeSchema);
+    nodeSchema.statics.removeAll = function() {
+        mongoose.connection.db.dropCollection('node', function(err, result) {
+
+        });
+    }*/
+   
 };
+
+DAO.prototype.createNode = function(lat, lon, alt) {
+    var node = mongoose.model("node");
+    var newNode = new node();
+    newNode.lat = lat;
+    newNode.lon = lon,
+    newNode.alt = alt;
+    newNode.save(function(err, newNode) {
+        if (err) return console.error(err);
+    });
+}
 
 module.exports = DAO;
 

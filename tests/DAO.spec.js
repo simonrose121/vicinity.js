@@ -2,39 +2,37 @@ var DAO = require("../DAO");
 var mongoose = require("mongoose");
 
 describe("DAO unit tests", function() {
-    it("Connection to database", function() {
-        runs(function(){
-            var newDOA = new DAO();
-            newDOA.connect();
-        });
+    var dao;
+    var node;
+    
+    beforeEach(function() {
+        dao = new DAO();
+        dao.connect();
+        dao.createSchemas();
     });
-    it("Connection to database", function() {
-        runs(function(){
-            var newDOA = new DAO();
-            newDOA.createSchemas();
-        });
+    afterEach(function() {
+        dao.close();
+        dao.remove(ModelObject);
     });
-    it("Save node", function() {
+    
+    it("create node", function() {
        runs(function() {
-            var node = mongoose.model("node");
-            expect(node).toBeDefined();
-            node.create(53.373656, -1.450626, 0);
+            dao.createNode(53.373656, -1.450626, 0);
        });
     });
-    it("Get nodes", function() {
+   it("Get nodes", function() {
        runs(function() {
-            var node = mongoose.model("node");
-            expect(node).toBeDefined();
-            node.find(function(err, node) {
-                if (err) return console.error(err);
-                console.log(node);
-            });
+            dao.getAllNodes();
        });
     });
-    it("Delete node", function() {
+    /* it("Delete node", function() {
         runs(function() {
-            var node = mongoose.model("node");
             node.remove(53.373656, -1.450626);
         });
     });
+    it("Delete all nodes", function() {
+        runs(function() {
+            node.removeAll();
+        });
+    });*/
 });
