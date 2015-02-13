@@ -1,7 +1,7 @@
 // class constructor
 function way(nodes, tags) {
     this.nodes = nodes;
-    this.tags = tag;
+    this.tags = tags;
 }
 
 // class methods
@@ -10,7 +10,7 @@ way.prototype.addNode = function(node) {
 }
 
 way.prototype.removeNode = function(node) {
-    //nodes.find()
+    nodes.find()
 }
 
 way.prototype.isANode = function(node) {

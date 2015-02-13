@@ -4,8 +4,6 @@ var router = require("./router");
 var responder = require("./responder");
 var DAO = require("./DAO");
 
-DAO.getInstance().connect();
-
 exports.start = function(handle, port) {
 	var route = router.route;
 	function start(req, resp) {

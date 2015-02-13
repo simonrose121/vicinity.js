@@ -1,6 +1,6 @@
 var node = require("../model/node");
 
-describe("node tests", function() {
+describe("node unit tests", function() {
     it("object construction", function() {
         runs(function(){
             var myNode = new node(0.0, 1.4, 4.5);

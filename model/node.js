@@ -20,10 +20,6 @@ node.prototype.distance = function(otherNode) {
     return Math.round(d);   //round to metres
 }
 
-node.prototype.midpoint = function(otherNode) {
-
-}
-
 module.exports = node;
 
 // convert number to radians
