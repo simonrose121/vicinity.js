@@ -1,3 +1,4 @@
+/*
 var DAO = require("../DAO");
 var mongoose = require("mongoose");
 
@@ -34,5 +35,6 @@ describe("DAO unit tests", function() {
         runs(function() {
             node.removeAll();
         });
-    });*/
+    });
 });
+*/
