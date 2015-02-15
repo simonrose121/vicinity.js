@@ -1,7 +1,8 @@
 // class constructor
 var tag = function(key, value) {
-    this.key = key;
-    this.value = value;
+    // deal with null values?
+    this.key_ = key;
+    this.value_ = value;
 }
 
 // class methods

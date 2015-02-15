@@ -1,8 +1,8 @@
 // class constructor
 function node(lat, lon, alt) {
-    this._lat = lat;
-    this._lon = lon;
-    this._alt = alt;
+    this.lat_ = lat;
+    this.lon_ = lon;
+    this.alt_ = alt;
 }
 
 node.prototype.distance = function(otherNode) {
