@@ -7,17 +7,23 @@ var mongoose = require('mongoose');
 
 function DAO() {
     var db;
+    var node;
 };
  
 DAO.prototype.connect = function(port, dbname) {
-    mongoose.connect('mongodb://' + port + '/' + dbname);
-    db = mongoose.connection;
-    db.on('error', console.error.bind(console, 'connection error:'));
+    mongoose.connect('mongodb://localhost:' + port + '/' + dbname, function(err) {
+        if(err)
+            console.trace('error occurred, when attempted to connect db. Error: ' + err);
+    });
+    this.db = mongoose.connection;
+    this.db.on('error', console.error.bind(console, 'connection error:'));
 };
             
-DAO.prototype.close = function() {
-    mongoose.connection.close();
-    db.close();
+DAO.prototype.close = function(callback) {
+    this.db.close(function(err) {
+        if (err) return console.error(err);
+        callback(err, 'closed')
+    });
 }
             
 DAO.prototype.createSchemas = function() {
@@ -29,33 +35,34 @@ DAO.prototype.createSchemas = function() {
     });
     
     mongoose.model('node', nodeSchema);
-    
-    /*nodeSchema.statics.getAllNodes = function() {
-        this.find(function(err, node) {
-            if (err) return console.error(err);
-        });
-    }
-    
-    nodeSchema.statics.delete = function(id) {
-        this.find({_id: id}).remove().exec();
-    }
-    
-    nodeSchema.statics.removeAll = function() {
-        mongoose.connection.db.dropCollection('node', function(err, result) {
-
-        });
-    }*/
-   
+    this.node = mongoose.model("node");
 };
 
-DAO.prototype.createNode = function(node) {
-    var node = mongoose.model("node");
-    var newNode = new node();
-    newNode.lat = lat;
-    newNode.lon = lon,
-    newNode.alt = alt;
+DAO.prototype.createNode = function(obj, callback) {
+    var newNode = new this.node();
+    newNode.lat = obj.lat_;
+    newNode.lon = obj.lon_,
+    newNode.alt = obj.alt_;
     newNode.save(function(err, newNode) {
         if (err) return console.error(err);
+        callback(err, 'added');
+    });
+}
+
+DAO.prototype.getNode = function(id) {
+    
+}
+
+DAO.prototype.getNodes = function() {
+    this.node.find(function(err, nodes) {
+        if (err) return console.log(err);
+        console.log(nodes);
+    });
+}
+
+DAO.prototype.removeAllNodes = function() {
+    this.node.remove({}, function(err, nodes) {
+        if (err) return console.log(err);
     });
 }
 
