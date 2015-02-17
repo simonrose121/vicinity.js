@@ -1,3 +1,8 @@
+/*
+Data Access Object is required to return JSON objects from a mongoDB instance 
+and map them to the model objects
+*/
+
 var mongoose = require('mongoose');
 
 function DAO() {
