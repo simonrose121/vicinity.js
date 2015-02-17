@@ -4,8 +4,8 @@ function DAO() {
     var db;
 };
  
-DAO.prototype.connect = function() {
-    mongoose.connect('mongodb://localhost/vicinity');
+DAO.prototype.connect = function(port, dbname) {
+    mongoose.connect('mongodb://' + port + '/' + dbname);
     db = mongoose.connection;
     db.on('error', console.error.bind(console, 'connection error:'));
 };
@@ -43,7 +43,7 @@ DAO.prototype.createSchemas = function() {
    
 };
 
-DAO.prototype.createNode = function(lat, lon, alt) {
+DAO.prototype.createNode = function(node) {
     var node = mongoose.model("node");
     var newNode = new node();
     newNode.lat = lat;

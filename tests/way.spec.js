@@ -19,7 +19,7 @@ describe("way unit tests", function() {
             var node2 = new node(1.0, 1.4, 4.5);
 
             // create new way
-            way1 = new way();
+            var way1 = new way();
             
             // add nodes to way 
             way1.addNode(node1);
@@ -53,7 +53,7 @@ describe("way unit tests", function() {
             var node1 = new node(0.0, 1.4, 4.5);
             
             // create new way
-            way3 = new way();
+            var way3 = new way();
             
             // add node to way
             way3.addNode(node1);
@@ -74,7 +74,7 @@ describe("way unit tests", function() {
             var tag1 = new tag("name", "a place");
             
             // create new way
-            way4 = new way();
+            var way4 = new way();
             
             // add tag to way
             way4.addTag(tag1);

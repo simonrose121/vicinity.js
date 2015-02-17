@@ -1,3 +1,14 @@
+/*
+OPEN STREET MAP API v0.6
+A way is an ordered list of nodes which normally also has at least one tag or is
+included within a Relation. A way can have between 2 and 2,000 nodes, although 
+it's possible that faulty ways with zero or a single node exist. A way can be 
+open or closed. A closed way is one whose last node on the way is also the first
+on that way. A closed way may be interpreted either as a closed polyline, or an
+area, or both.
+*/
+
+
 // as this is a collection class i've decided not to initialise values on construction
 
 // class constructor

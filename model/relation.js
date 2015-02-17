@@ -1,9 +1,18 @@
+/*
+OPEN STREET MAP API v0.6
+A relation is one of the core data elements that consists of one or more tags 
+and also an ordered list of one or more nodes, ways and/or relations as members 
+which is used to define logical or geographic relationships between other 
+elements. A member of a relation can optionally have a role which describe the 
+part that a particular feature plays within a relation.
+*/
+
 // as this is a collection class i've decided not to initialise values on construction
 
 // class constructor
 var relation = function() {
-    this.tags_ = [];
     this.nodes_ = [];
+    this.tags_ = [];
     this.ways_ = [];
     this.relations_ = [];
 }
@@ -52,7 +61,7 @@ relation.prototype.addWay = function(way) {
 }
 
 relation.prototype.removeWay = function(way) {
-    var index = this.way_.indexOf(way);
+    var index = this.ways_.indexOf(way);
     this.ways_.splice(index);
 }
 
@@ -70,8 +79,8 @@ relation.prototype.addRelation = function(relation) {
 }
 
 relation.prototype.removeRelation = function(relation) {
-    var relations_ = this.relations_.indexOf(relation);
-    this.ways_.splice(index);
+    var index = this.relations_.indexOf(relation);
+    this.relations_.splice(index);
 }
 
 relation.prototype.relationExists = function(relation) {
