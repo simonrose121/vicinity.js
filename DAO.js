@@ -4,10 +4,11 @@ and map them to the model objects
 */
 
 var mongoose = require('mongoose');
+var node = require('./model/node');
 
 function DAO() {
     var db;
-    var node;
+    var nodeSchema;
 };
  
 DAO.prototype.connect = function(port, dbname) {
@@ -34,37 +35,55 @@ DAO.prototype.createSchemas = function() {
         alt: Number
     });
     
-    mongoose.model('node', nodeSchema);
-    this.node = mongoose.model("node");
+    mongoose.model('nodeSchema', nodeSchema);
+    this.nodeSchema = mongoose.model('nodeSchema');
 };
 
+// NODE METHODS
+
 DAO.prototype.createNode = function(obj, callback) {
-    var newNode = new this.node();
+    var newNode = new this.nodeSchema();
     newNode.lat = obj.lat_;
     newNode.lon = obj.lon_,
     newNode.alt = obj.alt_;
     newNode.save(function(err, newNode) {
         if (err) return console.error(err);
-        callback(err, 'added');
+        callback(err, 'added', newNode);
     });
 }
 
-DAO.prototype.getNode = function(id) {
-    
+DAO.prototype.getNode = function(id, callback) {
+    this.nodeSchema.findOne({_id: id}, function(err, n) {
+        if (err) return console.log(err);
+        callback(new node(n.lat, n.lon, n.alt));
+    });
 }
 
-DAO.prototype.getNodes = function() {
-    this.node.find(function(err, nodes) {
+DAO.prototype.getAllNodes = function(callback) {
+    this.nodeSchema.find(function(err, nodes) {
         if (err) return console.log(err);
-        console.log(nodes);
+        var allNodes = [];
+        for(var i = 0; i < nodes.length; i++) {
+            allNodes.push(new node(nodes[i].lat, nodes[i].lon, nodes[i].alt));
+        }
+        callback(allNodes);
     });
 }
 
 DAO.prototype.removeAllNodes = function() {
-    this.node.remove({}, function(err, nodes) {
+    this.nodeSchema.remove({}, function(err, nodes) {
         if (err) return console.log(err);
     });
 }
+
+// WAY METHODS
+
+DAO.prototype.createWay = function(obj) {
+    
+}
+
+
+// RELATION METHODS
 
 module.exports = DAO;
 
