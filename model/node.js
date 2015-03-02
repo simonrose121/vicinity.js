@@ -9,6 +9,7 @@ function node(lat, lon, alt) {
     this.lat_ = lat;
     this.lon_ = lon;
     this.alt_ = alt;
+    this.tags_ = [];
 }
 
 node.prototype.distance = function(otherNode) {
