@@ -34,18 +34,19 @@ DAO.prototype.createSchemas = function() {
     // create schemas
     // use local then assign to member variable
     var nodeSchema = mongoose.Schema({
-        lat: Number,
-        lon: Number,
-        alt: Number
+        lat_: Number,
+        lon_: Number,
+        alt_: Number
     });
     
     var tagSchema = mongoose.Schema({
-        key: Object,
-        value: Object
+        key_: Object,
+        value_: Object
     });
     
     var waySchema = mongoose.Schema({
-        
+        node_: [nodeSchema],
+        tags_: [tagSchema]
     });
     
     mongoose.model('nodeSchema', nodeSchema);
@@ -53,16 +54,16 @@ DAO.prototype.createSchemas = function() {
     
     mongoose.model('tagSchema', tagSchema);
     this.tagSchema = mongoose.model('tagSchema');
+    
+    mongoose.model('waySchema', waySchema);
+    this.waySchema = mongoose.model('waySchema');
 };
 
 // NODE METHODS
 
 DAO.prototype.createNode = function(obj, callback) {
-    var newNode = new this.nodeSchema();
-    newNode.lat = obj.lat_;
-    newNode.lon = obj.lon_,
-    newNode.alt = obj.alt_;
-    newNode.save(function(err, newNode) {
+    var newNode = new this.nodeSchema(obj);
+    newNode.save(function(err, obj) {
         if (err) 
             return console.error(err);
         console.log(newNode);
@@ -70,11 +71,21 @@ DAO.prototype.createNode = function(obj, callback) {
     });
 }
 
+
+DAO.prototype.updateNode = function(obj, callback) {
+    var newNode = new this.nodeSchema(obj);
+    this.nodeSchema.update({_id: newNode._id}, newNode, {upsert: true}, function(err) {
+        if(err)
+            return console.error(err);
+        callback(err, 'updated');
+    });
+}
+
 DAO.prototype.getNode = function(id, callback) {
     this.nodeSchema.findOne({_id: id}, function(err, n) {
         if (err) 
             return console.log(err);
-        callback(new node(n.lat, n.lon, n.alt));
+        callback(new node(n.lat_, n.lon_, n.alt_));
     });
 }
 
@@ -90,11 +101,7 @@ DAO.prototype.getAllNodes = function(callback) {
     this.nodeSchema.find(function(err, nodes) {
         if (err) 
             return console.log(err);
-        var allNodes = [];
-        for(var i = 0; i < nodes.length; i++) {
-            allNodes.push(new node(nodes[i].lat, nodes[i].lon, nodes[i].alt));
-        }
-        callback(allNodes);
+        callback(nodes);
     });
 }
 
@@ -114,7 +121,6 @@ DAO.prototype.createTag = function(obj, callback) {
     newTag.save(function(err, newTag) {
         if (err) 
             return console.error(err);
-        console.log(newTag);
         callback(err, 'added', newTag);
     });
 }
@@ -144,7 +150,11 @@ DAO.prototype.deleteAllTags = function() {
 
 // WAY METHODS
 
-DAO.prototype.createWay = function(obj) {
+DAO.prototype.createWay = function(obj, callback) {
+    var newWay = new this.waySchema();
+    newWay.nodes = obj.nodes_;
+    newWay.tags = obj.tags_;
+    
     
 }
 

@@ -16,8 +16,7 @@ var tag = function(key, value) {
 // class methods
 
 // a tag is closed if the last node is also the first node
-tag.prototype.isClosed = function()
-{
+tag.prototype.isClosed = function() {
     
 }
 
