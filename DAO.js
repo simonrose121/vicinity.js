@@ -10,6 +10,7 @@ function DAO() {
     var nodeSchema;
     var tagSchema;
     var waySchema;
+    var relationSchema;
 };
  
 DAO.prototype.connect = function(port, dbname) {
@@ -62,6 +63,9 @@ DAO.prototype.createSchemas = function() {
     
     mongoose.model('waySchema', waySchema);
     this.waySchema = mongoose.model('waySchema');
+    
+    mongoose.model('relationSchema', relationSchema);
+    this.relationSchema = mongoose.model('relationSchema');
 };
 
 // NODE METHODS
@@ -145,12 +149,6 @@ DAO.prototype.deleteTag = function(id, callback) {
     });
 }
 
-DAO.prototype.deleteAllTags = function() {
-    this.tagSchema.remove({}, function(err) {
-        if (err) return console.log(err);
-    });
-}
-
 // WAY METHODS
 
 DAO.prototype.createWay = function(obj, callback) {
@@ -205,7 +203,6 @@ DAO.prototype.createRelation = function(obj, callback) {
     });
 }
 
-// get
 DAO.prototype.getRelation = function(id, callback) {
     this.relationSchema.findOne({_id: id}, function(err, r) {
         if(err) return console.log(err); 
@@ -213,7 +210,6 @@ DAO.prototype.getRelation = function(id, callback) {
     });
 }
 
-// getAll
 DAO.prototype.getAllRelations = function(callback) {
     this.relationSchema.find({}, function(err, relations) {
         if(err) return console.log(err);
@@ -221,7 +217,6 @@ DAO.prototype.getAllRelations = function(callback) {
     });
 }
 
-// delete
 DAO.prototype.deleteRelation = function(id, callback) {
     this.relationSchema.remove({_id: id}, function(err) {
         if(err) return console.log(err);
@@ -229,8 +224,6 @@ DAO.prototype.deleteRelation = function(id, callback) {
     });
 }
 
-
-// deleteAll
 DAO.prototype.deleteAllRelations = function(callback) {
     this.relationSchema.remove({}, function(err) {
         if(err) return console.log(err);

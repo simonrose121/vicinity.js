@@ -2,6 +2,7 @@ var DAO = require("../DAO");
 var node = require("../model/node");
 var tag = require("../model/tag");
 var way = require("../model/way");
+var relation = require("../model/relation");
 
 var mongoose = require("mongoose");
 
@@ -9,9 +10,11 @@ describe("DAO unit tests", function() {
     var testingNode;
     var testingTag;
     var testingWay;
+    var testingRelation;
     var testingNodeForDeletion;
     var testingTagForDeletion;
     var testingWayForDeletion;
+    var testingRelationForDeletion;
     var dao = new DAO();
     dao.connect(process.env.IP, "vicinity");
     dao.createSchemas();
@@ -219,25 +222,6 @@ describe("DAO unit tests", function() {
             });
         });
     });
-     it("delete all tags", function() {
-        runs(function() {
-            dao.deleteAllTags();
-            
-            var tags;
-            dao.getAllNodes(function(allTags) {
-                tags = allTags;
-            });
-            
-            waitsFor(function() {
-                return tags !== undefined;
-            }, 'should return a status that is not undefined', 1000);
-            
-            runs(function() {
-                //check nodes are empty
-                expect(tags).toEqual([]);
-            });
-        });
-    });
     
     // WAY METHODS
     
@@ -287,6 +271,90 @@ describe("DAO unit tests", function() {
                 expect(way.nodes_[0].lat_).toEqual(testingWay.nodes_[0].lat_);
                 expect(way.tags_[0].value_).toEqual(testingWay.tags_[0].value_);
             });
+        });
+    });
+    it("delete way", function() {
+        runs(function() {
+            var response;
+            
+            dao.deleteWay(testingWay._id, function(result) {
+                response = result;
+            })
+            
+            waitsFor(function() {
+                return response !== undefined;
+            }, 'should return a status that is not undefined', 1000);
+            
+            runs(function() {
+                expect(response).toEqual('deleted');
+            });  
+        });
+    });
+    
+    // RELATION METHODS
+    it("create relation", function() {
+        runs(function() {
+            var node0 = new node(53.373656, -1.450626, 0);
+            var node1 = new node(321, 32, 0);
+            var tag0 = new tag("name", "test");
+            var tag1 = new tag("node_id", "129839213");
+            
+            var relation0 = new relation();
+            relation0.addNode(node0);
+            relation0.addNode(node1);
+            relation0.addTag(tag0);
+            relation0.addTag(tag1);
+            
+            var response;
+            dao.createRelation(relation0, function(result, myRelation) {
+                 response = result;
+                 testingRelation = myRelation;
+            });
+            
+            waitsFor(function() {
+                return response !== undefined;
+            }, 'should return a status that is not undefined', 1000);
+        
+            runs(function() {
+                expect(response).toEqual('added');
+                expect(testingRelation.nodes_[0].lon_).toEqual(node0.lon_);
+                expect(testingRelation.tags_[0].value_).toEqual(tag0.value_);
+            });
+        });
+    });
+    it("get relation", function() {
+        runs(function() {
+            var relation;
+            
+            dao.getRelation(testingRelation._id, function(newRelation) {
+                relation = newRelation;
+            });
+            
+            waitsFor(function() {
+                return relation !== undefined;
+            }, 'should return a status that is not undefined', 1000);
+            
+            runs(function() {
+                expect(relation.nodes_[0].lat_).toEqual(testingRelation.nodes_[0].lat_);
+                expect(relation.tags_[0].value_).toEqual(testingRelation.tags_[0].value_);
+            });
+        });
+    });
+    it("delete relation", function() {
+        runs(function() {
+            var response;
+            
+            dao.deleteRelation(testingRelation._id, function(result) {
+                response = result;
+            })
+            
+            waitsFor(function() {
+                return response !== undefined;
+            }, 'should return a status that is not undefined', 1000);
+            
+            runs(function() {
+                expect(response).toEqual('deleted');
+            });  
         });
     });
     
