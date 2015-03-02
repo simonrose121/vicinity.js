@@ -21,12 +21,12 @@ describe("DAO unit tests", function() {
             var node0 = new node(53.373656, -1.450626, 0);
             var node1 = new node(321, 32, 0);
 
-            dao.createNode(node0, function(error, result, myNode) {
+            dao.createNode(node0, function(result, myNode) {
                  response = result;
                  testingNode = myNode;
             });
             
-            dao.createNode(node1, function(error, result, myNode) {
+            dao.createNode(node1, function(result, myNode) {
                  testingNodeForDeletion = myNode;
             });
             
@@ -49,7 +49,7 @@ describe("DAO unit tests", function() {
             // keep id the same
             testingNode._id = id;
 
-            dao.updateNode(testingNode, function(error, result) {
+            dao.updateNode(testingNode, function(result) {
                 response = result;
             });
             
@@ -103,13 +103,14 @@ describe("DAO unit tests", function() {
                 nodes = allNodes;
             });
             
-            console.log(nodes);
-            
             waitsFor(function() {
                 return nodes !== undefined;
-            }, 'should return a status that is not undefined', 2000);
-            
+            }, 'should return a status that is not undefined', 3000);
+
             runs(function() {
+                console.log(nodes);
+                
+                expect(nodes.length).toEqual(1);
                 expect(nodes[0].lat_).toEqual(testingNode.lat_);
                 expect(nodes[0].lon_).toEqual(testingNode.lon_);
             });
@@ -118,6 +119,20 @@ describe("DAO unit tests", function() {
     it("delete all nodes", function() {
         runs(function() {
             dao.deleteAllNodes();
+            
+            var nodes;
+            dao.getAllNodes(function(allNodes) {
+                nodes = allNodes;
+            });
+            
+            waitsFor(function() {
+                return nodes !== undefined;
+            }, 'should return a status that is not undefined', 1000);
+            
+            runs(function() {
+                //check nodes are empty
+                expect(nodes).toEqual([]);
+            });
         });
     });
     
@@ -130,12 +145,12 @@ describe("DAO unit tests", function() {
             var tag0 = new tag("name", "test");
             var tag1 = new tag("id", "129839213");
 
-            dao.createTag(tag0, function(error, result, myTag) {
+            dao.createTag(tag0, function(result, myTag) {
                  response = result;
                  testingTag = myTag;
             });
             
-            dao.createTag(tag1, function(error, result, myTag) {
+            dao.createTag(tag1, function(result, myTag) {
                  testingTagForDeletion = myTag;
             });
             
@@ -148,11 +163,36 @@ describe("DAO unit tests", function() {
             }); 
         });
     });
+    it("update tag", function() {
+        runs(function() {
+            var response;
+            
+            var id = testingTag._id;
+            testingTag = new tag("name", "other name");
+            
+            // keep id the same
+            testingTag._id = id;
+
+            dao.updateTag(testingTag, function(result) {
+                response = result;
+            });
+            
+            waitsFor(function() {
+                return response !== undefined;
+            }, 'should return a status that is not undefined', 1000);
+            
+            runs(function() {
+                expect(response).toEqual('updated');
+            });
+        }); 
+    });
     it("get tag", function() {
         runs(function() {
             var tag;
+
             dao.getTag(testingTag._id, function(newTag) {
                 tag = newTag;
+                console.log(tag);
             });
             
             waitsFor(function() {
@@ -185,6 +225,20 @@ describe("DAO unit tests", function() {
      it("delete all tags", function() {
         runs(function() {
             dao.deleteAllTags();
+            
+            var tags;
+            dao.getAllNodes(function(allTags) {
+                tags = allTags;
+            });
+            
+            waitsFor(function() {
+                return tags !== undefined;
+            }, 'should return a status that is not undefined', 1000);
+            
+            runs(function() {
+                //check nodes are empty
+                expect(tags).toEqual([]);
+            });
         });
     });
     

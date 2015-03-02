@@ -67,7 +67,7 @@ DAO.prototype.createNode = function(obj, callback) {
         if (err) 
             return console.error(err);
         console.log(newNode);
-        callback(err, 'added', newNode);
+        callback('added', newNode);
     });
 }
 
@@ -77,7 +77,7 @@ DAO.prototype.updateNode = function(obj, callback) {
     this.nodeSchema.update({_id: newNode._id}, newNode, {upsert: true}, function(err) {
         if(err)
             return console.error(err);
-        callback(err, 'updated');
+        callback('updated');
     });
 }
 
@@ -94,7 +94,7 @@ DAO.prototype.deleteNode = function(id, callback) {
         if(err) 
             return console.log(err);
         callback('deleted');
-    })
+    });
 } 
 
 DAO.prototype.getAllNodes = function(callback) {
@@ -106,7 +106,7 @@ DAO.prototype.getAllNodes = function(callback) {
 }
 
 DAO.prototype.deleteAllNodes = function() {
-    this.nodeSchema.remove({}, function(err, nodes) {
+    this.nodeSchema.remove(function(err, nodes) {
         if (err) 
             return console.log(err);
     });
@@ -115,13 +115,20 @@ DAO.prototype.deleteAllNodes = function() {
 // TAG METHODS
 
 DAO.prototype.createTag = function(obj, callback) {
-    var newTag = new this.tagSchema();
-    newTag.key = obj.key_;
-    newTag.value = obj.value_,
+    var newTag = new this.tagSchema(obj);
     newTag.save(function(err, newTag) {
         if (err) 
             return console.error(err);
-        callback(err, 'added', newTag);
+        callback('added', newTag);
+    });
+}
+
+DAO.prototype.updateTag = function(obj, callback) {
+    var newTag = new this.tagSchema(obj);
+    this.tagSchema.update({_id: newTag._id}, newTag, {upsert: true}, function(err) {
+        if(err)
+            return console.error(err);
+        callback('updated');
     });
 }
 
@@ -129,7 +136,7 @@ DAO.prototype.getTag = function(id, callback) {
     this.tagSchema.findOne({_id: id}, function(err, t) {
         if (err) 
             return console.log(err);
-        callback(new tag(t.key, t.value));
+        callback(new tag(t.key_, t.value_));
     });
 }
 
