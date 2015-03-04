@@ -1,9 +1,9 @@
 var response = require("./response");
 
-exports.route = function(handle, pathname, node) {
+exports.route = function(handle, pathname) {
 	var handler = handle[pathname];
 	if(typeof handler === 'function') {
-		return handler(node);
+		return handler();
 	} else {
 		return new response(404);
 	}

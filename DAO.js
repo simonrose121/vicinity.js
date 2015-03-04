@@ -72,8 +72,8 @@ DAO.prototype.createSchemas = function() {
 
 DAO.prototype.createNode = function(obj, callback) {
     var newNode = new this.nodeSchema(obj);
-    newNode.save(function(err, obj) {
-        if (err) return console.error(err);
+    newNode.save(function(err) {
+        if (err) return console.log(err);
         callback('added', newNode);
     });
 }
