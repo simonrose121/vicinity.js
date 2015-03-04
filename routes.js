@@ -12,11 +12,12 @@ exports.editNode = function() {
 exports.createNode = function() {
     var node0 = new node(53.373656, -1.450626, 0);
     var res;
+    var n;
     app.dao.createNode(node0, function(result, newNode) {
         res = result;
+        n = newNode;
     });
-    console.log(res);
-    var resp = new response(200, res);
+    var resp = new response(200, n._id + " " + res);
     return resp;
 }
 

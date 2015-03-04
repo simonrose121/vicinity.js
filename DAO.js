@@ -55,17 +55,17 @@ DAO.prototype.createSchemas = function() {
         relations_: [relationSchema]
     });
     
-    mongoose.model('nodeSchema', nodeSchema);
-    this.nodeSchema = mongoose.model('nodeSchema');
+    this.db.model('nodeSchema', nodeSchema);
+    this.nodeSchema = this.db.model('nodeSchema');
     
-    mongoose.model('tagSchema', tagSchema);
-    this.tagSchema = mongoose.model('tagSchema');
+    this.db.model('tagSchema', tagSchema);
+    this.tagSchema = this.db.model('tagSchema');
     
-    mongoose.model('waySchema', waySchema);
-    this.waySchema = mongoose.model('waySchema');
+    this.db.model('waySchema', waySchema);
+    this.waySchema = this.db.model('waySchema');
     
-    mongoose.model('relationSchema', relationSchema);
-    this.relationSchema = mongoose.model('relationSchema');
+    this.db.model('relationSchema', relationSchema);
+    this.relationSchema = this.db.model('relationSchema');
 };
 
 // NODE METHODS
@@ -73,6 +73,7 @@ DAO.prototype.createSchemas = function() {
 DAO.prototype.createNode = function(obj, callback) {
     var newNode = new this.nodeSchema(obj);
     newNode.save(function(err) {
+        console.log("saving node...");
         if (err) return console.log(err);
         callback('added', newNode);
     });

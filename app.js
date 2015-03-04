@@ -15,7 +15,6 @@ exports.createApp = function(port) {
     var dao = new DAO();
     dao.connect(process.env.IP, "vicinity");
     dao.createSchemas();
-    
     exports.dao = dao;
     
     // set handles
