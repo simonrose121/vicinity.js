@@ -4,6 +4,7 @@ and map them to the model objects
 */
 
 var mongoose = require('mongoose');
+var wait = require('wait.for');
 
 function DAO() {
     var db;
@@ -17,6 +18,8 @@ DAO.prototype.connect = function(port, dbname) {
     mongoose.connect('mongodb://localhost:' + port + '/' + dbname, function(err) {
         if(err)
             console.trace('error occurred, when attempted to connect db. Error: ' + err);
+        else
+            console.log("connection established");
     });
     this.db = mongoose.connection;
     this.db.on('error', console.error.bind(console, 'connection error:'));
@@ -55,29 +58,29 @@ DAO.prototype.createSchemas = function() {
         relations_: [relationSchema]
     });
     
-    this.db.model('nodeSchema', nodeSchema);
-    this.nodeSchema = this.db.model('nodeSchema');
+    mongoose.model('nodeSchema', nodeSchema);
+    this.nodeSchema = mongoose.model('nodeSchema');
     
-    this.db.model('tagSchema', tagSchema);
-    this.tagSchema = this.db.model('tagSchema');
+    mongoose.model('tagSchema', tagSchema);
+    this.tagSchema = mongoose.model('tagSchema');
     
-    this.db.model('waySchema', waySchema);
-    this.waySchema = this.db.model('waySchema');
+    mongoose.model('waySchema', waySchema);
+    this.waySchema = mongoose.model('waySchema');
     
-    this.db.model('relationSchema', relationSchema);
-    this.relationSchema = this.db.model('relationSchema');
+    mongoose.model('relationSchema', relationSchema);
+    this.relationSchema = mongoose.model('relationSchema');
 };
 
 // NODE METHODS
 
 DAO.prototype.createNode = function(obj, callback) {
     var newNode = new this.nodeSchema(obj);
-    newNode.save(function(err) {
+    newNode.save(wait.launchFiber(function(err) {
         console.log("saving node...");
-        if (err) return console.log(err);
+        if (err) return console.error(err);
         callback('added', newNode);
-    });
-}
+    }));
+};
 
 
 DAO.prototype.updateNode = function(obj, callback) {
@@ -97,8 +100,9 @@ DAO.prototype.getNode = function(id, callback) {
 
 DAO.prototype.getAllNodes = function(callback) {
     this.nodeSchema.find(function(err, nodes) {
-        if (err) 
-            return console.log(err);
+        console.log("finding nodes...");
+        if (err) return console.log(err);
+        console.log(nodes);
         callback(nodes);
     });
 }

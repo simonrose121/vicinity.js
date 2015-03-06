@@ -36,6 +36,7 @@ describe("DAO unit tests", function() {
                  testingNodeForDeletion = myNode;
             });
             
+            //TODO: possibly remove waits for
             waitsFor(function() {
                 return response !== undefined;
             }, 'should return a status that is not undefined', 1000);

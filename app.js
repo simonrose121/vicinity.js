@@ -7,15 +7,15 @@ var DAO = require('./DAO');
 var router = require('./router');
 var routes = require('./routes');
 
+var dao = new DAO();
+
 // intialise framework
 exports.createApp = function(port) {
     var route = router.route;
     
     // initialise database
-    var dao = new DAO();
     dao.connect(process.env.IP, "vicinity");
     dao.createSchemas();
-    exports.dao = dao;
     
     // set handles
     var handle = {
@@ -32,4 +32,7 @@ exports.createApp = function(port) {
     
     http.createServer(start).listen(port);
 }
+
+// export dao to be used in other files
+exports.dao = dao;
 
