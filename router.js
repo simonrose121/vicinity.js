@@ -1,9 +1,12 @@
 var response = require("./response");
+var wait = require("wait.for");
 
-exports.route = function(handle, pathname) {
+exports.route = function(handle, pathname, query, callback) {
 	var handler = handle[pathname];
 	if(typeof handler === 'function') {
-		return handler();
+		handler(query, function(resp){
+			callback(resp);
+		});
 	} else {
 		return new response(404);
 	}

@@ -19,15 +19,17 @@ exports.createApp = function(port) {
     
     // set handles
     var handle = {
-        '/node/create' : routes.createNode,
+        '/node/add' : routes.addNode,
     	'/node/edit' : routes.editNode,
-    	'/node/list' : routes.listNodes
+    	'/node/list' : routes.listNodes,
+    	'/node/get' : routes.getNode
     }
     
     function start(req, resp) {
         var url_parse = url.parse(req.url);
-        var response = route(handle, url_parse.pathname);
-        responder.respond(response, resp);
+        route(handle, url_parse.pathname, querystring.parse(url_parse.query), function(response) {
+            responder.respond(response, resp);
+        });
     }
     
     http.createServer(start).listen(port);

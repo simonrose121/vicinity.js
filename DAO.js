@@ -75,11 +75,11 @@ DAO.prototype.createSchemas = function() {
 
 DAO.prototype.createNode = function(obj, callback) {
     var newNode = new this.nodeSchema(obj);
-    newNode.save(wait.launchFiber(function(err) {
+    newNode.save(function(err) {
         console.log("saving node...");
         if (err) return console.error(err);
         callback('added', newNode);
-    }));
+    });
 };
 
 
@@ -99,10 +99,11 @@ DAO.prototype.getNode = function(id, callback) {
 }
 
 DAO.prototype.getAllNodes = function(callback) {
+    // can't put wait for fiber in here as it never fires
     this.nodeSchema.find(function(err, nodes) {
+        console.log(nodes);
         console.log("finding nodes...");
         if (err) return console.log(err);
-        console.log(nodes);
         callback(nodes);
     });
 }
