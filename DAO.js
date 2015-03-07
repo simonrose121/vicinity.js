@@ -4,7 +4,6 @@ and map them to the model objects
 */
 
 var mongoose = require('mongoose');
-var wait = require('wait.for');
 
 function DAO() {
     var db;
@@ -84,10 +83,10 @@ DAO.prototype.createNode = function(obj, callback) {
 
 
 DAO.prototype.updateNode = function(obj, callback) {
-    var newNode = new this.nodeSchema(obj);
-    this.nodeSchema.update({_id: newNode._id}, newNode, {upsert: true}, function(err) {
+    var updatedNode = new this.nodeSchema(obj);
+    this.nodeSchema.update({_id: updatedNode._id}, updatedNode, {upsert: true}, function(err) {
         if(err) return console.error(err);
-        callback('updated');
+        callback('updated', updatedNode);
     });
 }
 

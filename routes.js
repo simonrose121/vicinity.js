@@ -1,13 +1,16 @@
 var node = require('./model/node');
 var response = require('./response');
 var app = require('./app');
-var wait = require('wait.for');
 
-exports.editNode = function() {
-    var node0 = new node(53.373656, -1.450626, 0);
-    console.log(node0);
-    var resp = new response(200, JSON.stringify(node0));
-    return resp;
+exports.editNode = function(query, callback) {
+    var node0 = new node(query.lat, query.lon, query.alt);
+    node0._id = query.id;
+    app.dao.updateNode(node0, function(result, editedNode) {
+        if(editedNode)
+            callback(new response(200, JSON.stringify(editedNode)));
+        else
+            callback(new response(200, "node not found"));
+    });
 };
 
 exports.addNode = function(query, callback) {
@@ -20,12 +23,14 @@ exports.addNode = function(query, callback) {
     });
 };
 
-exports.getNode = function(qs) {
-    var resp;
-    app.dao.getNode(qs.id, function(result, node) {
-        resp = new response(200, JSON.stringify(node));
+exports.getNode = function(query, callback) {
+    console.log(query);
+    app.dao.getNode(query.id, function(node) {
+        if(node)
+            callback(new response(200, JSON.stringify(node)));
+        else
+            callback(new response(200, "node not found"));
     });
-    return resp;
 };
 
 exports.listNodes = function(query, callback) {

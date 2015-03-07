@@ -1,5 +1,4 @@
 var response = require("./response");
-var wait = require("wait.for");
 
 exports.route = function(handle, pathname, query, callback) {
 	var handler = handle[pathname];
