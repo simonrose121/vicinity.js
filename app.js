@@ -5,7 +5,7 @@ var querystring = require('querystring');
 var responder = require('./responder');
 var DAO = require('./DAO');
 var router = require('./router');
-var routes = require('./routes');
+var handles = require('./handles');
 
 var dao = new DAO();
 
@@ -17,17 +17,9 @@ exports.createApp = function(port) {
     dao.connect(process.env.IP, "vicinity");
     dao.createSchemas();
     
-    // set handles
-    var handle = {
-        '/node/add' : routes.addNode,
-    	'/node/edit' : routes.editNode,
-    	'/node/list' : routes.listNodes,
-    	'/node/get' : routes.getNode
-    }
-    
     function start(req, resp) {
         var url_parse = url.parse(req.url);
-        route(handle, url_parse.pathname, querystring.parse(url_parse.query), function(response) {
+        route(handles.handle, url_parse.pathname, querystring.parse(url_parse.query), function(response) {
             responder.write(response, resp);
         });
     }

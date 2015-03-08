@@ -1,7 +1,7 @@
-var relation = require("../model/relation");
-var node = require("../model/node");
-var tag = require("../model/tag");
-var way = require("../model/way");
+var relation = require("../objects/relation");
+var node = require("../objects/node");
+var tag = require("../objects/tag");
+var way = require("../objects/way");
 
 describe("relation unit tests", function() {
     it("object construction", function() {

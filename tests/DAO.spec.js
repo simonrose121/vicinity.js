@@ -1,8 +1,8 @@
 var DAO = require("../DAO");
-var node = require("../model/node");
-var tag = require("../model/tag");
-var way = require("../model/way");
-var relation = require("../model/relation");
+var node = require("../objects/node");
+var tag = require("../objects/tag");
+var way = require("../objects/way");
+var relation = require("../objects/relation");
 
 var mongoose = require("mongoose");
 
@@ -25,8 +25,8 @@ describe("DAO unit tests", function() {
         runs(function() {
             dao.deleteAllNodes();
             
-            var node0 = new node(53.373656, -1.450626, 0);
-            var node1 = new node(321, 32, 0);
+            var node0 = new node(53.373656, -1.450626);
+            var node1 = new node(321, 32);
 
             var response;
             dao.createNode(node0, function(result, myNode) {
@@ -51,7 +51,7 @@ describe("DAO unit tests", function() {
     it("update node", function() {
         runs(function() {
             var id = testingNode._id;
-            testingNode = new node(10, 20, 0);
+            testingNode = new node(10, 20);
             
             // keep id the same
             testingNode._id = id;
@@ -230,8 +230,8 @@ describe("DAO unit tests", function() {
     
     it("create ways", function() {
         runs(function() {
-            var node0 = new node(53.373656, -1.450626, 0);
-            var node1 = new node(321, 32, 0);
+            var node0 = new node(53.373656, -1.450626);
+            var node1 = new node(321, 32);
             var tag0 = new tag("name", "test");
             var tag1 = new tag("node_id", "129839213");
             
@@ -297,8 +297,8 @@ describe("DAO unit tests", function() {
     // RELATION METHODS
     it("create relation", function() {
         runs(function() {
-            var node0 = new node(53.373656, -1.450626, 0);
-            var node1 = new node(321, 32, 0);
+            var node0 = new node(53.373656, -1.450626);
+            var node1 = new node(321, 32);
             var tag0 = new tag("name", "test");
             var tag1 = new tag("node_id", "129839213");
             

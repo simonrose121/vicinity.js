@@ -5,13 +5,13 @@ of a single point in space defined by its latitude, longitude and node id.
 */
 
 // class constructor
-function node(lat, lon, alt) {
+function node(lat, lon) {
     this.lat_ = lat;
     this.lon_ = lon;
-    this.alt_ = alt;
     this.tags_ = [];
 }
 
+// mathmatical methods
 node.prototype.distance = function(otherNode) {
     //TODO: remove unicode characters
     var R = 6371000; // earths radius in metres
@@ -26,11 +26,30 @@ node.prototype.distance = function(otherNode) {
     var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
     var d = R * c;
     return Math.round(d);   //round to metres
-}
-
-module.exports = node;
+};
 
 // convert number to radians
 Number.prototype.toRad = function() {
     return this * Math.PI / 180;
-}
+};
+
+// tag methods
+node.prototype.addTag = function(tag) {
+    this.tags_.push(tag);
+};
+
+node.prototype.removeTag = function(tag) {
+    var index = this.tags_.indexOf(tag);
+    this.tags_.splice(index);
+};
+
+node.prototype.tagExists = function(tag) {
+    var index = this.tags_.indexOf(tag);
+    if(index > -1) {
+        return true;
+    }
+    return false;
+};
+
+module.exports = node;
+

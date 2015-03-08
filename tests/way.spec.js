@@ -1,6 +1,6 @@
-var way = require("../model/way");
-var node = require("../model/node");
-var tag = require("../model/tag");
+var way = require("../objects/way");
+var node = require("../objects/node");
+var tag = require("../objects/tag");
 
 describe("way unit tests", function() {
     it("object construction", function() {

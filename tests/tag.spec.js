@@ -1,4 +1,4 @@
-var tag = require("../model/tag");
+var tag = require("../objects/tag");
 
 describe("tag unit tests", function() {
     it("object construction", function() {
