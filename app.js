@@ -28,7 +28,7 @@ exports.createApp = function(port) {
     function start(req, resp) {
         var url_parse = url.parse(req.url);
         route(handle, url_parse.pathname, querystring.parse(url_parse.query), function(response) {
-            responder.respond(response, resp);
+            responder.write(response, resp);
         });
     }
     

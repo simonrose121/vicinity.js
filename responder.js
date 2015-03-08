@@ -1,4 +1,4 @@
-exports.respond = function(response, resp) {
+exports.write = function(response, resp) {
 	resp.writeHead(response.respCode, {"Content-Type": "text/plain"});
 	if(response.respCode === 200) {
 		resp.write(response.content);
