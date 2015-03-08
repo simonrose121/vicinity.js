@@ -128,48 +128,6 @@ DAO.prototype.deleteAllNodes = function() {
     });
 }
 
-// TAG METHODS
-
-//TODO: Possibly remove this as tags should only exist inside other elements
-
-DAO.prototype.createTag = function(obj, callback) {
-    var newTag = new this.tagSchema(obj);
-    newTag.save(function(err, newTag) {
-        if (err) 
-            return console.error(err);
-        else
-            callback('added', newTag);
-    });
-}
-
-DAO.prototype.updateTag = function(obj, callback) {
-    var newTag = new this.tagSchema(obj);
-    this.tagSchema.update({_id: newTag._id}, newTag, {upsert: true}, function(err) {
-        if(err) 
-            return console.error(err);
-        else
-            callback('updated');
-    });
-}
-
-DAO.prototype.getTag = function(id, callback) {
-    this.tagSchema.findOne({_id: id}, function(err, t) {
-        if (err) 
-            return console.log(err);
-        else
-            callback(t);
-    });
-}
-
-DAO.prototype.deleteTag = function(id, callback) {
-    this.tagSchema.remove({_id: id}, function(err) {
-        if(err) 
-            return console.log(err);
-        else
-        callback('deleted');
-    });
-}
-
 // WAY METHODS
 
 DAO.prototype.createWay = function(obj, callback) {
