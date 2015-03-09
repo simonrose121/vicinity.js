@@ -29,7 +29,7 @@ DAO.prototype.close = function(callback) {
         if (err) return console.error(err);
         callback(err, 'closed')
     });
-}
+};
             
 DAO.prototype.createSchemas = function() {
     // create schemas
@@ -51,10 +51,10 @@ DAO.prototype.createSchemas = function() {
     });
     
     var relationSchema = mongoose.Schema({
-        nodes_: [nodeSchema],
+        nodes_: [{type: mongoose.Schema.Types.ObjectId, ref: 'nodeSchema'}],
         tags_: [tagSchema],
-        ways_: [waySchema],
-        relations_: [relationSchema]
+        ways_: [{type: mongoose.Schema.Types.ObjectId, ref: 'waySchema'}],
+        relations_: [{type: mongoose.Schema.Types.ObjectId, ref: 'relationSchema'}]
     });
     
     mongoose.model('nodeSchema', nodeSchema);
@@ -93,7 +93,7 @@ DAO.prototype.updateNode = function(obj, callback) {
             callback('updated', updatedNode);
         }
     });
-}
+};
 
 DAO.prototype.getNode = function(id, callback) {
     this.nodeSchema.findOne({_id: id}, function(err, n) {
@@ -102,7 +102,7 @@ DAO.prototype.getNode = function(id, callback) {
         else
             callback(n);
     });
-}
+};
 
 DAO.prototype.getAllNodes = function(callback) {
     // can't put wait for fiber in here as it never fires
@@ -113,7 +113,7 @@ DAO.prototype.getAllNodes = function(callback) {
             callback(nodes);
         }
     });
-}
+};
 
 DAO.prototype.deleteNode = function(id, callback) {
     this.nodeSchema.remove({_id: id}, function(err) {
@@ -123,7 +123,7 @@ DAO.prototype.deleteNode = function(id, callback) {
             callback('deleted');
         }
     });
-} 
+};
 
 DAO.prototype.deleteAllNodes = function() {
     this.nodeSchema.remove(function(err) {
@@ -131,7 +131,7 @@ DAO.prototype.deleteAllNodes = function() {
             return console.log(err);
         }
     });
-}
+};
 
 // WAY METHODS
 
@@ -145,7 +145,7 @@ DAO.prototype.createWay = function(obj, callback) {
             callback('added', newWay);
         }   
     });
-}
+};
 
 DAO.prototype.getWay = function(id, callback) {
     this.waySchema.findOne({_id: id}, function(err, w) {
@@ -155,7 +155,7 @@ DAO.prototype.getWay = function(id, callback) {
             callback(w);
         }
     });
-}
+};
 
 DAO.prototype.getAllWays = function(callback) {
     this.waySchema.find({}, function(err, ways) {
@@ -165,7 +165,7 @@ DAO.prototype.getAllWays = function(callback) {
             callback(ways);
         }
     });
-}
+};
 
 DAO.prototype.deleteWay = function(id, callback) {
     this.waySchema.remove({_id: id}, function(err) {
@@ -175,7 +175,7 @@ DAO.prototype.deleteWay = function(id, callback) {
             callback('deleted');
         }
     });
-}
+};
 
 DAO.prototype.deleteAllWays = function(callback) {
     this.waySchema.remove({}, function(err) {
@@ -183,7 +183,7 @@ DAO.prototype.deleteAllWays = function(callback) {
             return console.log(err);
         }
     });
-}
+};
 
 DAO.prototype.addNodeToWay = function(nodeId, wayId, callback) {
     this.waySchema.findOne({_id: wayId}, function(err, w) {
@@ -243,51 +243,150 @@ DAO.prototype.removeTagFromWay = function(tag, id, callback) {
 
 DAO.prototype.createRelation = function(obj, callback) {
     var newRelation = new this.relationSchema();
-    newRelation.nodes_ = obj.nodes_;
     newRelation.tags_ = obj.tags_;
-    newRelation.ways_ = obj.ways_;
-    newRelation.relations_ = obj.relations_;
     newRelation.save(function(err, newRelation) {
-        if(err) 
+        if(err) {
             return console.log(err);
-        else
+        } else {
             callback('added', newRelation);
+        }
     });
-}
+};
 
 DAO.prototype.getRelation = function(id, callback) {
     this.relationSchema.findOne({_id: id}, function(err, r) {
-        if(err) 
+        if(err) {
             return console.log(err); 
-        else
+        } else {
             callback(r);
+        }
     });
-}
+};
 
 DAO.prototype.getAllRelations = function(callback) {
     this.relationSchema.find({}, function(err, relations) {
-        if(err) 
+        if(err) {
             return console.log(err);
-        else
+        } else {
             callback(relations);
+        }
     });
-}
+};
 
 DAO.prototype.deleteRelation = function(id, callback) {
     this.relationSchema.remove({_id: id}, function(err) {
-        if(err) 
+        if(err) {
             return console.log(err);
-        else    
+        } else {
             callback('deleted');
+        } 
     });
-}
+};
 
 DAO.prototype.deleteAllRelations = function(callback) {
     this.relationSchema.remove({}, function(err) {
-        if(err) 
+        if(err) {
             return console.log(err);
+        }
     });
-}
+};
+
+DAO.prototype.addNodeToRelation = function(nodeId, relationId, callback) {
+    this.relationSchema.findOne({_id: relationId}, function(err, r) {
+        if (err) {
+            return console.log(err);
+        } else {
+            r.nodes_.push(nodeId);
+            callback('added node', r);
+        }
+    });
+};
+
+DAO.prototype.removeNodeFromRelation = function(nodeId, relationId, callback) {
+    this.relationSchema.findOne({_id: relationId}, function(err, r) {
+        if (err) {
+            return console.log(err);
+        } else {
+            r.nodes_.splice(r.nodes_.indexOf(nodeId));
+            callback('removed node', r);
+        }
+    });
+};
+
+DAO.prototype.addTagToRelation = function(tag, id, callback) {
+    this.relationSchema.findOne({_id: id}, function(err, r) {
+        if (err) {
+            return console.log(err);
+        } else {
+            r.tags_.push(tag);
+            callback('added tag', r, tag);
+        }
+    });
+};
+
+DAO.prototype.removeTagFromRelation = function(tag, id, callback) {
+    this.relationSchema.findOne({_id: id}, function(err, r) {
+        if (err) {
+            return console.log(err);
+        } else {
+            var index;
+            // find tag that matches
+            for (var i = 0; i < r.tags_.length; i++) {
+                if (r.tags_[i].value_ === tag.value_ && 
+                    r.tags_[i].key_ === tag.key_ ) {
+                    index = i;
+                }
+            }
+            // remove
+            r.tags_.splice(index);
+            callback('removed tag', r);
+        }
+    });
+};
+
+DAO.prototype.addWayToRelation = function(wayId, relationId, callback) {
+    this.relationSchema.findOne({_id: relationId}, function(err, r) {
+        if (err) {
+            return console.log(err);
+        } else {
+            r.ways_.push(wayId);
+            callback('added way', r);
+        }
+    });
+};
+
+DAO.prototype.removeWayFromRelation = function(wayId, relationId, callback) {
+    this.relationSchema.findOne({_id: relationId}, function(err, r) {
+        if (err) {
+            return console.log(err);
+        } else {
+            r.ways_.splice(r.ways_.indexOf(wayId));
+            callback('removed way', r);
+        }
+    });
+};
+
+DAO.prototype.addRelationToRelation = function(relationToAddId, relationId, callback) {
+    this.relationSchema.findOne({_id: relationId}, function(err, r) {
+        if (err) {
+            return console.log(err);
+        } else {
+            r.relations_.push(relationToAddId);
+            callback('added relation', r);
+        }
+    });
+};
+
+DAO.prototype.removeRelationFromRelation = function(relationToRemoveId, relationId, callback) {
+    this.relationSchema.findOne({_id: relationId}, function(err, r) {
+        if (err) {
+            return console.log(err);
+        } else {
+            r.relations_.splice(r.ways_.indexOf(relationId));
+            callback('removed relation', r);
+        }
+    });
+};
 
 module.exports = DAO;
 

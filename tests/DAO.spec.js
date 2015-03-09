@@ -280,21 +280,23 @@ describe("DAO unit tests", function() {
     // RELATION METHODS
     it("create relation", function() {
         runs(function() {
-            var node0 = new node(53.373656, -1.450626);
-            var node1 = new node(321, 32);
             var tag0 = new tag("name", "test");
-            var tag1 = new tag("node_id", "129839213");
+            var tag1 = new tag("highway", "residential");
             
             var relation0 = new relation();
-            relation0.addNode(node0);
-            relation0.addNode(node1);
             relation0.addTag(tag0);
             relation0.addTag(tag1);
             
+            var relation1 = new relation();
+            
             var response;
-            dao.createRelation(relation0, function(result, myRelation) {
+            dao.createRelation(relation0, function(result, relation) {
                  response = result;
-                 testingRelation = myRelation;
+                 testingRelation = relation;
+            });
+            
+            dao.createRelation(relation1, function(result, relation) {
+                testingRelationForDeletion = relation;
             });
             
             waitsFor(function() {
@@ -303,7 +305,6 @@ describe("DAO unit tests", function() {
         
             runs(function() {
                 expect(response).toEqual('added');
-                expect(testingRelation.nodes_[0].lon_).toEqual(node0.lon_);
                 expect(testingRelation.tags_[0].value_).toEqual(tag0.value_);
             });
         });
@@ -311,7 +312,6 @@ describe("DAO unit tests", function() {
     it("get relation", function() {
         runs(function() {
             var relation;
-            
             dao.getRelation(testingRelation._id, function(newRelation) {
                 relation = newRelation;
             });
@@ -321,15 +321,160 @@ describe("DAO unit tests", function() {
             }, 'should return a status that is not undefined', 1000);
             
             runs(function() {
-                expect(relation.nodes_[0].lat_).toEqual(testingRelation.nodes_[0].lat_);
                 expect(relation.tags_[0].value_).toEqual(testingRelation.tags_[0].value_);
+            });
+        });
+    });
+    it("add node to relation", function() {
+        runs(function() {
+            var response;
+            dao.addNodeToRelation(testingNode._id, testingRelation._id, function(result, relation) {
+                response = result;
+                testingRelation = relation;
+            });
+            
+            waitsFor(function() {
+                return response !== undefined;
+            }, 'should return a status that is not undefined', 1000);
+            
+            runs(function() {
+                expect(response).toEqual('added node');
+                expect(testingRelation.nodes_[0]).toEqual(testingNode._id);
+            });
+        });
+    });
+    it("remove node from relation", function() {
+        runs(function() {
+            var response;
+            dao.removeNodeFromRelation(testingNode._id, testingRelation._id, function(result, relation) {
+                 response = result;
+                 testingRelation = relation;
+            });
+            
+            waitsFor(function() {
+                return response !== undefined;
+            }, 'should return a status that is not undefined', 1000);
+            
+            runs(function() {
+                expect(response).toEqual('removed node');
+                expect(testingRelation.nodes_[0]).toBeUndefined();
+            });
+        });
+    });
+    it("added tag to relation", function() {
+        runs(function() {
+            var tag0 = new tag("oneway", "yes");
+            
+            var response;
+            dao.addTagToRelation(tag0, testingRelation._id, function(result, relation, tag) {
+                response = result;
+                testingRelation = relation;
+                testingTag = tag;
+            });
+            
+            waitsFor(function() {
+                return response !== undefined; 
+            }, 'should return a status that is not undefined', 1000);
+            
+            runs(function() {
+                expect(response).toEqual('added tag');
+                expect(testingRelation.tags_[2].key_).toEqual(tag0.key_);
+            });
+        });
+    });
+    it("remove tag from relation", function() {
+        runs(function() {
+            var response;
+            dao.removeTagFromRelation(testingTag, testingRelation._id, function(result, relation) {
+                response = result;
+                testingRelation = relation;
+            });
+             
+            waitsFor(function() {
+                return response !== undefined; 
+            }, 'should return a status that is not undefined', 1000);
+            
+            runs(function() {
+                expect(response).toEqual('removed tag');
+                expect(testingRelation.tags_[0]).toBeUndefined();
+            });
+        });
+    });
+    it("add way to relation", function() {
+        runs(function() {
+            var response;
+            dao.addWayToRelation(testingWay._id, testingRelation._id, function(result, relation) {
+                response = result;
+                testingRelation = relation;
+            });
+            
+            waitsFor(function() {
+                return response !== undefined; 
+            }, 'should return a status that is not undefined', 1000);
+            
+            runs(function() {
+                expect(response).toEqual('added way');
+                expect(testingRelation.ways_[0]).toEqual(testingWay._id);
+            });
+        });
+    });
+    it("remove way from relation", function() {
+        runs(function() {
+            var response;
+            dao.removeWayFromRelation(testingWay._id, testingRelation._id, function(result, relation){
+                response = result;
+                testingRelation = relation;
+            });
+            
+            waitsFor(function() {
+                return response !== undefined; 
+            }, 'should return a status that is not undefined', 1000);
+            
+            runs(function() {
+                expect(response).toEqual('removed way');
+                expect(testingRelation.ways_[0]).toBeUndefined();
+            });
+        });
+    });
+    it("add relation to relation", function() {
+        runs(function() {
+            var response;
+            dao.addRelationToRelation(testingRelationForDeletion._id, testingRelation._id, function(result, relation) {
+                response = result;
+                testingRelation = relation;
+            })
+            
+            waitsFor(function() {
+                return response !== undefined; 
+            }, 'should return a status that is not undefined', 1000);
+            
+            runs(function() {
+                expect(response).toEqual('added relation');
+                expect(testingRelation.relations_[0]).toEqual(testingRelationForDeletion._id);
+            });
+        });
+    });
+    it("remove relation from relation", function() {
+        runs(function() {
+            var response;
+            dao.removeWayFromRelation(testingRelationForDeletion._id, testingRelation._id, function(result, relation){
+                response = result;
+                testingRelation = relation;
+            });
+            
+            waitsFor(function() {
+                return response !== undefined; 
+            }, 'should return a status that is not undefined', 1000);
+            
+            runs(function() {
+                expect(response).toEqual('removed way');
+                expect(testingRelation.relations_[0]).toBeUndefined();
             });
         });
     });
     it("delete relation", function() {
         runs(function() {
             var response;
-            
             dao.deleteRelation(testingRelation._id, function(result) {
                 response = result;
             })
