@@ -1,4 +1,4 @@
-var response = require("./objects/response");
+var response = require("./model/response");
 
 exports.route = function(handle, pathname, query, respond) {
 	var handler = handle[pathname];

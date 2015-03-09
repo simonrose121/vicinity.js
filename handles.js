@@ -1,4 +1,4 @@
-var node = require('./logic/node');
+var node = require('./handlers/node');
 
 exports.handle = {
     '/node/create' : node.create,

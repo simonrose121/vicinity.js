@@ -1,20 +1,19 @@
 var DAO = require("../DAO");
-var node = require("../objects/node");
-var tag = require("../objects/tag");
-var way = require("../objects/way");
-var relation = require("../objects/relation");
-
-var mongoose = require("mongoose");
+var node = require("../model/node");
+var tag = require("../model/tag");
+var way = require("../model/way");
+var relation = require("../model/relation");
 
 describe("DAO unit tests", function() {
+    // objects persistent between tests for testing removal, etc.
     var testingNode;
     var testingTag;
     var testingWay;
     var testingRelation;
     var testingNodeForDeletion;
-    var testingTagForDeletion;
     var testingWayForDeletion;
     var testingRelationForDeletion;
+    
     var dao = new DAO();
     dao.connect(process.env.IP, "vicinity");
     dao.createSchemas();
@@ -38,7 +37,6 @@ describe("DAO unit tests", function() {
                  testingNodeForDeletion = myNode;
             });
             
-            //TODO: possibly remove waits for
             waitsFor(function() {
                 return response !== undefined;
             }, 'should return a status that is not undefined', 1000);
@@ -146,14 +144,10 @@ describe("DAO unit tests", function() {
     
     it("create ways", function() {
         runs(function() {
-            var node0 = new node(53.373656, -1.450626);
-            var node1 = new node(321, 32);
             var tag0 = new tag("name", "test");
-            var tag1 = new tag("node_id", "129839213");
+            var tag1 = new tag("highway", "residential");
             
             var way0 = new way();
-            way0.addNode(node0);
-            way0.addNode(node1);
             way0.addTag(tag0);
             way0.addTag(tag1);
             
@@ -169,7 +163,6 @@ describe("DAO unit tests", function() {
         
             runs(function() {
                 expect(response).toEqual('added');
-                expect(testingWay.nodes_[0].lon_).toEqual(node0.lon_);
                 expect(testingWay.tags_[0].value_).toEqual(tag0.value_);
             });
         });
@@ -187,8 +180,82 @@ describe("DAO unit tests", function() {
             }, 'should return a status that is not undefined', 1000);
             
             runs(function() {
-                expect(way.nodes_[0].lat_).toEqual(testingWay.nodes_[0].lat_);
                 expect(way.tags_[0].value_).toEqual(testingWay.tags_[0].value_);
+            });
+        });
+    });
+    it("add node to way", function() {
+        runs(function() {
+            var response;
+            dao.addNodeToWay(testingNode._id, testingWay.id, function(result, way) {
+                response = result;
+                testingWay = way;
+            });
+            
+            waitsFor(function() {
+                return response !== undefined; 
+            }, 'should return a status that is not undefined', 1000);
+            
+            runs(function() {
+                expect(response).toEqual('added node');
+                expect(testingWay.nodes_[0]).toEqual(testingNode._id); 
+            });
+        });
+    });
+    it("remove node from way", function() {
+        runs(function() {
+            var response; 
+            dao.removeNodeFromWay(testingNode._id, testingWay._id, function(result, way) {
+                response = result;
+                testingWay = way;
+            });
+            
+            waitsFor(function() {
+                return response !== undefined; 
+            }, 'should return a status that is not undefined', 1000);
+            
+            runs(function() {
+                expect(response).toEqual('removed node');
+                expect(testingWay.nodes_[0]).toBeUndefined();
+            });
+        });      
+    });
+    it("added tag to way", function() {
+        runs(function() {
+            var tag0 = new tag("oneway", "yes");
+            
+            var response;
+            dao.addTagToWay(tag0, testingWay._id, function(result, way, tag) {
+                response = result;
+                testingWay = way;
+                testingTag = tag;
+            });
+            
+            waitsFor(function() {
+                return response !== undefined; 
+            }, 'should return a status that is not undefined', 1000);
+            
+            runs(function() {
+                expect(response).toEqual('added tag');
+                expect(testingWay.tags_[2].key_).toEqual(tag0.key_);
+            });
+        });
+    });
+    it("remove tag from way", function() {
+        runs(function() {
+            var response;
+            dao.removeTagFromWay(testingTag, testingWay._id, function(result, way) {
+                response = result;
+                testingWay = way;
+            });
+             
+            waitsFor(function() {
+                return response !== undefined; 
+            }, 'should return a status that is not undefined', 1000);
+            
+            runs(function() {
+                expect(response).toEqual('removed tag');
+                expect(testingWay.tags_[2]).toBeUndefined();
             });
         });
     });

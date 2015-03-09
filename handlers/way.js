@@ -1,11 +1,12 @@
-var response = require('../objects/response');
+var response = require('../model/response');
 var app = require('../app');
-var way = require('../objects/way');
-var node = require('../objects/node');
-var relation = require('../objects/relation');
+var way = require('../model/way');
+var node = require('../model/node');
 
 exports.create = function(query, respond) {
-
+    //find node by id
+    
+    //add way with nodes attached
 }
 
 exports.update = function(query, respond) {

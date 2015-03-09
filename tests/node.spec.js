@@ -1,4 +1,4 @@
-var node = require("../objects/node");
+var node = require("../model/node");
 
 describe("node unit tests", function() {
     it("object construction", function() {

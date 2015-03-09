@@ -1,6 +1,6 @@
-var response = require('../objects/response');
+var response = require('../model/response');
 var app = require('../app');
-var node = require('../objects/node');
+var node = require('../model/node');
 
 exports.create = function(query, respond) {
     var node0 = new node(query.lat, query.lon);
