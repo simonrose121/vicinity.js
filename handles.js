@@ -18,5 +18,18 @@ exports.handle = {
 	'/way/node/add' : way.addNode,
 	'/way/node/remove' : way.removeNode,
 	'/way/tag/add' : way.addTag,
-	'/way/tag/remove' : way.removeTag
+	'/way/tag/remove' : way.removeTag,
+	
+	'/relation/create' : relation.create,
+	'/relation/get' : relation.get,
+	'/relation/list' : relation.list,
+	'/relation/delete' : relation.delete,
+	'/relation/node/add' : relation.addNode,
+	'/relation/node/remove' : relation.removeNode,
+	'/relation/tag/add' : relation.addTag,
+	'/relation/tag/remove' : relation.removeTag,
+	'/relation/way/add' : relation.addWay,
+	'/relation/way/remove' : relation.removeWay,
+	'/relation/add' : relation.addRelation,
+	'/relation/remove' : relation.removeRelation
 };
