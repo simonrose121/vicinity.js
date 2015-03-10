@@ -276,6 +276,23 @@ describe("DAO unit tests", function() {
             });  
         });
     });
+    it("delete all ways", function() {
+        runs(function() {
+            var response;
+            
+            dao.deleteAllWays(function(result) {
+                response = result;
+            });
+            
+            waitsFor(function() {
+                return response !== undefined;
+            }, 'should return a status that is not undefined', 1000);
+            
+            runs(function() {
+                expect(response).toEqual('deleted all ways');
+            });  
+        });
+    });
     
     // RELATION METHODS
     it("create relation", function() {
@@ -485,6 +502,23 @@ describe("DAO unit tests", function() {
             
             runs(function() {
                 expect(response).toEqual('deleted');
+            });  
+        });
+    });
+    it("delete all ways", function() {
+        runs(function() {
+            var response;
+            
+            dao.deleteAllRelations(function(result) {
+                response = result;
+            });
+            
+            waitsFor(function() {
+                return response !== undefined;
+            }, 'should return a status that is not undefined', 1000);
+            
+            runs(function() {
+                expect(response).toEqual('deleted all relations');
             });  
         });
     });

@@ -105,7 +105,6 @@ DAO.prototype.getNode = function(id, callback) {
 };
 
 DAO.prototype.getAllNodes = function(callback) {
-    // can't put wait for fiber in here as it never fires
     this.nodeSchema.find(function(err, nodes) {
         if (err) {
             return console.log(err);
@@ -137,7 +136,9 @@ DAO.prototype.deleteAllNodes = function() {
 
 DAO.prototype.createWay = function(obj, callback) {
     var newWay = new this.waySchema();
-    newWay.tags_ = obj.tags_;
+    if(obj.tags_.length > 0) {
+        newWay.tags_ = obj.tags_;
+    }
     newWay.save(function(err, newWay) {
         if (err) {
             return console.error(err);
@@ -158,7 +159,7 @@ DAO.prototype.getWay = function(id, callback) {
 };
 
 DAO.prototype.getAllWays = function(callback) {
-    this.waySchema.find({}, function(err, ways) {
+    this.waySchema.find(function(err, ways) {
         if(err) {
             return console.log(err);
         } else {
@@ -181,6 +182,8 @@ DAO.prototype.deleteAllWays = function(callback) {
     this.waySchema.remove({}, function(err) {
         if (err) {
             return console.log(err);
+        } else {
+            callback('deleted all ways');
         }
     });
 };
@@ -287,6 +290,8 @@ DAO.prototype.deleteAllRelations = function(callback) {
     this.relationSchema.remove({}, function(err) {
         if(err) {
             return console.log(err);
+        } else {
+            callback('deleted all relations');
         }
     });
 };
