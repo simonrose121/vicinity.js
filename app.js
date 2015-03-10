@@ -19,7 +19,6 @@ exports.createApp = function(port) {
     
     function start(req, resp) {
         var url_parse = url.parse(req.url);
-        console.log(url_parse.query);
         route(handles.handle, url_parse.pathname, querystring.parse(url_parse.query), function(response) {
             responder.write(response, resp);
         });

@@ -1,9 +1,11 @@
 var response = require('../model/response');
 var app = require('../app');
 var node = require('../model/node');
+var tag = require('../model/tag')
 
 exports.create = function(query, respond) {
     var node0 = new node(query.lat, query.lon);
+    console.log('creating');
     app.dao.createNode(node0, function(result, newNode) {
         if (newNode) {
             respond(new response(200, JSON.stringify(newNode)));
@@ -59,4 +61,24 @@ exports.delete = function(query, respond) {
     });
 };
 
-//create?lon=20&lat=10
+exports.addTag = function(query, respond) {
+    var tag0 = new tag(query.key, query.value);
+    app.dao.addTagToNode(tag0, query.id, function(result, node) {
+        if(node) {
+            respond(new response(200, JSON.stringify(node)));
+        } else {
+            respond(new response(200, "way not found"));
+        }
+    });
+}
+
+exports.removeTag = function(query, respond) {
+    var tag0 = new tag(query.key, query.value);
+    app.dao.removeTagFromNode(tag0, query.id, function(result, node) {
+        if(node) {
+            respond(new response(200, JSON.stringify(node)));
+        } else {
+            respond(new response(200, "way not found"));
+        }
+    });
+}

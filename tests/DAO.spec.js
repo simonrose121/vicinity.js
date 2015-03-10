@@ -85,6 +85,45 @@ describe("DAO unit tests", function() {
             });
         });
     });
+    it("added tag to node", function() {
+        runs(function() {
+            var tag0 = new tag("oneway", "yes");
+            
+            var response;
+            dao.addTagToNode(tag0, testingNode._id, function(result, node, tag) {
+                response = result;
+                testingNode = node;
+                testingTag = tag;
+            });
+            
+            waitsFor(function() {
+                return response !== undefined; 
+            }, 'should return a status that is not undefined', 1000);
+            
+            runs(function() {
+                expect(response).toEqual('added tag');
+                expect(testingNode.tags_[testingNode.tags_.length-1].key_).toEqual(tag0.key_);
+            });
+        });
+    });
+    it("remove tag from node", function() {
+        runs(function() {
+            var response;
+            dao.removeTagFromNode(testingTag, testingNode._id, function(result, node) {
+                response = result;
+                testingNode = node;
+            });
+             
+            waitsFor(function() {
+                return response !== undefined; 
+            }, 'should return a status that is not undefined', 1000);
+            
+            runs(function() {
+                expect(response).toEqual('removed tag');
+                expect(testingNode.tags_[0]).toBeUndefined();
+            });
+        });
+    });
     it("delete node", function() {
         runs(function() {
             var response;

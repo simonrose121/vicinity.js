@@ -132,6 +132,38 @@ DAO.prototype.deleteAllNodes = function() {
     });
 };
 
+DAO.prototype.addTagToNode = function(tag, id, callback) {
+    this.nodeSchema.findOne({_id: id}, function(err, n) {
+        if (err) {
+            return console.log(err);
+        } else {
+            n.tags_.push(tag);
+            callback('added tag', n, tag);
+        }
+    });
+};
+
+DAO.prototype.removeTagFromNode = function(tag, id, callback) {
+    this.nodeSchema.findOne({_id: id}, function(err, n) {
+        if (err) {
+            return console.log(err);
+        } else {
+            var index;
+            // find tag that matches
+            for (var i = 0; i < n.tags_.length; i++) {
+                if (n.tags_[i].value_ === tag.value_ && 
+                    n.tags_[i].key_ === tag.key_ ) {
+                    index = i;
+                }
+            }
+            // remove
+            n.tags_.splice(index);
+            callback('removed tag', n);
+        }
+    });
+};
+
+
 // WAY METHODS
 
 DAO.prototype.createWay = function(obj, callback) {
@@ -189,6 +221,8 @@ DAO.prototype.deleteAllWays = function(callback) {
 };
 
 DAO.prototype.addNodeToWay = function(nodeId, wayId, callback) {
+    console.log("nodeId = " + nodeId);
+    console.log("wayId = " + wayId);
     this.waySchema.findOne({_id: wayId}, function(err, w) {
         if (err) {
             return console.log(err);

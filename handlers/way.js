@@ -2,6 +2,7 @@ var response = require('../model/response');
 var app = require('../app');
 var way = require('../model/way');
 var node = require('../model/node');
+var tag = require('../model/tag');
 
 exports.create = function(query, respond) {
     var way0 = new way();
@@ -59,7 +60,29 @@ exports.addNode = function(query, respond) {
 }
 
 exports.removeNode = function(query, respond) {
-   app.dao.removeNodeFromWay(query.nodeId, query.wayId, function(result, way) {
+    app.dao.removeNodeFromWay(query.nodeId, query.wayId, function(result, way) {
+        if(way) {
+            respond(new response(200, JSON.stringify(way)));
+        } else {
+            respond(new response(200, "way not found"));
+        }
+    });
+}
+
+exports.addTag = function(query, respond) {
+    var tag0 = new tag(query.key, query.value);
+    app.dao.addTagToWay(tag0, query.id, function(result, way) {
+        if(way) {
+            respond(new response(200, JSON.stringify(way)));
+        } else {
+            respond(new response(200, "way not found"));
+        }
+    });
+}
+
+exports.removeTag = function(query, respond) {
+    var tag0 = new tag(query.key, query.value);
+    app.dao.removeTagFromWay(tag0, query.id, function(result, way) {
         if(way) {
             respond(new response(200, JSON.stringify(way)));
         } else {
