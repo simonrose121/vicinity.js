@@ -25,7 +25,7 @@ describe("DAO unit tests", function() {
             dao.deleteAllNodes();
             
             var node0 = new node(53.373656, -1.450626);
-            var node1 = new node(90, 32);
+            var node1 = new node(80, 32);
 
             var response;
             dao.createNode(node0, function(result, myNode) {

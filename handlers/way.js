@@ -16,13 +16,17 @@ exports.create = function(query, respond) {
 }
 
 exports.get = function(query, respond) {
-    app.dao.getWay(query.id, function(way) {
-        if(way) {
-            respond(new response(200, JSON.stringify(way)));
-        } else {
-            respond(new response(200, "way not found"));
-        }
-    });
+    if (!query.id) {
+        respond(new response(200, "id not defined"));
+    } else {
+        app.dao.getWay(query.id, function(way) {
+            if(way) {
+                respond(new response(200, JSON.stringify(way)));
+            } else {
+                respond(new response(200, "way not found"));
+            }
+        });
+    }
 }
 
 exports.list = function(query, respond) {
@@ -40,53 +44,81 @@ exports.list = function(query, respond) {
 }
 
 exports.delete = function(query, respond) {
-    app.dao.deleteWay(query.id, function(resp) {
-        if(resp === 'deleted') {
-            respond(new response(200, query.id + " has been deleted"));
-        } else {
-            respond(new response(200, "way not found"));
-        }
-    });
+    if (!query.id) {
+        respond(new response(200, "id not defined"));
+    } else {
+        app.dao.deleteWay(query.id, function(resp) {
+            if(resp === 'deleted') {
+                respond(new response(200, query.id + " has been deleted"));
+            } else {
+                respond(new response(200, "way not found"));
+            }
+        });
+    }
 }
 
 exports.addNode = function(query, respond) {
-    app.dao.addNodeToWay(query.nodeId, query.wayId, function(result, way) {
-        if(way) {
-            respond(new response(200, JSON.stringify(way)));
-        } else {
-            respond(new response(200, "way not found"));
-        }
-    });
+    if (!query.nodeId) {
+        respond(new response(200, "node id not defined"));
+    } else if (!query.wayId) {
+        respond(new response(200, "way id not defined"));
+    } else {
+        app.dao.addNodeToWay(query.nodeId, query.wayId, function(result, way) {
+            if(way) {
+                respond(new response(200, JSON.stringify(way)));
+            } else {
+                respond(new response(200, "way not found"));
+            }
+        });
+    }
 }
 
 exports.removeNode = function(query, respond) {
-    app.dao.removeNodeFromWay(query.nodeId, query.wayId, function(result, way) {
-        if(way) {
-            respond(new response(200, JSON.stringify(way)));
-        } else {
-            respond(new response(200, "way not found"));
-        }
-    });
+    if (!query.nodeId) {
+        respond(new response(200, "node id not defined"));
+    } else if (!query.wayId) {
+        respond(new response(200, "way id not defined"));
+    } else {
+        app.dao.removeNodeFromWay(query.nodeId, query.wayId, function(result, way) {
+            if(way) {
+                respond(new response(200, JSON.stringify(way)));
+            } else {
+                respond(new response(200, "way not found"));
+            }
+        });
+    }
 }
 
 exports.addTag = function(query, respond) {
-    var tag0 = new tag(query.key, query.value);
-    app.dao.addTagToWay(tag0, query.id, function(result, way) {
-        if(way) {
-            respond(new response(200, JSON.stringify(way)));
-        } else {
-            respond(new response(200, "way not found"));
-        }
-    });
+    if (!query.key) {
+        respond(new response(200, "key not defined"));
+    } else if (!query.value) {
+        respond(new response(200, "value not defined"));
+    } else {
+        var tag0 = new tag(query.key, query.value);
+        app.dao.addTagToWay(tag0, query.id, function(result, way) {
+            if(way) {
+                respond(new response(200, JSON.stringify(way)));
+            } else {
+                respond(new response(200, "way not found"));
+            }
+        });
+    }
 }
 
 exports.removeTag = function(query, respond) {
-    var tag0 = new tag(query.key, query.value);
-    app.dao.removeTagFromWay(tag0, query.id, function(result, way) {
-        if(way) {
-            respond(new response(200, JSON.stringify(way)));
-        } else {
-            respond(new response(200, "way not found"));
-        }
-    });
+    if (!query.key) {
+        respond(new response(200, "key not defined"));
+    } else if (!query.value) {
+        respond(new response(200, "value not defined"));
+    } else {
+        var tag0 = new tag(query.key, query.value);
+        app.dao.removeTagFromWay(tag0, query.id, function(result, way) {
+            if(way) {
+                respond(new response(200, JSON.stringify(way)));
+            } else {
+                respond(new response(200, "way not found"));
+            }
+        });
+    }
 }

@@ -17,13 +17,17 @@ exports.create = function(query, respond) {
 }
 
 exports.get = function(query, respond) {
-    app.dao.getRelation(query.id, function(relation) {
-        if(relation) {
-            respond(new response(200, JSON.stringify(relation)));
-        } else {
-            respond(new response(200, "relation not found"));
-        }
-    });
+    if (!query.id) {
+        respond(new response(200, "id not defined"));
+    } else {
+        app.dao.getRelation(query.id, function(relation) {
+            if(relation) {
+                respond(new response(200, JSON.stringify(relation)));
+            } else {
+                respond(new response(200, "relation not found"));
+            }
+        });
+    }
 }
 
 exports.list = function(query, respond) {
@@ -41,93 +45,145 @@ exports.list = function(query, respond) {
 }
 
 exports.delete = function(query, respond) {
-    app.dao.deleteRelation(query.id, function(resp) {
-        if(resp === 'deleted') {
-            respond(new response(200, query.id + " has been deleted"));
-        } else {
-            respond(new response(200, "relation not found"));
-        }
-    });
+    if (!query.id) {
+        respond(new response(200, "id not defined"));
+    } else {
+        app.dao.deleteRelation(query.id, function(resp) {
+            if(resp === 'deleted') {
+                respond(new response(200, query.id + " has been deleted"));
+            } else {
+                respond(new response(200, "relation not found"));
+            }
+        });
+    }
 }
 
 exports.addNode = function(query, respond) {
-    app.dao.addNodeToRelation(query.nodeId, query.relationId, function(result, relation) {
-        if(relation) {
-            respond(new response(200, JSON.stringify(relation)));
-        } else {
-            respond(new response(200, "relation not found"));
-        }
-    });
+    if (!query.nodeId) {
+        respond(new response(200, "node id not defined"));
+    } else if (!query.wayId) {
+        respond(new response(200, "way id not defined"));
+    } else {
+        app.dao.addNodeToRelation(query.nodeId, query.relationId, function(result, relation) {
+            if(relation) {
+                respond(new response(200, JSON.stringify(relation)));
+            } else {
+                respond(new response(200, "relation not found"));
+            }
+        });
+    }
 }
 
 exports.removeNode = function(query, respond) {
-    app.dao.removeNodeFromRelation(query.nodeId, query.relationId, function(result, relation) {
-        if(relation) {
-            respond(new response(200, JSON.stringify(relation)));
-        } else {
-            respond(new response(200, "relation not found"));
-        }
-    });
+    if (!query.nodeId) {
+        respond(new response(200, "node id not defined"));
+    } else if (!query.wayId) {
+        respond(new response(200, "way id not defined"));
+    } else {
+        app.dao.removeNodeFromRelation(query.nodeId, query.relationId, function(result, relation) {
+            if(relation) {
+                respond(new response(200, JSON.stringify(relation)));
+            } else {
+                respond(new response(200, "relation not found"));
+            }
+        });
+    }
 }
 
 exports.addTag = function(query, respond) {
-    var tag0 = new tag(query.key, query.value);
-    app.dao.addTagToRelation(tag0, query.id, function(result, relation) {
-        if(way) {
-            respond(new response(200, JSON.stringify(relation)));
-        } else {
-            respond(new response(200, "relation not found"));
-        }
-    });
+    if (!query.key) {
+        respond(new response(200, "key not defined"));
+    } else if (!query.value) {
+        respond(new response(200, "value not defined"));
+    } else {
+        var tag0 = new tag(query.key, query.value);
+        app.dao.addTagToRelation(tag0, query.id, function(result, relation) {
+            if(way) {
+                respond(new response(200, JSON.stringify(relation)));
+            } else {
+                respond(new response(200, "relation not found"));
+            }
+        });
+    }
 }
 
 exports.removeTag = function(query, respond) {
-    var tag0 = new tag(query.key, query.value);
-    app.dao.removeTagFromRelation(tag0, query.id, function(result, relation) {
-        if(way) {
-            respond(new response(200, JSON.stringify(relation)));
-        } else {
-            respond(new response(200, "relation not found"));
-        }
-    });
+    if (!query.key) {
+        respond(new response(200, "key not defined"));
+    } else if (!query.value) {
+        respond(new response(200, "value not defined"));
+    } else {
+        var tag0 = new tag(query.key, query.value);
+        app.dao.removeTagFromRelation(tag0, query.id, function(result, relation) {
+            if(way) {
+                respond(new response(200, JSON.stringify(relation)));
+            } else {
+                respond(new response(200, "relation not found"));
+            }
+        });
+    }
 }
 
 exports.addWay = function(query, respond) {
-    app.dao.addWayToRelation(query.wayId, query.relationId, function(result, relation) {
-        if(relation) {
-            respond(new response(200, JSON.stringify(relation)));
-        } else {
-            respond(new response(200, "relation not found"));
-        }
-    });
+    if (!query.wayId) {
+        respond(new response(200, "way id not defined"));
+    } else if (!query.relationId) {
+        respond(new response(200, "relation id not defined"));
+    } else {
+        app.dao.addWayToRelation(query.wayId, query.relationId, function(result, relation) {
+            if(relation) {
+                respond(new response(200, JSON.stringify(relation)));
+            } else {
+                respond(new response(200, "relation not found"));
+            }
+        });
+    }
 }
 
 exports.removeWay = function(query, respond) {
-    app.dao.removeWayFromRelation(query.wayId, query.relationId, function(result, relation) {
-        if(relation) {
-            respond(new response(200, JSON.stringify(relation)));
-        } else {
-            respond(new response(200, "relation not found"));
-        }
-    });
+    if (!query.wayId) {
+        respond(new response(200, "way id not defined"));
+    } else if (!query.relationId) {
+        respond(new response(200, "relation id not defined"));
+    } else {
+        app.dao.removeWayFromRelation(query.wayId, query.relationId, function(result, relation) {
+            if(relation) {
+                respond(new response(200, JSON.stringify(relation)));
+            } else {
+                respond(new response(200, "relation not found"));
+            }
+        });
+    }
 }
 
 exports.addRelation = function(query, respond) {
-    app.dao.addRelationToRelation(query.otherRelationId, query.relationId, function(result, relation) {
-        if(relation) {
-            respond(new response(200, JSON.stringify(relation)));
-        } else {
-            respond(new response(200, "relation not found"));
-        }
-    });
+    if (!query.otherRelationId) {
+        respond(new response(200, "second relation id not defined"));
+    } else if (!query.relationId) {
+        respond(new response(200, "relation id not defined"));
+    } else {
+        app.dao.addRelationToRelation(query.otherRelationId, query.relationId, function(result, relation) {
+            if(relation) {
+                respond(new response(200, JSON.stringify(relation)));
+            } else {
+                respond(new response(200, "relation not found"));
+            }
+        });
+    }
 }
 
 exports.removeRelation = function(query, respond) {
-    app.dao.removeRelationFromRelation(query.otherRelationId, query.relationId, function(result, relation) {
-        if(relation) {
-            respond(new response(200, JSON.stringify(relation)));
-        } else {
-            respond(new response(200, "relation not found"));
-        }
-    });
+    if (!query.otherRelationId) {
+        respond(new response(200, "second relation id not defined"));
+    } else if (!query.relationId) {
+        respond(new response(200, "relation id not defined"));
+    } else {
+        app.dao.removeRelationFromRelation(query.otherRelationId, query.relationId, function(result, relation) {
+            if(relation) {
+                respond(new response(200, JSON.stringify(relation)));
+            } else {
+                respond(new response(200, "relation not found"));
+            }
+        });
+    }
 }

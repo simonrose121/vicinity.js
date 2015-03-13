@@ -85,14 +85,18 @@ DAO.prototype.createNode = function(obj, callback) {
 
 
 DAO.prototype.updateNode = function(obj, callback) {
-    var updatedNode = new this.nodeSchema(obj);
-    this.nodeSchema.update({_id: updatedNode._id}, updatedNode, {upsert: true}, function(err) {
-        if(err) {
-            return console.error(err);
-        } else {
-            callback('updated', updatedNode);
-        }
-    });
+    if (obj.lat_ <= -90 || obj.lat_ >= 90 || obj.lon_ <= -180 || obj.lon_ >= 180) {
+        callback('object is not valid');
+    } else {
+        var updatedNode = new this.nodeSchema(obj);
+        this.nodeSchema.update({_id: updatedNode._id}, updatedNode, {upsert: true}, function(err) {
+            if(err) {
+                return console.error(err);
+            } else {
+                callback('updated', updatedNode);
+            }
+        });
+    }
 };
 
 DAO.prototype.getNode = function(id, callback) {
