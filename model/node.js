@@ -15,40 +15,42 @@ function node(lat, lon) {
 node.prototype.distance = function(otherNode) {
     //TODO: remove unicode characters
     var R = 6371000; // earths radius in metres
-    var φ1 = this.lat_.toRad();
-    var φ2 = otherNode.lat_.toRad();
-    var Δφ = (otherNode.lat_-this.lat_).toRad();
-    var Δλ = (otherNode.lon_-this.lon_).toRad();
+    var lat1 = this.lat_.toRad();
+    var lat2 = otherNode.lat_.toRad();
+    var deltaLat = (otherNode.lat_-this.lat_).toRad();
+    var deltaLon = (otherNode.lon_-this.lon_).toRad();
     
-    var a = Math.sin(Δφ/2) * Math.sin(Δφ/2) +
-            Math.cos(φ1) * Math.cos(φ2) *
-            Math.sin(Δλ/2) * Math.sin(Δλ/2);
+    var a = Math.sin(deltaLat/2) * Math.sin(deltaLat/2) +
+            Math.cos(lat1) * Math.cos(lat2) *
+            Math.sin(deltaLon/2) * Math.sin(deltaLon/2);
     var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
     var d = R * c;
     return Math.round(d);   //round to metres
 };
 
-// convert number to radians
+node.prototype.midpoint = function(otherNode) {
+    var lat1 = this.lat_.toRad();
+    var lat2 = otherNode.lat_.toRad();
+    var lon1 = this.lon_.toRad();
+    var lon2 = otherNode.lon_.toRad();
+    var deltaLat = (otherNode.lat_-this.lat_).toRad();
+    var deltaLon = (otherNode.lon_-this.lon_).toRad();
+    
+    var bx = Math.cos(lat2) * Math.cos(lon2 - lon2);
+    var by = Math.cos(lat2) * Math.sin(lon2 - lon1);
+    var lat3 = Math.atan2(Math.sin(lat1) + Math.sin(lat2),
+                        Math.sqrt((Math.cos(lat1)+bx)*(Math.cos(lat1)+bx) + by*by));
+    var lon3 = lon1 + Math.atan2(by, Math.cos(lat1) + bx);
+    return new node(parseFloat(lat3.toDeg().toFixed(6)), parseFloat(lon3.toDeg().toFixed(6)));
+}
+
+// number conversion methods
 Number.prototype.toRad = function() {
     return this * Math.PI / 180;
 };
 
-// tag methods
-node.prototype.addTag = function(tag) {
-    this.tags_.push(tag);
-};
-
-node.prototype.removeTag = function(tag) {
-    var index = this.tags_.indexOf(tag);
-    this.tags_.splice(index);
-};
-
-node.prototype.tagExists = function(tag) {
-    var index = this.tags_.indexOf(tag);
-    if(index > -1) {
-        return true;
-    }
-    return false;
+Number.prototype.toDeg = function() {
+    return this * 180 / Math.PI;
 };
 
 module.exports = node;

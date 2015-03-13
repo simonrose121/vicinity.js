@@ -20,15 +20,6 @@ var relation = function() {
 // class methods
 
 // node methods
-relation.prototype.addNode = function(node) {
-    this.nodes_.push(node);
-}
-
-relation.prototype.removeNode = function(node) {
-    var index = this.nodes_.indexOf(node);
-    this.nodes_.splice(index);
-}
-
 relation.prototype.nodeExists = function(node) {
     var index = this.nodes_.indexOf(node);
     if(index > -1) {

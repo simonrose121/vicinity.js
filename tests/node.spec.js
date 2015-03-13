@@ -15,4 +15,12 @@ describe("node unit tests", function() {
             expect(myNode.distance(otherNode)).toEqual(1810);
         });
     });
+    it("midpoint calculation", function() {
+        runs(function() {
+            var myNode = new node(53.378491, -1.472634);
+            var otherNode = new node(53.379720, -1.445426);
+            expect(myNode.midpoint(otherNode).lat_).toEqual(53.379105);
+            expect(myNode.midpoint(otherNode).lon_).toEqual(-1.45903);
+        });
+    });
 });

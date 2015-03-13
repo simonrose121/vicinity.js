@@ -21,7 +21,7 @@ exports.get = function(query, respond) {
         if(relation) {
             respond(new response(200, JSON.stringify(relation)));
         } else {
-            respond(new response(200, "way not found"));
+            respond(new response(200, "relation not found"));
         }
     });
 }
@@ -32,10 +32,10 @@ exports.list = function(query, respond) {
             if(allRelations.length > 0) {
                 respond(new response(200, JSON.stringify(allRelations)));
             } else {
-                respond(new response(200, "no ways found"));
+                respond(new response(200, "no relations found"));
             }
         } else {
-            respond(new response(200, "no ways found"));
+            respond(new response(200, "no relations found"));
         }
     });
 }
@@ -45,7 +45,7 @@ exports.delete = function(query, respond) {
         if(resp === 'deleted') {
             respond(new response(200, query.id + " has been deleted"));
         } else {
-            respond(new response(200, "way not found"));
+            respond(new response(200, "relation not found"));
         }
     });
 }
@@ -55,7 +55,7 @@ exports.addNode = function(query, respond) {
         if(relation) {
             respond(new response(200, JSON.stringify(relation)));
         } else {
-            respond(new response(200, "way not found"));
+            respond(new response(200, "relation not found"));
         }
     });
 }
@@ -65,7 +65,7 @@ exports.removeNode = function(query, respond) {
         if(relation) {
             respond(new response(200, JSON.stringify(relation)));
         } else {
-            respond(new response(200, "way not found"));
+            respond(new response(200, "relation not found"));
         }
     });
 }
@@ -76,7 +76,7 @@ exports.addTag = function(query, respond) {
         if(way) {
             respond(new response(200, JSON.stringify(relation)));
         } else {
-            respond(new response(200, "way not found"));
+            respond(new response(200, "relation not found"));
         }
     });
 }
@@ -87,7 +87,7 @@ exports.removeTag = function(query, respond) {
         if(way) {
             respond(new response(200, JSON.stringify(relation)));
         } else {
-            respond(new response(200, "way not found"));
+            respond(new response(200, "relation not found"));
         }
     });
 }
@@ -97,7 +97,7 @@ exports.addWay = function(query, respond) {
         if(relation) {
             respond(new response(200, JSON.stringify(relation)));
         } else {
-            respond(new response(200, "way not found"));
+            respond(new response(200, "relation not found"));
         }
     });
 }
@@ -107,7 +107,7 @@ exports.removeWay = function(query, respond) {
         if(relation) {
             respond(new response(200, JSON.stringify(relation)));
         } else {
-            respond(new response(200, "way not found"));
+            respond(new response(200, "relation not found"));
         }
     });
 }
@@ -117,7 +117,7 @@ exports.addRelation = function(query, respond) {
         if(relation) {
             respond(new response(200, JSON.stringify(relation)));
         } else {
-            respond(new response(200, "way not found"));
+            respond(new response(200, "relation not found"));
         }
     });
 }
@@ -127,7 +127,7 @@ exports.removeRelation = function(query, respond) {
         if(relation) {
             respond(new response(200, JSON.stringify(relation)));
         } else {
-            respond(new response(200, "way not found"));
+            respond(new response(200, "relation not found"));
         }
     });
 }
