@@ -1,5 +1,5 @@
-function response(respCode, content) {
-	this.respCode = respCode;
+function response(code, content) {
+	this.code = code;
 	this.content = content;
 }
 

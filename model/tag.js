@@ -8,7 +8,6 @@ of how tags are used for most common purposes.
 
 // class constructor
 var tag = function(key, value) {
-    // deal with null values?
     this.key_ = key;
     this.value_ = value;
 };

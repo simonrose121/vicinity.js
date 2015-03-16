@@ -9,14 +9,14 @@ var nodeHandler = require('../handlers/node');
 var wayHandler = require('../handlers/way');
 
 
-//CAN'T RUN THESE TESTS WHILST SERVER IS RUN
+// n.b. these tests will only run alone
 describe("app tests", function() {
     var testingWay;
     var testingNode;
     var testingRelation;
     var testingRelation2;
     var route = router.route;
-    app.createApp(process.env.PORT);
+    app.start(process.env.PORT);
     
     it("create node", function() {
         runs(function() {
@@ -366,26 +366,24 @@ describe("app tests", function() {
     });
     it("add relation to relation", function() {
         runs(function() {
-            runs(function() {
-                // create other relation
-                var req = "/relation/add?otherRelationId=" + testingRelation2._id + "&" + "relationId=" + testingRelation._id;
-                var result;
-                
-                // mimic start function without writing to page
-                var url_parse = url.parse(req);
-                route(handles.handle, url_parse.pathname, querystring.parse(url_parse.query), function(response) {
-                    result = response;
-                    testingRelation = JSON.parse(response.content);
-                });
-                 
-                waitsFor(function() {
-                    return result !== undefined;
-                }, 'should return a status that is not undefined', 1000);
+            // create other relation
+            var req = "/relation/add?otherRelationId=" + testingRelation2._id + "&" + "relationId=" + testingRelation._id;
+            var result;
             
-                runs(function() {
-                    console.log(testingRelation.relations_);
-                    expect(testingRelation.relations_[testingRelation.relations_.length-1]).toEqual(testingRelation2._id);
-                });
+            // mimic start function without writing to page
+            var url_parse = url.parse(req);
+            route(handles.handle, url_parse.pathname, querystring.parse(url_parse.query), function(response) {
+                result = response;
+                testingRelation = JSON.parse(response.content);
+            });
+             
+            waitsFor(function() {
+                return result !== undefined;
+            }, 'should return a status that is not undefined', 1000);
+        
+            runs(function() {
+                console.log(testingRelation.relations_);
+                expect(testingRelation.relations_[testingRelation.relations_.length-1]).toEqual(testingRelation2._id);
             });
         });
     });

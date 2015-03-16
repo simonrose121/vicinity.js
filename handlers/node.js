@@ -7,11 +7,11 @@ exports.create = function(query, respond) {
     // validate node values
     if (query.lat < -90 || query.lat > 90) {
         respond(new response(200, "node lat is invalid"));
-    } else if(query.lon < -180 || query.lon > 180) {
+    } else if (query.lon < -180 || query.lon > 180) {
         respond(new response(200, "node lon is invalid"));
     } else {
+        // create new node and store it
         var node0 = new node(query.lat, query.lon);
-        console.log('creating');
         app.dao.createNode(node0, function(result, newNode) {
             if (newNode) {
                 respond(new response(200, JSON.stringify(newNode)));
@@ -23,11 +23,13 @@ exports.create = function(query, respond) {
 };
 
 exports.update = function(query, respond) {
+    // validate node values
     if (query.lat < -90 || query.lat > 90) {
         respond(new response(200, "node lat is invalid"));
-    } else if(query.lon < -180 || query.lon > 180) {
+    } else if (query.lon < -180 || query.lon > 180) {
         respond(new response(200, "node lon is invalid"));
     } else {
+        // create new node and use it to update
         var node0 = new node(query.lat, query.lon);
         node0._id = query.id;
         app.dao.updateNode(node0, function(result, editedNode) {
@@ -41,9 +43,11 @@ exports.update = function(query, respond) {
 };
 
 exports.get = function(query, respond) {
+    // check if id is in querystring
     if (!query.id) {
         respond(new response(200, "id not defined"));
     } else {
+        // get node and return it
         app.dao.getNode(query.id, function(node) {
             if (node) {
                 respond(new response(200, JSON.stringify(node)));
@@ -55,9 +59,11 @@ exports.get = function(query, respond) {
 };
 
 exports.list = function(query, respond) {
+    // get all nodes
     app.dao.getAllNodes(function(allNodes) {
         if (allNodes) {
-            if(allNodes.length > 0) {
+            // validate length of returned array
+            if (allNodes.length > 0) {
                 respond(new response(200, JSON.stringify(allNodes)));
             } else {
                 respond(new response(200, "no nodes found"));
@@ -69,6 +75,7 @@ exports.list = function(query, respond) {
 };
 
 exports.delete = function(query, respond) {
+    // check if id is in querystring
     if (!query.id) {
         respond(new response(200, "id not defined"));
     } else {
@@ -83,11 +90,15 @@ exports.delete = function(query, respond) {
 };
 
 exports.addTag = function(query, respond) {
-    if (!query.key) {
+    // validate query
+    if (!query.id) {
+        respond(new response(200, "id not defined"));
+    } else if (!query.key) {
         respond(new response(200, "key not defined"));
     } else if (!query.value) {
         respond(new response(200, "value not defined"));
     } else {
+        // create new tag
         var tag0 = new tag(query.key, query.value);
         app.dao.addTagToNode(tag0, query.id, function(result, node) {
             if(node) {
@@ -100,7 +111,10 @@ exports.addTag = function(query, respond) {
 };
 
 exports.removeTag = function(query, respond) {
-    if (!query.key) {
+    // validate query
+    if (!query.id) {
+        respond(new response(200, "id not defined"));
+    } else if (!query.key) {
         respond(new response(200, "key not defined"));
     } else if (!query.value) {
         respond(new response(200, "value not defined"));

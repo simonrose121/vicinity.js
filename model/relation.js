@@ -17,8 +17,6 @@ var relation = function() {
     this.relations_ = [];
 };
 
-// class methods
-
 // node methods
 relation.prototype.nodeExists = function(node) {
     var index = this.nodes_.indexOf(node);

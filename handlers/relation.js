@@ -6,6 +6,7 @@ var relation = require('../model/relation');
 var tag = require('../model/tag');
 
 exports.create = function(query, respond) {
+    // create relation and store it
     var relation0 = new relation();
     app.dao.createRelation(relation0, function(result, newRelation) {
         if (newRelation) {
@@ -17,9 +18,11 @@ exports.create = function(query, respond) {
 };
 
 exports.get = function(query, respond) {
+    // check if id is in querystring
     if (!query.id) {
         respond(new response(200, "id not defined"));
     } else {
+        // get relation and return it
         app.dao.getRelation(query.id, function(relation) {
             if(relation) {
                 respond(new response(200, JSON.stringify(relation)));
@@ -31,8 +34,10 @@ exports.get = function(query, respond) {
 };
 
 exports.list = function(query, respond) {
+    // get all relations
     app.dao.getAllRelations(function(allRelations) {
         if(allRelations) {
+            // validate length of returned array
             if(allRelations.length > 0) {
                 respond(new response(200, JSON.stringify(allRelations)));
             } else {
@@ -45,6 +50,7 @@ exports.list = function(query, respond) {
 };
 
 exports.delete = function(query, respond) {
+    // check if id is in querystring
     if (!query.id) {
         respond(new response(200, "id not defined"));
     } else {
@@ -59,11 +65,13 @@ exports.delete = function(query, respond) {
 };
 
 exports.addNode = function(query, respond) {
+    // validate query
     if (!query.nodeId) {
         respond(new response(200, "node id not defined"));
     } else if (!query.relationId) {
         respond(new response(200, "relation id not defined"));
     } else {
+        // add node to relation
         app.dao.addNodeToRelation(query.nodeId, query.relationId, function(result, relation) {
             if(relation) {
                 respond(new response(200, JSON.stringify(relation)));
@@ -75,11 +83,13 @@ exports.addNode = function(query, respond) {
 };
 
 exports.removeNode = function(query, respond) {
+    // validate query
     if (!query.nodeId) {
         respond(new response(200, "node id not defined"));
     } else if (!query.relationId) {
         respond(new response(200, "relation id not defined"));
     } else {
+        // remove node from relation
         app.dao.removeNodeFromRelation(query.nodeId, query.relationId, function(result, relation) {
             if(relation) {
                 respond(new response(200, JSON.stringify(relation)));
@@ -91,11 +101,15 @@ exports.removeNode = function(query, respond) {
 };
 
 exports.addTag = function(query, respond) {
-    if (!query.key) {
+    // validate query
+    if (!query.id) {
+        respond(new response(200, "id not defined"));
+    } else if (!query.key) {
         respond(new response(200, "key not defined"));
     } else if (!query.value) {
         respond(new response(200, "value not defined"));
     } else {
+        // create new tag and add it
         var tag0 = new tag(query.key, query.value);
         app.dao.addTagToRelation(tag0, query.id, function(result, relation) {
             if(way) {
@@ -108,11 +122,15 @@ exports.addTag = function(query, respond) {
 };
 
 exports.removeTag = function(query, respond) {
-    if (!query.key) {
+    // validate query
+    if (!query.id) {
+        respond(new response(200, "id not defined"));
+    } else if (!query.key) {
         respond(new response(200, "key not defined"));
     } else if (!query.value) {
         respond(new response(200, "value not defined"));
     } else {
+        // create new tag and use that to remove tag
         var tag0 = new tag(query.key, query.value);
         app.dao.removeTagFromRelation(tag0, query.id, function(result, relation) {
             if(way) {
@@ -125,6 +143,7 @@ exports.removeTag = function(query, respond) {
 };
 
 exports.addWay = function(query, respond) {
+    // validate query
     if (!query.wayId) {
         respond(new response(200, "way id not defined"));
     } else if (!query.relationId) {
@@ -141,6 +160,7 @@ exports.addWay = function(query, respond) {
 };
 
 exports.removeWay = function(query, respond) {
+    // validate query
     if (!query.wayId) {
         respond(new response(200, "way id not defined"));
     } else if (!query.relationId) {
@@ -157,6 +177,7 @@ exports.removeWay = function(query, respond) {
 };
 
 exports.addRelation = function(query, respond) {
+    // validate query
     if (!query.otherRelationId) {
         respond(new response(200, "second relation id not defined"));
     } else if (!query.relationId) {
@@ -173,6 +194,7 @@ exports.addRelation = function(query, respond) {
 };
 
 exports.removeRelation = function(query, respond) {
+    // validate query
     if (!query.otherRelationId) {
         respond(new response(200, "second relation id not defined"));
     } else if (!query.relationId) {

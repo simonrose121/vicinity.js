@@ -13,7 +13,6 @@ function node(lat, lon) {
 
 // mathmatical methods
 node.prototype.distance = function(otherNode) {
-    //TODO: remove unicode characters
     var R = 6371000; // earths radius in metres
     var lat1 = this.lat_.toRad();
     var lat2 = otherNode.lat_.toRad();

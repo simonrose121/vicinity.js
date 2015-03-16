@@ -17,8 +17,6 @@ function way() {
     this.tags_ = [];
 }
 
-// class methods
-
 // node methods
 way.prototype.addNode = function(node) {
     this.nodes_.push(node);
