@@ -367,7 +367,7 @@ describe("app tests", function() {
     it("add relation to relation", function() {
         runs(function() {
             // create other relation
-            var req = "/relation/add?otherRelationId=" + testingRelation2._id + "&" + "relationId=" + testingRelation._id;
+            var req = "/relation/relation/add?otherRelationId=" + testingRelation2._id + "&" + "relationId=" + testingRelation._id;
             var result;
             
             // mimic start function without writing to page
@@ -389,7 +389,7 @@ describe("app tests", function() {
     });
     it("remove relation from relation", function() {
         runs(function() {
-            var req = "/relation/remove?otherRelationId=" + testingRelation2._id + "&" + "relationId=" + testingRelation._id;
+            var req = "/relation/relation/remove?otherRelationId=" + testingRelation2._id + "&" + "relationId=" + testingRelation._id;
             var result;
             
             // mimic start function without writing to page

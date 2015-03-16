@@ -33,6 +33,6 @@ exports.handle = {
 	'/relation/tag/remove' : relation.removeTag,
 	'/relation/way/add' : relation.addWay,
 	'/relation/way/remove' : relation.removeWay,
-	'/relation/add' : relation.addRelation,
-	'/relation/remove' : relation.removeRelation
+	'/relation/relation/add' : relation.addRelation,
+	'/relation/relation/remove' : relation.removeRelation
 };
