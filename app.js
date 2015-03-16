@@ -2,7 +2,7 @@ var http = require('http');
 var url = require('url');
 var querystring = require('querystring');
 
-var responder = require('./responder');
+var writer = require('./writer');
 var DAO = require('./DAO');
 var router = require('./router');
 var handles = require('./handles');
@@ -20,7 +20,7 @@ exports.createApp = function(port) {
     function start(req, resp) {
         var url_parse = url.parse(req.url);
         route(handles.handle, url_parse.pathname, querystring.parse(url_parse.query), function(response) {
-            responder.write(response, resp);
+            writer.write(response, resp);
         });
     }
     
