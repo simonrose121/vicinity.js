@@ -123,6 +123,22 @@ DAO.prototype.deleteNode = function(id, callback) {
         if(err) {
             return console.log(err);
         } else {
+            console.log("deleted node " + id);
+        }
+    });
+    // remove references
+    this.waySchema.remove({nodes_: id}, function(err) {
+        if(err) {
+            return console.log(err);
+        } else {
+            console.log("deleted node from way" + id);
+        }
+    });
+    this.relationSchema.remove({nodes_: id}, function(err) {
+        if(err) {
+            return console.log(err);
+        } else {
+            console.log("deleted node from relation" + id);
             callback('deleted');
         }
     });
@@ -209,6 +225,14 @@ DAO.prototype.deleteWay = function(id, callback) {
         if(err) {
             return console.log(err);
         } else {
+            console.log("deleted way" + id);
+        }
+    });
+    this.relationSchema.remove({ways_: id}, function(err) {
+        if (err) {
+            return console.log(err);
+        } else {
+            console.log("deleted way from relation" + id)
             callback('deleted');
         }
     });
@@ -218,8 +242,6 @@ DAO.prototype.deleteAllWays = function(callback) {
     this.waySchema.remove({}, function(err) {
         if (err) {
             return console.log(err);
-        } else {
-            callback('deleted all ways');
         }
     });
 };
@@ -319,6 +341,14 @@ DAO.prototype.deleteRelation = function(id, callback) {
         if(err) {
             return console.log(err);
         } else {
+            console.log('deleted relation' + id);
+        } 
+    });
+    this.relationSchema.remove({relations_: id}, function(err) {
+        if(err) {
+            return console.log(err);
+        } else {
+            console.log('deleted relation from relations' + id);
             callback('deleted');
         } 
     });

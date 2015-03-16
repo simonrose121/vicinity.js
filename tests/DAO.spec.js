@@ -561,7 +561,6 @@ describe("DAO unit tests", function() {
             });  
         });
     });
-    
 
     // Override the finishCallback so we can add some cleanup methods.
     // This is run after all tests have been completed.
