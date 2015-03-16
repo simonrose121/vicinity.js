@@ -1,6 +1,6 @@
 {
-  "name": "aaf-assignment",
-  "version": "0.0.1",
+  "name": "vicinity.js"",
+  "version": "0.1.1",
   "description": "A node.js GIS framework designed to allow a user functionality to ccalculate and store geographical information.",
   "main": "app.js",
   "scripts": {
@@ -8,7 +8,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/simonrose121/aaf-assignment.git"
+    "url": "https://github.com/simonrose121/vicinity.js.git"
   },
   "keywords": [
     "GIS",
@@ -18,7 +18,7 @@
   "author": "Simon Rose",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/simonrose121/aaf-assignment/issues"
+    "url": "https://github.com/simonrose121/vicinity.js/issues"
   },
-  "homepage": "https://github.com/simonrose121/aaf-assignment"
+  "homepage": "https://github.com/simonrose121/vicinity.js"
 }

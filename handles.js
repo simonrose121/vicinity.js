@@ -3,6 +3,7 @@ var way = require('./handlers/way');
 var relation = require('./handlers/relation');
 
 exports.handle = {
+	// node handles
     '/node/create' : node.create,
 	'/node/update' : node.update,
 	'/node/list' : node.list,
@@ -11,6 +12,7 @@ exports.handle = {
 	'/node/tag/add' : node.addTag,
 	'/node/tag/remove' : node.removeTag,
 	
+	// way handles
 	'/way/create' : way.create,
 	'/way/get' : way.get,
 	'/way/list' : way.list,
@@ -20,6 +22,7 @@ exports.handle = {
 	'/way/tag/add' : way.addTag,
 	'/way/tag/remove' : way.removeTag,
 	
+	// relation handles
 	'/relation/create' : relation.create,
 	'/relation/get' : relation.get,
 	'/relation/list' : relation.list,

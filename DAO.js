@@ -1,6 +1,5 @@
 /*
 Data Access Object is required to return JSON objects from a mongoDB instance 
-and map them to the model objects
 */
 
 var mongoose = require('mongoose');
@@ -33,7 +32,6 @@ DAO.prototype.close = function(callback) {
             
 DAO.prototype.createSchemas = function() {
     // create schemas
-    // use local then assign to member variable
     var tagSchema = mongoose.Schema({
         key_: Object,
         value_: Object
@@ -85,18 +83,14 @@ DAO.prototype.createNode = function(obj, callback) {
 
 
 DAO.prototype.updateNode = function(obj, callback) {
-    if (obj.lat_ <= -90 || obj.lat_ >= 90 || obj.lon_ <= -180 || obj.lon_ >= 180) {
-        callback('object is not valid');
-    } else {
-        var updatedNode = new this.nodeSchema(obj);
-        this.nodeSchema.update({_id: updatedNode._id}, updatedNode, {upsert: true}, function(err) {
-            if(err) {
-                return console.error(err);
-            } else {
-                callback('updated', updatedNode);
-            }
-        });
-    }
+    var updatedNode = new this.nodeSchema(obj);
+    this.nodeSchema.update({_id: updatedNode._id}, updatedNode, {upsert: true}, function(err) {
+        if(err) {
+            return console.error(err);
+        } else {
+            callback('updated', updatedNode);
+        }
+    });
 };
 
 DAO.prototype.getNode = function(id, callback) {
@@ -232,7 +226,7 @@ DAO.prototype.deleteWay = function(id, callback) {
         if (err) {
             return console.log(err);
         } else {
-            console.log("deleted way from relation" + id)
+            console.log("deleted way from relation" + id);
             callback('deleted');
         }
     });

@@ -5,9 +5,9 @@ var tag = require('../model/tag');
 
 exports.create = function(query, respond) {
     // validate node values
-    if (query.lat <= -90 || query.lat >= 90) {
+    if (query.lat < -90 || query.lat > 90) {
         respond(new response(200, "node lat is invalid"));
-    } else if(query.lon <= -180 || query.lon >= 180) {
+    } else if(query.lon < -180 || query.lon > 180) {
         respond(new response(200, "node lon is invalid"));
     } else {
         var node0 = new node(query.lat, query.lon);
@@ -23,9 +23,9 @@ exports.create = function(query, respond) {
 };
 
 exports.update = function(query, respond) {
-    if (query.lat <= -90 || query.lat >= 90) {
+    if (query.lat < -90 || query.lat > 90) {
         respond(new response(200, "node lat is invalid"));
-    } else if(query.lon <= -180 || query.lon >= 180) {
+    } else if(query.lon < -180 || query.lon > 180) {
         respond(new response(200, "node lon is invalid"));
     } else {
         var node0 = new node(query.lat, query.lon);

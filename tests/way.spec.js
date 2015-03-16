@@ -87,6 +87,6 @@ describe("way unit tests", function() {
             
             // check tag has been removed
             expect(way4.tagExists(tag1)).toEqual(false);
-        }) 
+        });
     });
 });

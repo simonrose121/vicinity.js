@@ -15,7 +15,7 @@ var relation = function() {
     this.tags_ = [];
     this.ways_ = [];
     this.relations_ = [];
-}
+};
 
 // class methods
 
@@ -26,17 +26,17 @@ relation.prototype.nodeExists = function(node) {
         return true;
     }
     return false;
-}
+};
 
 // tags methods
 relation.prototype.addTag = function(tag) {
     this.tags_.push(tag);
-}
+};
 
 relation.prototype.removeTag = function(tag) {
     var index = this.tags_.indexOf(tag);
     this.tags_.splice(index);
-}
+};
 
 relation.prototype.tagExists = function(tag) {
     var index = this.tags_.indexOf(tag);
@@ -44,17 +44,17 @@ relation.prototype.tagExists = function(tag) {
         return true;
     }
     return false;
-}
+};
 
 // way methods
 relation.prototype.addWay = function(way) {
     this.ways_.push(way);
-}
+};
 
 relation.prototype.removeWay = function(way) {
     var index = this.ways_.indexOf(way);
     this.ways_.splice(index);
-}
+};
 
 relation.prototype.wayExists = function(way) {
     var index = this.ways_.indexOf(way);
@@ -62,17 +62,17 @@ relation.prototype.wayExists = function(way) {
         return true;
     }
     return false;
-}
+};
 
 // relation methods
 relation.prototype.addRelation = function(relation) {
     this.relations_.push(relation);
-}
+};
 
 relation.prototype.removeRelation = function(relation) {
     var index = this.relations_.indexOf(relation);
     this.relations_.splice(index);
-}
+};
 
 relation.prototype.relationExists = function(relation) {
     var index = this.relations_.indexOf(relation);
@@ -80,6 +80,6 @@ relation.prototype.relationExists = function(relation) {
         return true;
     }
     return false;
-}
+};
 
 module.exports = relation;
