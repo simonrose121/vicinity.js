@@ -14,7 +14,7 @@ exports.create = function(query, respond) {
             respond(new response(200, "relation not complete"));
         }
     }); 
-}
+};
 
 exports.get = function(query, respond) {
     if (!query.id) {
@@ -28,7 +28,7 @@ exports.get = function(query, respond) {
             }
         });
     }
-}
+};
 
 exports.list = function(query, respond) {
     app.dao.getAllRelations(function(allRelations) {
@@ -42,7 +42,7 @@ exports.list = function(query, respond) {
             respond(new response(200, "no relations found"));
         }
     });
-}
+};
 
 exports.delete = function(query, respond) {
     if (!query.id) {
@@ -56,13 +56,13 @@ exports.delete = function(query, respond) {
             }
         });
     }
-}
+};
 
 exports.addNode = function(query, respond) {
     if (!query.nodeId) {
         respond(new response(200, "node id not defined"));
-    } else if (!query.wayId) {
-        respond(new response(200, "way id not defined"));
+    } else if (!query.relationId) {
+        respond(new response(200, "relation id not defined"));
     } else {
         app.dao.addNodeToRelation(query.nodeId, query.relationId, function(result, relation) {
             if(relation) {
@@ -72,13 +72,13 @@ exports.addNode = function(query, respond) {
             }
         });
     }
-}
+};
 
 exports.removeNode = function(query, respond) {
     if (!query.nodeId) {
         respond(new response(200, "node id not defined"));
-    } else if (!query.wayId) {
-        respond(new response(200, "way id not defined"));
+    } else if (!query.relationId) {
+        respond(new response(200, "relation id not defined"));
     } else {
         app.dao.removeNodeFromRelation(query.nodeId, query.relationId, function(result, relation) {
             if(relation) {
@@ -88,7 +88,7 @@ exports.removeNode = function(query, respond) {
             }
         });
     }
-}
+};
 
 exports.addTag = function(query, respond) {
     if (!query.key) {
@@ -105,7 +105,7 @@ exports.addTag = function(query, respond) {
             }
         });
     }
-}
+};
 
 exports.removeTag = function(query, respond) {
     if (!query.key) {
@@ -122,7 +122,7 @@ exports.removeTag = function(query, respond) {
             }
         });
     }
-}
+};
 
 exports.addWay = function(query, respond) {
     if (!query.wayId) {
@@ -138,7 +138,7 @@ exports.addWay = function(query, respond) {
             }
         });
     }
-}
+};
 
 exports.removeWay = function(query, respond) {
     if (!query.wayId) {
@@ -154,7 +154,7 @@ exports.removeWay = function(query, respond) {
             }
         });
     }
-}
+};
 
 exports.addRelation = function(query, respond) {
     if (!query.otherRelationId) {
@@ -170,7 +170,7 @@ exports.addRelation = function(query, respond) {
             }
         });
     }
-}
+};
 
 exports.removeRelation = function(query, respond) {
     if (!query.otherRelationId) {
@@ -186,4 +186,4 @@ exports.removeRelation = function(query, respond) {
             }
         });
     }
-}
+};

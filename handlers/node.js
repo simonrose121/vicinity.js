@@ -1,7 +1,7 @@
 var response = require('../model/response');
 var app = require('../app');
 var node = require('../model/node');
-var tag = require('../model/tag')
+var tag = require('../model/tag');
 
 exports.create = function(query, respond) {
     // validate node values
@@ -97,7 +97,7 @@ exports.addTag = function(query, respond) {
             }
         });
     }
-}
+};
 
 exports.removeTag = function(query, respond) {
     if (!query.key) {
@@ -114,4 +114,4 @@ exports.removeTag = function(query, respond) {
             }
         });
     }
-}
+};

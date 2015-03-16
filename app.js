@@ -25,7 +25,7 @@ exports.createApp = function(port) {
     }
     
     http.createServer(start).listen(port);
-}
+};
 
 // export dao to be used in other files
 exports.dao = dao;

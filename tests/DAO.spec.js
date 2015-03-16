@@ -25,7 +25,7 @@ describe("DAO unit tests", function() {
             dao.deleteAllNodes();
             
             var node0 = new node(53.373656, -1.450626);
-            var node1 = new node(80, 32);
+            var node1 = new node(53.378491, -1.472634);
 
             var response;
             dao.createNode(node0, function(result, myNode) {
@@ -49,7 +49,7 @@ describe("DAO unit tests", function() {
     it("update node", function() {
         runs(function() {
             var id = testingNode._id;
-            testingNode = new node(10, 20);
+            testingNode = new node(53.378491, -1.472634);
             
             // keep id the same
             testingNode._id = id;

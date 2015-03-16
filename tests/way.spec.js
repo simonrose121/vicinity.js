@@ -34,7 +34,7 @@ describe("way unit tests", function() {
         runs(function() {
             // create new tags
             var tag1 = new tag("name", "a place");
-            var tag2 = new tag("_id", "2841098241");
+            var tag2 = new tag("road", "highway");
 
             // create new way
             var way2 = new way();

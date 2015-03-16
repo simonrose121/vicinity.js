@@ -1,7 +1,6 @@
 var response = require('../model/response');
 var app = require('../app');
 var way = require('../model/way');
-var node = require('../model/node');
 var tag = require('../model/tag');
 
 exports.create = function(query, respond) {
@@ -13,7 +12,7 @@ exports.create = function(query, respond) {
             respond(new response(200, "way not complete"));
         }
     }); 
-}
+};
 
 exports.get = function(query, respond) {
     if (!query.id) {
@@ -27,7 +26,7 @@ exports.get = function(query, respond) {
             }
         });
     }
-}
+};
 
 exports.list = function(query, respond) {
     app.dao.getAllWays(function(allWays) {
@@ -41,7 +40,7 @@ exports.list = function(query, respond) {
             respond(new response(200, "no ways found"));
         }
     });
-}
+};
 
 exports.delete = function(query, respond) {
     if (!query.id) {
@@ -55,7 +54,7 @@ exports.delete = function(query, respond) {
             }
         });
     }
-}
+};
 
 exports.addNode = function(query, respond) {
     if (!query.nodeId) {
@@ -71,7 +70,7 @@ exports.addNode = function(query, respond) {
             }
         });
     }
-}
+};
 
 exports.removeNode = function(query, respond) {
     if (!query.nodeId) {
@@ -87,7 +86,7 @@ exports.removeNode = function(query, respond) {
             }
         });
     }
-}
+};
 
 exports.addTag = function(query, respond) {
     if (!query.key) {
@@ -104,7 +103,7 @@ exports.addTag = function(query, respond) {
             }
         });
     }
-}
+};
 
 exports.removeTag = function(query, respond) {
     if (!query.key) {
@@ -121,4 +120,4 @@ exports.removeTag = function(query, respond) {
             }
         });
     }
-}
+};

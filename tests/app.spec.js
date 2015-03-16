@@ -20,7 +20,7 @@ describe("app tests", function() {
     
     it("create node", function() {
         runs(function() {
-            var req = "/node/create?lon=20&lat=10";
+            var req = "/node/create?lat=53.378491&lon=-1.472634";
             var result;
             
             // mimic start function without writing to page
