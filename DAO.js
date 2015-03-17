@@ -276,13 +276,14 @@ DAO.prototype.getNodesInWay = function(id, callback) {
             if (way.nodes_.length > 0) {
                 var nodes = [];
                 for (var i = 0; i < way.nodes_.length; i++) {
+                    // need to be strings for in to work
                     nodes.push(way.nodes_[i].toString());
                 }
-                that.nodeSchema.find({_id: { $in: nodes } }, function(err, nodes) {
+                that.nodeSchema.find({_id: { $in: nodes } }, function(err, foundNodes) {
                     if (err) {
                         return console.error(err);
                     } else {
-                        callback('found nodes', nodes);
+                        callback('found nodes', foundNodes);
                     }
                 });
             } else {
@@ -406,6 +407,33 @@ DAO.prototype.removeNodeFromRelation = function(nodeId, relationId, callback) {
     });
 };
 
+DAO.prototype.getNodesInRelation = function(id, callback) {
+    // keep hold of current context
+    var that = this;
+    this.relationSchema.findById(id, function(err, relation) {
+        if (err) {
+            return console.error(err);
+        } else {
+            if (relation.nodes_.length > 0) {
+                var nodes = [];
+                for (var i = 0; i < relation.nodes_.length; i++) {
+                    // need to be strings for in to work
+                    nodes.push(relation.nodes_[i].toString());
+                }
+                that.nodeSchema.find({_id: { $in: nodes } }, function(err, foundNodes) {
+                    if (err) {
+                        return console.log(err);
+                    } else {
+                        callback('found nodes', foundNodes);
+                    }
+                });
+            } else {
+                callback('no nodes');
+            }
+        }
+    }); 
+};
+
 DAO.prototype.addTagToRelation = function(tag, id, callback) {
     // find way and add tag to array
     var update = { $push: { tags_: tag } };
@@ -454,6 +482,33 @@ DAO.prototype.removeWayFromRelation = function(wayId, relationId, callback) {
     });
 };
 
+DAO.prototype.getWaysInRelation = function(id, callback) {
+    // keep hold of current context
+    var that = this;
+    this.relationSchema.findById(id, function(err, relation) {
+        if (err) {
+            return console.error(err);
+        } else {
+            if (relation.ways_.length > 0) {
+                var ways = [];
+                for (var i = 0; i < relation.ways_.length; i++) {
+                    // need to be strings for in to work
+                    ways.push(relation.ways_[i].toString());
+                }
+                that.waySchema.find({_id: { $in: ways } }, function(err, foundWays) {
+                    if (err) {
+                        return console.log(err);
+                    } else {
+                        callback('found ways', foundWays);
+                    }
+                });
+            } else {
+                callback('no ways');
+            }
+        }
+    }); 
+};
+
 DAO.prototype.addRelationToRelation = function(relationToAddId, relationId, callback) {
     // find relation and add relation id
     var update = { $push: { relations_: relationToAddId } };
@@ -478,6 +533,33 @@ DAO.prototype.removeRelationFromRelation = function(relationToRemoveId, relation
             callback('removed relation', relation);
         }
     });
+};
+
+DAO.prototype.getRelationsInRelation = function(id, callback) {
+    // keep hold of current context
+    var that = this;
+    this.relationSchema.findById(id, function(err, relation) {
+        if (err) {
+            return console.error(err);
+        } else {
+            if (relation.relations_.length > 0) {
+                var relations = [];
+                for (var i = 0; i < relation.relations_.length; i++) {
+                    // need to be strings for in to work
+                    relations.push(relation.relations_[i].toString());
+                }
+                that.relationSchema.find({_id: { $in: relations } }, function(err, foundRelations) {
+                    if (err) {
+                        return console.log(err);
+                    } else {
+                        callback('found relations', foundRelations);
+                    }
+                });
+            } else {
+                callback('no relations');
+            }
+        }
+    }); 
 };
 
 module.exports = DAO;

@@ -100,6 +100,21 @@ exports.removeNode = function(query, respond) {
     }
 };
 
+exports.listNodes = function(query, respond) {
+    // validate query
+    if (!query.id) {
+        respond(new response(200, "id not defined"));
+    } else {
+        app.dao.getNodesInRelation(query.id, function(result, nodes) {
+            if (nodes) {
+                respond(new response(200, JSON.stringify(nodes)));
+            } else {
+                respond(new response(200, "no nodes found"));
+            }
+        });
+    }
+};
+
 exports.addTag = function(query, respond) {
     // validate query
     if (!query.id) {
@@ -176,6 +191,21 @@ exports.removeWay = function(query, respond) {
     }
 };
 
+exports.listWays = function(query, respond) {
+    // validate query
+    if (!query.id) {
+        respond(new response(200, "id not defined"));
+    } else {
+        app.dao.getWaysInRelation(query.id, function(result, ways) {
+            if (ways) {
+                respond(new response(200, JSON.stringify(ways)));
+            } else {
+                respond(new response(200, "no ways found"));
+            }
+        });
+    }
+};
+
 exports.addRelation = function(query, respond) {
     // validate query
     if (!query.otherRelationId) {
@@ -205,6 +235,21 @@ exports.removeRelation = function(query, respond) {
                 respond(new response(200, JSON.stringify(relation)));
             } else {
                 respond(new response(200, "relation not found"));
+            }
+        });
+    }
+};
+
+exports.listRelations = function(query, respond) {
+    // validate query
+    if (!query.id) {
+        respond(new response(200, "id not defined"));
+    } else {
+        app.dao.getRelationsInRelation(query.id, function(result, relations) {
+            if (relations) {
+                respond(new response(200, JSON.stringify(relations)));
+            } else {
+                respond(new response(200, "no relations found"));
             }
         });
     }

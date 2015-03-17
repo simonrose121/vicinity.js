@@ -268,6 +268,28 @@ describe("app tests", function() {
             });
         });
     });
+    it("list nodes in relation", function() {
+        runs(function() {
+            var req = "/relation/node/list?id=" + testingRelation._id;
+            var result;
+            
+            // mimic start function without writing to page
+            var url_parse = url.parse(req);
+            route(handles.handle, url_parse.pathname, querystring.parse(url_parse.query), function(response) {
+                result = response;
+            });
+            
+            waitsFor(function() {
+                return result !== undefined;
+            }, 'should return a status that is not undefined', 1000);
+        
+            runs(function() {
+                console.log("nodes in relation = " + result.content);
+                var nodes = JSON.parse(result.content);
+                expect(nodes[nodes.length-1]).toEqual(testingNode);
+            });
+        });
+    });
     it("remove node from relation", function() {
         runs(function() {
             var req = "/relation/node/remove?nodeId=" + testingNode._id + "&" + "relationId=" + testingRelation._id;
@@ -364,6 +386,28 @@ describe("app tests", function() {
             });
         });
     });
+    it("list ways in relation", function() {
+        runs(function() {
+            var req = "/relation/way/list?id=" + testingRelation._id;
+            var result;
+            
+            // mimic start function without writing to page
+            var url_parse = url.parse(req);
+            route(handles.handle, url_parse.pathname, querystring.parse(url_parse.query), function(response) {
+                result = response;
+            });
+            
+            waitsFor(function() {
+                return result !== undefined;
+            }, 'should return a status that is not undefined', 1000);
+        
+            runs(function() {
+                console.log("ways in relation = " + result.content);
+                var ways = JSON.parse(result.content);
+                expect(ways[ways.length-1]).toEqual(testingWay);
+            });
+        });
+    });
     it("remove way from relation", function() {
         runs(function() {
             var req = "/relation/way/remove?wayId=" + testingWay._id + "&" + "relationId=" + testingRelation._id;
@@ -406,6 +450,28 @@ describe("app tests", function() {
             runs(function() {
                 console.log("relation after relation added = " + result.content);
                 expect(testingRelation.relations_[testingRelation.relations_.length-1]).toEqual(testingRelation2._id);
+            });
+        });
+    });
+    it("list relations in relation", function() {
+        runs(function() {
+            var req = "/relation/relation/list?id=" + testingRelation._id;
+            var result;
+            
+            // mimic start function without writing to page
+            var url_parse = url.parse(req);
+            route(handles.handle, url_parse.pathname, querystring.parse(url_parse.query), function(response) {
+                result = response;
+            });
+            
+            waitsFor(function() {
+                return result !== undefined;
+            }, 'should return a status that is not undefined', 1000);
+        
+            runs(function() {
+                console.log("relations in relation = " + result.content);
+                var relations = JSON.parse(result.content);
+                expect(relations[relations.length-1]).toEqual(testingRelation2);
             });
         });
     });

@@ -30,10 +30,13 @@ exports.handle = {
 	'/relation/delete' : relation.delete,
 	'/relation/node/add' : relation.addNode,
 	'/relation/node/remove' : relation.removeNode,
+	'/relation/node/list' : relation.listNodes,
 	'/relation/tag/add' : relation.addTag,
 	'/relation/tag/remove' : relation.removeTag,
 	'/relation/way/add' : relation.addWay,
 	'/relation/way/remove' : relation.removeWay,
+	'/relation/way/list' : relation.listWays,
 	'/relation/relation/add' : relation.addRelation,
-	'/relation/relation/remove' : relation.removeRelation
+	'/relation/relation/remove' : relation.removeRelation,
+	'/relation/relation/list' : relation.listRelations
 };
