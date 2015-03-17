@@ -103,8 +103,12 @@ exports.listNodes = function(query, respond) {
     if (!query.id) {
         respond(new response(200, "id not defined"));
     } else {
-        app.dao.getNodesInWay(query.id, function() {
-            
+        app.dao.getNodesInWay(query.id, function(result, nodes) {
+            if (nodes) {
+                respond(new response(200, JSON.stringify(nodes)));
+            } else {
+                respond(new response(200, "no nodes found"));
+            }
         });
     }
 };

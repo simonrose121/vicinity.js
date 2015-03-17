@@ -335,7 +335,7 @@ describe("app tests", function() {
         
             runs(function() {
                 console.log(testingRelation.tags_);
-                expect(testingRelation.tags_[0]).toBeUndefined();
+                expect(testingRelation.tags_[2]).toBeUndefined();
             });
         });
     });
@@ -469,7 +469,7 @@ describe("app tests", function() {
             runs(function() {
                 console.log(result.content);
                 var list = JSON.parse(result.content);
-                expect(list[list.length-1]).toEqual(testingRelation2);
+                expect(list[list.length-1]).toEqual(testingRelation);
             });
         });
     });
@@ -559,7 +559,7 @@ describe("app tests", function() {
         
             runs(function() {
                 console.log(testingNode.tags_);
-                expect(testingNode.tags_[0]).toBeUndefined();
+                expect(testingNode.tags_[2]).toBeUndefined();
             });
         });
     });

@@ -294,11 +294,11 @@ DAO.prototype.getNodesInWay = function(id, callback) {
 
 DAO.prototype.addTagToWay = function(tag, id, callback) {
     // find way and add tag to array
-    this.waySchema.findOne({_id: id}, function(err, way) {
+    var update = { $push: { tags_: tag } };
+    this.waySchema.findByIdAndUpdate(id, update, {upsert:true}, function(err, way) {
         if (err) {
             return console.error(err);
         } else {
-            way.tags_.push(tag);
             callback('added tag', way, tag);
         }
     });
@@ -306,21 +306,12 @@ DAO.prototype.addTagToWay = function(tag, id, callback) {
 
 DAO.prototype.removeTagFromWay = function(tag, id, callback) {
     // find way and remove tag from tags array
-    this.waySchema.findOne({_id: id}, function(err, w) {
+    var remove = { $pull: { tags_: tag } };
+    this.waySchema.findByIdAndUpdate(id, remove, {upsert:true}, function(err, way) {
         if (err) {
             return console.error(err);
         } else {
-            var index;
-            // find tag that matches
-            for (var i = 0; i < w.tags_.length; i++) {
-                if (w.tags_[i].value_ === tag.value_ && 
-                    w.tags_[i].key_ === tag.key_ ) {
-                    index = i;
-                }
-            }
-            // remove tag
-            w.tags_.splice(index);
-            callback('removed tag', w);
+            callback('removed tag', way);
         }
     });
 };

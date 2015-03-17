@@ -296,7 +296,7 @@ describe("DAO unit tests", function() {
             
             runs(function() {
                 expect(response).toEqual('removed tag');
-                expect(testingWay.tags_[testingWay.tags_.length-1]).toBeUndefined();
+                expect(testingWay.tags_[2]).toBeUndefined();
             });
         });
     });
