@@ -35,7 +35,7 @@ describe("app tests", function() {
             }, 'should return a status that is not undefined', 1000);
         
             runs(function() {
-                console.log(result.content);
+                console.log("created node = " + result.content);
                 expect(testingNode._id).toBeDefined();
             }); 
         });
@@ -57,7 +57,7 @@ describe("app tests", function() {
             }, 'should return a status that is not undefined', 1000);
         
             runs(function() {
-                console.log(result.content);
+                console.log("created way = " + result.content);
                 expect(testingWay._id).toBeDefined();
             });
         }); 
@@ -84,7 +84,7 @@ describe("app tests", function() {
             }, 'should return a status that is not undefined', 1000);
         
             runs(function() {
-                console.log(result.content);
+                console.log("created relation = " + result.content);
                 expect(testingRelation._id).toBeDefined();
             });
         });
@@ -105,7 +105,7 @@ describe("app tests", function() {
             }, 'should return a status that is not undefined', 1000);
         
             runs(function() {
-                console.log(result.content);
+                console.log("returned way = " + result.content);
                 expect(JSON.parse(result.content)).toEqual(testingWay);
             });
         });
@@ -126,7 +126,7 @@ describe("app tests", function() {
             }, 'should return a status that is not undefined', 1000);
         
             runs(function() {
-                console.log(result.content);
+                console.log("list of ways = " + result.content);
                 var list = JSON.parse(result.content);
                 expect(list[list.length-1]).toEqual(testingWay);
             });
@@ -151,7 +151,7 @@ describe("app tests", function() {
             }, 'should return a status that is not undefined', 1000);
         
             runs(function() {
-                console.log(testingWay.tags_);
+                console.log("way after tag added = " + result.content);
                 expect(testingWay.tags_[testingWay.tags_.length-1].key_).toEqual(key);
             });
         });
@@ -175,7 +175,7 @@ describe("app tests", function() {
             }, 'should return a status that is not undefined', 1000);
         
             runs(function() {
-                console.log(testingWay.tags_);
+                console.log("way after tag removed = " + result.content);
                 expect(testingWay.tags_[0]).toBeUndefined();
             });
         });
@@ -197,7 +197,7 @@ describe("app tests", function() {
             }, 'should return a status that is not undefined', 1000);
         
             runs(function() {
-                console.log(testingWay.nodes_);
+                console.log("way after node added = " + result.content);
                 expect(testingWay.nodes_[testingWay.nodes_.length-1]).toEqual(testingNode._id);
             });
         });
@@ -218,6 +218,7 @@ describe("app tests", function() {
             }, 'should return a status that is not undefined', 1000);
         
             runs(function() {
+                console.log("nodes in way = " + result.content);
                 var nodes = JSON.parse(result.content);
                 expect(nodes[nodes.length-1]).toEqual(testingNode);
             });
@@ -240,7 +241,7 @@ describe("app tests", function() {
             }, 'should return a status that is not undefined', 1000);
         
             runs(function() {
-                console.log(testingWay.nodes_);
+                console.log("way after node removed = " + result.content);
                 expect(testingWay.nodes_[testingWay.nodes_.length-1]).toBeUndefined();
             });
         });
@@ -262,7 +263,7 @@ describe("app tests", function() {
             }, 'should return a status that is not undefined', 1000);
         
             runs(function() {
-                console.log(testingRelation.nodes_);
+                console.log("relation after node added = " + result.content);
                 expect(testingRelation.nodes_[testingRelation.nodes_.length-1]).toEqual(testingNode._id);
             });
         });
@@ -284,7 +285,7 @@ describe("app tests", function() {
             }, 'should return a status that is not undefined', 1000);
         
             runs(function() {
-                console.log(testingRelation.nodes_);
+                console.log("relation after node removed = " + result.content);
                 expect(testingRelation.nodes_[testingRelation.nodes_.length-1]).toBeUndefined();
             });
         });
@@ -309,7 +310,7 @@ describe("app tests", function() {
                 }, 'should return a status that is not undefined', 1000);
             
                 runs(function() {
-                    console.log(testingRelation.tags_);
+                    console.log("relation after tag added = " + result.content);
                     expect(testingRelation.tags_[testingRelation.tags_.length-1].key_).toEqual(key);
                 });
             });
@@ -334,7 +335,7 @@ describe("app tests", function() {
             }, 'should return a status that is not undefined', 1000);
         
             runs(function() {
-                console.log(testingRelation.tags_);
+                console.log("relation after tag removed = " + result.content);
                 expect(testingRelation.tags_[2]).toBeUndefined();
             });
         });
@@ -357,7 +358,7 @@ describe("app tests", function() {
                 }, 'should return a status that is not undefined', 1000);
             
                 runs(function() {
-                    console.log(testingRelation.ways_);
+                    console.log("relation after way added = " + result.content);
                     expect(testingRelation.ways_[testingRelation.ways_.length-1]).toEqual(testingWay._id);
                 });
             });
@@ -380,7 +381,7 @@ describe("app tests", function() {
             }, 'should return a status that is not undefined', 1000);
         
             runs(function() {
-                console.log(testingRelation.ways_);
+                console.log("relation after way removed = " + result.content);
                 expect(testingRelation.ways_[testingRelation.ways_.length-1]).toBeUndefined();
             });
         });
@@ -403,7 +404,7 @@ describe("app tests", function() {
             }, 'should return a status that is not undefined', 1000);
         
             runs(function() {
-                console.log(testingRelation.relations_);
+                console.log("relation after relation added = " + result.content);
                 expect(testingRelation.relations_[testingRelation.relations_.length-1]).toEqual(testingRelation2._id);
             });
         });
@@ -425,7 +426,7 @@ describe("app tests", function() {
             }, 'should return a status that is not undefined', 1000);
         
             runs(function() {
-                console.log(testingRelation.relations_);
+                console.log("relation after relation removed = " + result.content);
                 expect(testingRelation.relations_[testingRelation.relations_.length-1]).toBeUndefined();
             });
         });
@@ -446,7 +447,7 @@ describe("app tests", function() {
             }, 'should return a status that is not undefined', 1000);
         
             runs(function() {
-                console.log(result.content);
+                console.log("returned relation = " + result.content);
                 expect(JSON.parse(result.content)).toEqual(testingRelation);
             });
         });
@@ -467,7 +468,7 @@ describe("app tests", function() {
             }, 'should return a status that is not undefined', 1000);
         
             runs(function() {
-                console.log(result.content);
+                console.log("list of relations = " + result.content);
                 var list = JSON.parse(result.content);
                 expect(list[list.length-1]).toEqual(testingRelation);
             });
@@ -489,7 +490,7 @@ describe("app tests", function() {
             }, 'should return a status that is not undefined', 1000);
         
             runs(function() {
-                console.log(result.content);
+                console.log("relation " + result.content);
                 expect(result.content).toEqual(testingRelation._id + " has been deleted");
             });
         });
@@ -510,7 +511,7 @@ describe("app tests", function() {
             }, 'should return a status that is not undefined', 1000);
         
             runs(function() {
-                console.log(result.content);
+                console.log("way " + result.content);
                 expect(result.content).toEqual(testingWay._id + " has been deleted");
             });
         });
@@ -534,7 +535,7 @@ describe("app tests", function() {
             }, 'should return a status that is not undefined', 1000);
         
             runs(function() {
-                console.log(testingNode.tags_);
+                console.log("node after tag added = " + result.content);
                 expect(testingNode.tags_[testingNode.tags_.length-1].key_).toEqual(key);
             });
         });
@@ -558,7 +559,7 @@ describe("app tests", function() {
             }, 'should return a status that is not undefined', 1000);
         
             runs(function() {
-                console.log(testingNode.tags_);
+                console.log("node after tag removed = " + result.content);
                 expect(testingNode.tags_[2]).toBeUndefined();
             });
         });
@@ -579,7 +580,7 @@ describe("app tests", function() {
             }, 'should return a status that is not undefined', 1000);
         
             runs(function() {
-                console.log(result.content);
+                console.log("returned node = " + result.content);
                 expect(JSON.parse(result.content)).toEqual(testingNode);
             }); 
         });
@@ -600,7 +601,7 @@ describe("app tests", function() {
             }, 'should return a status that is not undefined', 1000);
         
             runs(function() {
-                console.log(result.content);
+                console.log("list of ways = " + result.content);
                 var list = JSON.parse(result.content);
                 expect(list[list.length-1]).toEqual(testingNode);
             });
@@ -622,7 +623,7 @@ describe("app tests", function() {
             }, 'should return a status that is not undefined', 1000);
         
             runs(function() {
-                console.log(result.content);
+                console.log("node " + result.content);
                 expect(result.content).toEqual(testingNode._id + " has been deleted");
             });
         });
