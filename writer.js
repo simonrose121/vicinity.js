@@ -6,11 +6,9 @@ exports.write = function(response, resp) {
 		case 200:
 			resp.write(response.content);
 			break;
-		
 		case 404:
 			resp.write(response.code + " Page Not Found");
 			break;
-			
 		case 500:
 			resp.write(response.code = " Sever Error");
 			break;

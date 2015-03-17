@@ -120,7 +120,7 @@ describe("DAO unit tests", function() {
             
             runs(function() {
                 expect(response).toEqual('removed tag');
-                expect(testingNode.tags_[0]).toBeUndefined();
+                expect(testingNode.tags_[testingNode.tags_.length-1]).toBeUndefined();
             });
         });
     });
@@ -154,29 +154,10 @@ describe("DAO unit tests", function() {
 
             runs(function() {
                 expect(nodes.length).toEqual(1);
-                expect(nodes[0].lat_).toEqual(testingNode.lat_);
-                expect(nodes[0].lon_).toEqual(testingNode.lon_);
+                expect(nodes[nodes.length-1].lat_).toEqual(testingNode.lat_);
+                expect(nodes[nodes.length-1].lon_).toEqual(testingNode.lon_);
             });
        });
-    });
-    it("delete all nodes", function() {
-        runs(function() {
-            dao.deleteAllNodes();
-            
-            var nodes;
-            dao.getAllNodes(function(allNodes) {
-                nodes = allNodes;
-            });
-            
-            waitsFor(function() {
-                return nodes !== undefined;
-            }, 'should return a status that is not undefined', 1000);
-            
-            runs(function() {
-                //check nodes are empty
-                expect(nodes).toEqual([]);
-            });
-        });
     });
     
     // WAY METHODS
@@ -202,7 +183,7 @@ describe("DAO unit tests", function() {
         
             runs(function() {
                 expect(response).toEqual('added');
-                expect(testingWay.tags_[0].value_).toEqual(tag0.value_);
+                expect(testingWay.tags_[testingWay.tags_.length-2].value_).toEqual(tag0.value_);
             });
         });
     });
@@ -219,7 +200,7 @@ describe("DAO unit tests", function() {
             }, 'should return a status that is not undefined', 1000);
             
             runs(function() {
-                expect(way.tags_[0].value_).toEqual(testingWay.tags_[0].value_);
+                expect(way.tags_[way.tags_.length-1].value_).toEqual(testingWay.tags_[testingWay.tags_.length-1].value_);
             });
         });
     });
@@ -230,6 +211,7 @@ describe("DAO unit tests", function() {
                 response = result;
                 testingWay = way;
             });
+        
             
             waitsFor(function() {
                 return response !== undefined; 
@@ -237,7 +219,27 @@ describe("DAO unit tests", function() {
             
             runs(function() {
                 expect(response).toEqual('added node');
-                expect(testingWay.nodes_[0]).toEqual(testingNode._id); 
+                expect(testingWay.nodes_[testingWay.nodes_.length-1]).toEqual(testingNode._id); 
+            });
+        });
+    });
+    it("get nodes in way", function() {
+        runs(function() {
+            var response;
+            var waysNodes;
+            dao.getNodesInWay(testingWay.id, function(result, nodes) {
+                response = result;
+                waysNodes = nodes;
+            });
+            
+            waitsFor(function() {
+                return response !== undefined; 
+            }, 'should return a status that is not undefined', 1000);
+            
+            runs(function() {
+                expect(response).toEqual('found nodes');
+                expect(waysNodes[waysNodes.length-1].lat_).toEqual(testingNode.lat_); 
+                expect(waysNodes[waysNodes.length-1].lon_).toEqual(testingNode.lon_); 
             });
         });
     });
@@ -255,7 +257,7 @@ describe("DAO unit tests", function() {
             
             runs(function() {
                 expect(response).toEqual('removed node');
-                expect(testingWay.nodes_[0]).toBeUndefined();
+                expect(testingWay.nodes_[testingWay.nodes_.length-1]).toBeUndefined();
             });
         });      
     });
@@ -276,7 +278,7 @@ describe("DAO unit tests", function() {
             
             runs(function() {
                 expect(response).toEqual('added tag');
-                expect(testingWay.tags_[2].key_).toEqual(tag0.key_);
+                expect(testingWay.tags_[testingWay.tags_.length-1].key_).toEqual(tag0.key_);
             });
         });
     });
@@ -294,7 +296,7 @@ describe("DAO unit tests", function() {
             
             runs(function() {
                 expect(response).toEqual('removed tag');
-                expect(testingWay.tags_[2]).toBeUndefined();
+                expect(testingWay.tags_[testingWay.tags_.length-1]).toBeUndefined();
             });
         });
     });
@@ -315,23 +317,7 @@ describe("DAO unit tests", function() {
             });  
         });
     });
-    it("delete all ways", function() {
-        runs(function() {
-            var response;
-            
-            dao.deleteAllWays(function(result) {
-                response = result;
-            });
-            
-            waitsFor(function() {
-                return response !== undefined;
-            }, 'should return a status that is not undefined', 1000);
-            
-            runs(function() {
-                expect(response).toEqual('deleted all ways');
-            });  
-        });
-    });
+
     
     // RELATION METHODS
     it("create relation", function() {
@@ -361,7 +347,7 @@ describe("DAO unit tests", function() {
         
             runs(function() {
                 expect(response).toEqual('added');
-                expect(testingRelation.tags_[0].value_).toEqual(tag0.value_);
+                expect(testingRelation.tags_[testingRelation.tags_.length-1].value_).toEqual(tag1.value_);
             });
         });
     });
@@ -377,7 +363,7 @@ describe("DAO unit tests", function() {
             }, 'should return a status that is not undefined', 1000);
             
             runs(function() {
-                expect(relation.tags_[0].value_).toEqual(testingRelation.tags_[0].value_);
+                expect(relation.tags_[relation.tags_.length-1].value_).toEqual(testingRelation.tags_[testingRelation.tags_.length-1].value_);
             });
         });
     });
@@ -395,7 +381,7 @@ describe("DAO unit tests", function() {
             
             runs(function() {
                 expect(response).toEqual('added node');
-                expect(testingRelation.nodes_[0]).toEqual(testingNode._id);
+                expect(testingRelation.nodes_[testingRelation.nodes_.length-1]).toEqual(testingNode._id);
             });
         });
     });
@@ -413,7 +399,7 @@ describe("DAO unit tests", function() {
             
             runs(function() {
                 expect(response).toEqual('removed node');
-                expect(testingRelation.nodes_[0]).toBeUndefined();
+                expect(testingRelation.nodes_[testingRelation.nodes_.length-1]).toBeUndefined();
             });
         });
     });
@@ -434,7 +420,7 @@ describe("DAO unit tests", function() {
             
             runs(function() {
                 expect(response).toEqual('added tag');
-                expect(testingRelation.tags_[2].key_).toEqual(tag0.key_);
+                expect(testingRelation.tags_[testingRelation.tags_.length-1].key_).toEqual(tag0.key_);
             });
         });
     });
@@ -452,7 +438,7 @@ describe("DAO unit tests", function() {
             
             runs(function() {
                 expect(response).toEqual('removed tag');
-                expect(testingRelation.tags_[0]).toBeUndefined();
+                expect(testingRelation.tags_[testingRelation.tags_[2]]).toBeUndefined();
             });
         });
     });
@@ -470,7 +456,7 @@ describe("DAO unit tests", function() {
             
             runs(function() {
                 expect(response).toEqual('added way');
-                expect(testingRelation.ways_[0]).toEqual(testingWay._id);
+                expect(testingRelation.ways_[testingRelation.ways_.length-1]).toEqual(testingWay._id);
             });
         });
     });
@@ -488,7 +474,7 @@ describe("DAO unit tests", function() {
             
             runs(function() {
                 expect(response).toEqual('removed way');
-                expect(testingRelation.ways_[0]).toBeUndefined();
+                expect(testingRelation.ways_[testingRelation.ways_.length-1]).toBeUndefined();
             });
         });
     });
@@ -506,14 +492,14 @@ describe("DAO unit tests", function() {
             
             runs(function() {
                 expect(response).toEqual('added relation');
-                expect(testingRelation.relations_[0]).toEqual(testingRelationForDeletion._id);
+                expect(testingRelation.relations_[testingRelation.relations_.length-1]).toEqual(testingRelationForDeletion._id);
             });
         });
     });
     it("remove relation from relation", function() {
         runs(function() {
             var response;
-            dao.removeWayFromRelation(testingRelationForDeletion._id, testingRelation._id, function(result, relation){
+            dao.removeRelationFromRelation(testingRelationForDeletion._id, testingRelation._id, function(result, relation){
                 response = result;
                 testingRelation = relation;
             });
@@ -523,15 +509,15 @@ describe("DAO unit tests", function() {
             }, 'should return a status that is not undefined', 1000);
             
             runs(function() {
-                expect(response).toEqual('removed way');
-                expect(testingRelation.relations_[0]).toBeUndefined();
+                expect(response).toEqual('removed relation');
+                expect(testingRelation.relations_[testingRelation.relations_.length-1]).toBeUndefined();
             });
         });
     });
     it("delete relation", function() {
         runs(function() {
             var response;
-            dao.deleteRelation(testingRelation._id, function(result) {
+            dao.deleteRelation(testingRelationForDeletion._id, function(result) {
                 response = result;
             })
             
@@ -544,7 +530,45 @@ describe("DAO unit tests", function() {
             });  
         });
     });
+    
+    // DELETE ALL METHODS
+    it("delete all nodes", function() {
+        runs(function() {
+            dao.deleteAllNodes();
+            
+            var nodes;
+            dao.getAllNodes(function(allNodes) {
+                nodes = allNodes;
+            });
+            
+            waitsFor(function() {
+                return nodes !== undefined;
+            }, 'should return a status that is not undefined', 1000);
+            
+            runs(function() {
+                //check nodes are empty
+                expect(nodes).toEqual([]);
+            });
+        });
+    });
     it("delete all ways", function() {
+        runs(function() {
+            var response;
+            
+            dao.deleteAllWays(function(result) {
+                response = result;
+            });
+            
+            waitsFor(function() {
+                return response !== undefined;
+            }, 'should return a status that is not undefined', 1000);
+            
+            runs(function() {
+                expect(response).toEqual('deleted all ways');
+            });  
+        });
+    });
+    it("delete all relations", function() {
         runs(function() {
             var response;
             

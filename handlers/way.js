@@ -69,8 +69,9 @@ exports.addNode = function(query, respond) {
     } else if (!query.wayId) {
         respond(new response(200, "way id not defined"));
     } else {
+        // add node to way
         app.dao.addNodeToWay(query.nodeId, query.wayId, function(result, way) {
-            if(way) {
+            if (way) {
                 respond(new response(200, JSON.stringify(way)));
             } else {
                 respond(new response(200, "way not found"));
@@ -88,11 +89,22 @@ exports.removeNode = function(query, respond) {
     } else {
         // remove node from way
         app.dao.removeNodeFromWay(query.nodeId, query.wayId, function(result, way) {
-            if(way) {
+            if (way) {
                 respond(new response(200, JSON.stringify(way)));
             } else {
                 respond(new response(200, "way not found"));
             }
+        });
+    }
+};
+
+exports.listNodes = function(query, respond) {
+    // validate query
+    if (!query.id) {
+        respond(new response(200, "id not defined"));
+    } else {
+        app.dao.getNodesInWay(query.id, function() {
+            
         });
     }
 };

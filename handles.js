@@ -19,6 +19,7 @@ exports.handle = {
 	'/way/delete' : way.delete,
 	'/way/node/add' : way.addNode,
 	'/way/node/remove' : way.removeNode,
+	'/way/node/list' : way.listNodes,
 	'/way/tag/add' : way.addTag,
 	'/way/tag/remove' : way.removeTag,
 	

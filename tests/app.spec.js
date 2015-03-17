@@ -202,6 +202,27 @@ describe("app tests", function() {
             });
         });
     });
+    it("list nodes in way", function() {
+        runs(function() {
+            var req = "/way/node/list?id=" + testingWay._id;
+            var result;
+            
+            // mimic start function without writing to page
+            var url_parse = url.parse(req);
+            route(handles.handle, url_parse.pathname, querystring.parse(url_parse.query), function(response) {
+                result = response;
+            });
+            
+            waitsFor(function() {
+                return result !== undefined;
+            }, 'should return a status that is not undefined', 1000);
+        
+            runs(function() {
+                var nodes = JSON.parse(result.content);
+                expect(nodes[nodes.length-1]).toEqual(testingNode);
+            });
+        });
+    });
     it("remove node from way", function() {
         runs(function() {
             var req = "/way/node/remove?nodeId=" + testingNode._id + "&" + "wayId=" + testingWay._id;

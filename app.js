@@ -18,7 +18,7 @@ exports.start = function(port) {
     dao.connect(process.env.IP, "vicinity");
     dao.createSchemas();
     
-    // request listener
+    // request listener method
     function app(req, resp) {
         // parse url
         var url_parse = url.parse(req.url);
