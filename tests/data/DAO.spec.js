@@ -44,6 +44,7 @@ describe("DAO unit tests", function() {
             }, 'should return a status that is not undefined', 1000);
         
             runs(function() {
+                console.log(response);
                 expect(response).toEqual('added');
                 expect(testingNode.lat_).toEqual(node0.lat_);
                 expect(testingNode.lon_).toEqual(node0.lon_);
@@ -360,7 +361,7 @@ describe("DAO unit tests", function() {
             }, 'should return a status that is not undefined', 1000);
             
             runs(function() {
-                expect(response).toEqual('return relation');
+                expect(response).toEqual('returned relation');
                 expect(relation.tags_[relation.tags_.length-1].value_).toEqual(testingRelation.tags_[testingRelation.tags_.length-1].value_);
             });
         });

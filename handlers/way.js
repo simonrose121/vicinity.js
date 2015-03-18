@@ -16,19 +16,14 @@ exports.create = function(query, respond) {
 };
 
 exports.get = function(query, respond) {
-    // check if id is in querystring
-    if (!query.id) {
-        respond(new response(200, "id not defined"));
-    } else {
-        // get way and return it
-        app.dao.getWay(query.id, function(way) {
-            if(way) {
-                respond(new response(200, JSON.stringify(way)));
-            } else {
-                respond(new response(200, "way not found"));
-            }
-        });
-    }
+    // get way and return it
+    app.dao.getWay(query.id, function(result, way) {
+        if (way) {
+            respond(new response(200, JSON.stringify(way)));
+        } else {
+            respond(new response(200, JSON.stringify(result)));
+        }
+    });
 };
 
 exports.list = function(query, respond) {
@@ -49,108 +44,67 @@ exports.list = function(query, respond) {
 
 exports.delete = function(query, respond) {
     // check if id is in querystring
-    if (!query.id) {
-        respond(new response(200, "id not defined"));
-    } else {
-        app.dao.deleteWay(query.id, function(resp) {
-            if(resp === 'deleted') {
-                respond(new response(200, query.id + " has been deleted"));
-            } else {
-                respond(new response(200, "way not found"));
-            }
-        });
-    }
+    app.dao.deleteWay(query.id, function(result) {
+        if(result === 'deleted') {
+            respond(new response(200, query.id + " has been deleted"));
+        } else {
+            respond(new response(200, JSON.stringify(result)));
+        }
+    });
 };
 
 exports.addNode = function(query, respond) {
-    // validate query
-    if (!query.nodeId) {
-        respond(new response(200, "node id not defined"));
-    } else if (!query.wayId) {
-        respond(new response(200, "way id not defined"));
-    } else {
-        // add node to way
-        app.dao.addNodeToWay(query.nodeId, query.wayId, function(result, way) {
-            if (way) {
-                respond(new response(200, JSON.stringify(way)));
-            } else {
-                respond(new response(200, "way not found"));
-            }
-        });
-    }
+    // add node to way
+    app.dao.addNodeToWay(query.nodeId, query.wayId, function(result, way) {
+        if (way) {
+            respond(new response(200, JSON.stringify(way)));
+        } else {
+            respond(new response(200, JSON.stringify(result)));
+        }
+    });
 };
 
 exports.removeNode = function(query, respond) {
-    // validate query
-    if (!query.nodeId) {
-        respond(new response(200, "node id not defined"));
-    } else if (!query.wayId) {
-        respond(new response(200, "way id not defined"));
-    } else {
-        // remove node from way
-        app.dao.removeNodeFromWay(query.nodeId, query.wayId, function(result, way) {
-            if (way) {
-                respond(new response(200, JSON.stringify(way)));
-            } else {
-                respond(new response(200, "way not found"));
-            }
-        });
-    }
+    // remove node from way
+    app.dao.removeNodeFromWay(query.nodeId, query.wayId, function(result, way) {
+        if (way) {
+            respond(new response(200, JSON.stringify(way)));
+        } else {
+            respond(new response(200, JSON.stringify(result)));
+        }
+    });
 };
 
 exports.listNodes = function(query, respond) {
-    // validate query
-    if (!query.id) {
-        respond(new response(200, "id not defined"));
-    } else {
-        app.dao.getNodesInWay(query.id, function(result, nodes) {
-            if (nodes) {
-                respond(new response(200, JSON.stringify(nodes)));
-            } else {
-                respond(new response(200, "no nodes found"));
-            }
-        });
-    }
+    app.dao.getNodesInWay(query.id, function(result, nodes) {
+        if (nodes) {
+            respond(new response(200, JSON.stringify(nodes)));
+        } else {
+            respond(new response(200, JSON.stringify(result)));
+        }
+    });
 };
 
 exports.addTag = function(query, respond) {
-    // validate query
-    if (!query.id) {
-        respond(new response(200, "id not defined"));
-    } else if (!query.key) {
-        respond(new response(200, "key not defined"));
-    } else if (!query.value) {
-        respond(new response(200, "value not defined"));
-    } else {
-        // create new tag and add it
-        var tag0 = new tag(query.key, query.value);
-        app.dao.addTagToWay(tag0, query.id, function(result, way) {
-            if(way) {
-                respond(new response(200, JSON.stringify(way)));
-            } else {
-                respond(new response(200, "way not found"));
-            }
-        });
-    }
+    // create new tag and add it
+    var tag0 = new tag(query.key, query.value);
+    app.dao.addTagToWay(tag0, query.id, function(result, way) {
+        if(way) {
+            respond(new response(200, JSON.stringify(way)));
+        } else {
+            respond(new response(200, JSON.stringify(result)));
+        }
+    });
 };
 
 exports.removeTag = function(query, respond) {
-    // validate query
-    if (!query.id) {
-        respond(new response(200, "id not defined"));
-    } else if (!query.key) {
-        respond(new response(200, "key not defined"));
-    } else if (!query.value) {
-        respond(new response(200, "value not defined"));
-    } else {
-        // create new tag and use that to remove tag
-        var tag0 = new tag(query.key, query.value);
-        app.dao.removeTagFromWay(tag0, query.id, function(result, way) {
-            if(way) {
-                respond(new response(200, JSON.stringify(way)));
-            } else {
-                respond(new response(200, "way not found"));
-            }
-        });
-    }
+    // create new tag and use that to remove tag
+    var tag0 = new tag(query.key, query.value);
+    app.dao.removeTagFromWay(tag0, query.id, function(result, way) {
+        if(way) {
+            respond(new response(200, JSON.stringify(way)));
+        } else {
+            respond(new response(200, JSON.stringify(result)));
+        }
+    });
 };

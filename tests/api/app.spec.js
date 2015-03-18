@@ -16,7 +16,7 @@ describe("app tests", function() {
     
     it("create node", function() {
         runs(function() {
-            var req = "/node/create?lat=53.378491&lon=-1.472634";
+            var req = "/node/create?lat=48.860593&lon=2.337698";
             var result;
             
             // mimic start function without writing to page
@@ -33,6 +33,8 @@ describe("app tests", function() {
             runs(function() {
                 console.log("created node = " + result.content);
                 expect(testingNode._id).toBeDefined();
+                expect(testingNode.lat_).toEqual(48.860593);
+                expect(testingNode.lon_).toEqual(2.337698);
             }); 
         });
     });
@@ -647,28 +649,6 @@ describe("app tests", function() {
             }); 
         });
     });
-    it("list ways", function() {
-        runs(function() {
-            var req = "/node/list";
-            var result;
-            
-            // mimic start function without writing to page
-            var url_parse = url.parse(req);
-            route(handles.handle, url_parse.pathname, querystring.parse(url_parse.query), function(response) {
-                result = response;
-            });
-            
-            waitsFor(function() {
-                return result !== undefined;
-            }, 'should return a status that is not undefined', 1000);
-        
-            runs(function() {
-                console.log("list of ways = " + result.content);
-                var list = JSON.parse(result.content);
-                expect(list[list.length-1]).toEqual(testingNode);
-            });
-        });
-    }); 
     it("delete node", function() {
         runs(function() {
             var req = "/node/delete?id=" + testingNode._id;
