@@ -2,7 +2,7 @@ var node = require('./handlers/node');
 var way = require('./handlers/way');
 var relation = require('./handlers/relation');
 
-exports.handle = {
+exports.apiHandles = {
 	// node handles
     '/node/create' : node.create,
 	'/node/update' : node.update,

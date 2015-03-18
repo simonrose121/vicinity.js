@@ -21,7 +21,7 @@ describe("app tests", function() {
             
             // mimic start function without writing to page
             var url_parse = url.parse(req);
-            route(handles.handle, url_parse.pathname, querystring.parse(url_parse.query), function(response) {
+            route(handles.apiHandles, url_parse.pathname, querystring.parse(url_parse.query), function(response) {
                 result = response;
                 testingNode = JSON.parse(response.content);
             });
@@ -45,7 +45,7 @@ describe("app tests", function() {
             
             // mimic start function without writing to page
             var url_parse = url.parse(req);
-            route(handles.handle, url_parse.pathname, querystring.parse(url_parse.query), function(response) {
+            route(handles.apiHandles, url_parse.pathname, querystring.parse(url_parse.query), function(response) {
                 result = response;
                 testingWay = JSON.parse(response.content);
             });
@@ -67,12 +67,12 @@ describe("app tests", function() {
             
             // mimic start function without writing to page
             var url_parse = url.parse(req);
-            route(handles.handle, url_parse.pathname, querystring.parse(url_parse.query), function(response) {
+            route(handles.apiHandles, url_parse.pathname, querystring.parse(url_parse.query), function(response) {
                 result = response;
                 testingRelation = JSON.parse(response.content);
             });
             
-            route(handles.handle, url_parse.pathname, querystring.parse(url_parse.query), function(response) {
+            route(handles.apiHandles, url_parse.pathname, querystring.parse(url_parse.query), function(response) {
                 result = response;
                 testingRelation2 = JSON.parse(response.content);
             });
@@ -94,7 +94,7 @@ describe("app tests", function() {
             
             // mimic start function without writing to page
             var url_parse = url.parse(req);
-            route(handles.handle, url_parse.pathname, querystring.parse(url_parse.query), function(response) {
+            route(handles.apiHandles, url_parse.pathname, querystring.parse(url_parse.query), function(response) {
                 result = response;
             });
             
@@ -115,7 +115,7 @@ describe("app tests", function() {
             
             // mimic start function without writing to page
             var url_parse = url.parse(req);
-            route(handles.handle, url_parse.pathname, querystring.parse(url_parse.query), function(response) {
+            route(handles.apiHandles, url_parse.pathname, querystring.parse(url_parse.query), function(response) {
                 result = response;
             });
             
@@ -139,7 +139,7 @@ describe("app tests", function() {
             
             // mimic start function without writing to page
             var url_parse = url.parse(req);
-            route(handles.handle, url_parse.pathname, querystring.parse(url_parse.query), function(response) {
+            route(handles.apiHandles, url_parse.pathname, querystring.parse(url_parse.query), function(response) {
                 result = response;
                 testingWay = JSON.parse(response.content);
             });
@@ -163,7 +163,7 @@ describe("app tests", function() {
             
             // mimic start function without writing to page
             var url_parse = url.parse(req);
-            route(handles.handle, url_parse.pathname, querystring.parse(url_parse.query), function(response) {
+            route(handles.apiHandles, url_parse.pathname, querystring.parse(url_parse.query), function(response) {
                 result = response;
                 testingWay = JSON.parse(response.content);
             });
@@ -185,7 +185,7 @@ describe("app tests", function() {
             
             // mimic start function without writing to page
             var url_parse = url.parse(req);
-            route(handles.handle, url_parse.pathname, querystring.parse(url_parse.query), function(response) {
+            route(handles.apiHandles, url_parse.pathname, querystring.parse(url_parse.query), function(response) {
                 result = response;
                 testingWay = JSON.parse(response.content);
             });
@@ -207,7 +207,7 @@ describe("app tests", function() {
             
             // mimic start function without writing to page
             var url_parse = url.parse(req);
-            route(handles.handle, url_parse.pathname, querystring.parse(url_parse.query), function(response) {
+            route(handles.apiHandles, url_parse.pathname, querystring.parse(url_parse.query), function(response) {
                 result = response;
             });
             
@@ -229,7 +229,7 @@ describe("app tests", function() {
             
             // mimic start function without writing to page
             var url_parse = url.parse(req);
-            route(handles.handle, url_parse.pathname, querystring.parse(url_parse.query), function(response) {
+            route(handles.apiHandles, url_parse.pathname, querystring.parse(url_parse.query), function(response) {
                 result = response;
                 testingWay = JSON.parse(response.content);
             });
@@ -251,7 +251,7 @@ describe("app tests", function() {
             
             // mimic start function without writing to page
             var url_parse = url.parse(req);
-            route(handles.handle, url_parse.pathname, querystring.parse(url_parse.query), function(response) {
+            route(handles.apiHandles, url_parse.pathname, querystring.parse(url_parse.query), function(response) {
                 result = response;
                 testingRelation = JSON.parse(response.content);
             });
@@ -273,7 +273,7 @@ describe("app tests", function() {
             
             // mimic start function without writing to page
             var url_parse = url.parse(req);
-            route(handles.handle, url_parse.pathname, querystring.parse(url_parse.query), function(response) {
+            route(handles.apiHandles, url_parse.pathname, querystring.parse(url_parse.query), function(response) {
                 result = response;
             });
             
@@ -295,7 +295,7 @@ describe("app tests", function() {
             
             // mimic start function without writing to page
             var url_parse = url.parse(req);
-            route(handles.handle, url_parse.pathname, querystring.parse(url_parse.query), function(response) {
+            route(handles.apiHandles, url_parse.pathname, querystring.parse(url_parse.query), function(response) {
                 result = response;
                 testingRelation = JSON.parse(response.content);
             });
@@ -320,7 +320,7 @@ describe("app tests", function() {
                 
                 // mimic start function without writing to page
                 var url_parse = url.parse(req);
-                route(handles.handle, url_parse.pathname, querystring.parse(url_parse.query), function(response) {
+                route(handles.apiHandles, url_parse.pathname, querystring.parse(url_parse.query), function(response) {
                     result = response;
                     testingRelation = JSON.parse(response.content);
                 });
@@ -345,7 +345,7 @@ describe("app tests", function() {
             
             // mimic start function without writing to page
             var url_parse = url.parse(req);
-            route(handles.handle, url_parse.pathname, querystring.parse(url_parse.query), function(response) {
+            route(handles.apiHandles, url_parse.pathname, querystring.parse(url_parse.query), function(response) {
                 result = response;
                 testingRelation = JSON.parse(response.content);
             });
@@ -368,7 +368,7 @@ describe("app tests", function() {
                 
                 // mimic start function without writing to page
                 var url_parse = url.parse(req);
-                route(handles.handle, url_parse.pathname, querystring.parse(url_parse.query), function(response) {
+                route(handles.apiHandles, url_parse.pathname, querystring.parse(url_parse.query), function(response) {
                     result = response;
                     testingRelation = JSON.parse(response.content);
                 });
@@ -391,7 +391,7 @@ describe("app tests", function() {
             
             // mimic start function without writing to page
             var url_parse = url.parse(req);
-            route(handles.handle, url_parse.pathname, querystring.parse(url_parse.query), function(response) {
+            route(handles.apiHandles, url_parse.pathname, querystring.parse(url_parse.query), function(response) {
                 result = response;
             });
             
@@ -413,7 +413,7 @@ describe("app tests", function() {
             
             // mimic start function without writing to page
             var url_parse = url.parse(req);
-            route(handles.handle, url_parse.pathname, querystring.parse(url_parse.query), function(response) {
+            route(handles.apiHandles, url_parse.pathname, querystring.parse(url_parse.query), function(response) {
                 result = response;
                 testingRelation = JSON.parse(response.content);
             });
@@ -436,7 +436,7 @@ describe("app tests", function() {
             
             // mimic start function without writing to page
             var url_parse = url.parse(req);
-            route(handles.handle, url_parse.pathname, querystring.parse(url_parse.query), function(response) {
+            route(handles.apiHandles, url_parse.pathname, querystring.parse(url_parse.query), function(response) {
                 result = response;
                 testingRelation = JSON.parse(response.content);
             });
@@ -458,7 +458,7 @@ describe("app tests", function() {
             
             // mimic start function without writing to page
             var url_parse = url.parse(req);
-            route(handles.handle, url_parse.pathname, querystring.parse(url_parse.query), function(response) {
+            route(handles.apiHandles, url_parse.pathname, querystring.parse(url_parse.query), function(response) {
                 result = response;
             });
             
@@ -480,7 +480,7 @@ describe("app tests", function() {
             
             // mimic start function without writing to page
             var url_parse = url.parse(req);
-            route(handles.handle, url_parse.pathname, querystring.parse(url_parse.query), function(response) {
+            route(handles.apiHandles, url_parse.pathname, querystring.parse(url_parse.query), function(response) {
                 result = response;
                 testingRelation = JSON.parse(response.content);
             });
@@ -502,7 +502,7 @@ describe("app tests", function() {
             
             // mimic start function without writing to page
             var url_parse = url.parse(req);
-            route(handles.handle, url_parse.pathname, querystring.parse(url_parse.query), function(response) {
+            route(handles.apiHandles, url_parse.pathname, querystring.parse(url_parse.query), function(response) {
                 result = response;
             });
             
@@ -523,7 +523,7 @@ describe("app tests", function() {
             
             // mimic start function without writing to page
             var url_parse = url.parse(req);
-            route(handles.handle, url_parse.pathname, querystring.parse(url_parse.query), function(response) {
+            route(handles.apiHandles, url_parse.pathname, querystring.parse(url_parse.query), function(response) {
                 result = response;
             });
             
@@ -545,7 +545,7 @@ describe("app tests", function() {
             
             // mimic start function without writing to page
             var url_parse = url.parse(req);
-            route(handles.handle, url_parse.pathname, querystring.parse(url_parse.query), function(response) {
+            route(handles.apiHandles, url_parse.pathname, querystring.parse(url_parse.query), function(response) {
                 result = response;
             });
              
@@ -566,7 +566,7 @@ describe("app tests", function() {
             
             // mimic start function without writing to page
             var url_parse = url.parse(req);
-            route(handles.handle, url_parse.pathname, querystring.parse(url_parse.query), function(response) {
+            route(handles.apiHandles, url_parse.pathname, querystring.parse(url_parse.query), function(response) {
                 result = response;
             });
              
@@ -589,7 +589,7 @@ describe("app tests", function() {
             
             // mimic start function without writing to page
             var url_parse = url.parse(req);
-            route(handles.handle, url_parse.pathname, querystring.parse(url_parse.query), function(response) {
+            route(handles.apiHandles, url_parse.pathname, querystring.parse(url_parse.query), function(response) {
                 result = response;
                 testingNode = JSON.parse(response.content);
             });
@@ -613,7 +613,7 @@ describe("app tests", function() {
             
             // mimic start function without writing to page
             var url_parse = url.parse(req);
-            route(handles.handle, url_parse.pathname, querystring.parse(url_parse.query), function(response) {
+            route(handles.apiHandles, url_parse.pathname, querystring.parse(url_parse.query), function(response) {
                 result = response;
                 testingNode = JSON.parse(response.content);
             });
@@ -635,7 +635,7 @@ describe("app tests", function() {
             
             // mimic start function without writing to page
             var url_parse = url.parse(req);
-            route(handles.handle, url_parse.pathname, querystring.parse(url_parse.query), function(response) {
+            route(handles.apiHandles, url_parse.pathname, querystring.parse(url_parse.query), function(response) {
                 result = response;
             });
              
@@ -656,7 +656,7 @@ describe("app tests", function() {
             
             // mimic start function without writing to page
             var url_parse = url.parse(req);
-            route(handles.handle, url_parse.pathname, querystring.parse(url_parse.query), function(response) {
+            route(handles.apiHandles, url_parse.pathname, querystring.parse(url_parse.query), function(response) {
                 result = response;
             });
              
@@ -678,7 +678,7 @@ describe("app tests", function() {
             
             // mimic start function without writing to page
             var url_parse = url.parse(req);
-            route(handles.handle, url_parse.pathname, querystring.parse(url_parse.query), function(response) {
+            route(handles.apiHandles, url_parse.pathname, querystring.parse(url_parse.query), function(response) {
                 result = response;
             });
             

@@ -23,7 +23,7 @@ exports.start = function(port) {
         // parse url
         var url_parse = url.parse(req.url);
         // route request
-        route(handles.handle, url_parse.pathname, querystring.parse(url_parse.query), function(response) {
+        route(handles.apiHandles, url_parse.pathname, querystring.parse(url_parse.query), function(response) {
             // write response
             writer.write(response, resp);
         });
