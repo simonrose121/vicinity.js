@@ -10,7 +10,7 @@ exports.create = function(query, respond) {
         if (newWay) {
             respond(new response(200, JSON.stringify(newWay)));
         } else {
-            respond(new response(200, "way not complete"));
+            respond(new response(200, JSON.stringify(result)));
         }
     }); 
 };

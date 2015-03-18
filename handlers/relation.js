@@ -11,7 +11,7 @@ exports.create = function(query, respond) {
         if (newRelation) {
             respond(new response(200, JSON.stringify(newRelation)));
         } else {
-            respond(new response(200, "relation not complete"));
+            respond(new response(200, JSON.stringify(result)));
         }
     }); 
 };
