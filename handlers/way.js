@@ -43,7 +43,6 @@ exports.list = function(query, respond) {
 };
 
 exports.delete = function(query, respond) {
-    // check if id is in querystring
     app.dao.deleteWay(query.id, function(result) {
         if(result === 'deleted') {
             respond(new response(200, query.id + " has been deleted"));

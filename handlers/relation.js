@@ -76,7 +76,6 @@ exports.removeNode = function(query, respond) {
 };
 
 exports.listNodes = function(query, respond) {
-    // validate query
     app.dao.getNodesInRelation(query.id, function(result, nodes) {
         if (nodes) {
             respond(new response(200, JSON.stringify(nodes)));
@@ -131,18 +130,13 @@ exports.removeWay = function(query, respond) {
 };
 
 exports.listWays = function(query, respond) {
-    // validate query
-    if (!query.id) {
-        respond(new response(200, "id not defined"));
-    } else {
-        app.dao.getWaysInRelation(query.id, function(result, ways) {
-            if (ways) {
-                respond(new response(200, JSON.stringify(ways)));
-            } else {
-                respond(new response(200, JSON.stringify(result)));
-            }
-        });
-    }
+    app.dao.getWaysInRelation(query.id, function(result, ways) {
+        if (ways) {
+            respond(new response(200, JSON.stringify(ways)));
+        } else {
+            respond(new response(200, JSON.stringify(result)));
+        }
+    });
 };
 
 exports.addRelation = function(query, respond) {
