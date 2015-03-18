@@ -11,7 +11,6 @@ describe("DAO unit tests", function() {
     var testingWay;
     var testingRelation;
     var testingNodeForDeletion;
-    var testingWayForDeletion;
     var testingRelationForDeletion;
     
     var dao = new DAO();
@@ -22,10 +21,6 @@ describe("DAO unit tests", function() {
     
     it("create node", function() {
         runs(function() {
-            dao.deleteAllNodes(function(result) {
-                
-            });
-            
             var node0 = new node(40.689245, -74.044489);
             var node1 = new node(48.860593, 2.337698);
 
@@ -44,7 +39,6 @@ describe("DAO unit tests", function() {
             }, 'should return a status that is not undefined', 1000);
         
             runs(function() {
-                console.log(response);
                 expect(response).toEqual('added');
                 expect(testingNode.lat_).toEqual(node0.lat_);
                 expect(testingNode.lon_).toEqual(node0.lon_);

@@ -10,11 +10,7 @@ exports.create = function(query, respond) {
         if (newNode) {
             respond(new response(200, JSON.stringify(newNode)));
         } else {
-            if (result) {
-                respond(new response(200, JSON.stringify(result)));
-            } else {
-                respond(new response(200, 'node not complete'));
-            }
+            respond(new response(200, JSON.stringify(result)));
         }
     });
 };
@@ -29,8 +25,6 @@ exports.update = function(query, respond) {
         } else {
             if (result) {
                 respond(new response(200, JSON.stringify(result)));
-            } else {
-                respond(new response(200, 'node not found'));
             }
         }
     });

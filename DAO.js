@@ -73,9 +73,9 @@ DAO.prototype.createSchemas = function() {
 
 DAO.prototype.createNode = function(obj, callback) {
     // validate node values
-    if (obj.lat_ < -90 || obj.lat_ > 90) {
+    if (!obj.lat_ || obj.lat_ < -90 || obj.lat_ > 90) {
         callback('node latitude value invalid');
-    } else if (obj.lon_ < -180 || obj.lon_ > 180) {
+    } else if (!obj.lon_ || obj.lon_ < -180 || obj.lon_ > 180) {
         callback('node longitude value invalid');
     } else {
         // convert node to instance of node schema
@@ -83,8 +83,7 @@ DAO.prototype.createNode = function(obj, callback) {
         // save node
         newNode.save(function(err) {
             if (err) {
-                return console.error(err);
-                
+                console.error(err);
             } else {
                 callback('added', newNode);
             }
@@ -94,9 +93,11 @@ DAO.prototype.createNode = function(obj, callback) {
 
 DAO.prototype.updateNode = function(obj, callback) {
     // validate node values
-    if (obj.lat_ < -90 || obj.lat_ > 90) {
+    if (!obj._id) {
+        callback('id not defined');
+    } else if (!obj.lat_ || obj.lat_ < -90 || obj.lat_ > 90) {
         callback('node latitude value invalid');
-    } else if (obj.lon_ < -180 || obj.lon_ > 180) {
+    } else if (!obj.lon_ || obj.lon_ < -180 || obj.lon_ > 180) {
         callback('node longitude value invalid');
     } else {
         // convert node to instance of node schema
@@ -104,7 +105,8 @@ DAO.prototype.updateNode = function(obj, callback) {
         // update node if it exists (upsert)
         this.nodeSchema.update({_id: updatedNode._id}, updatedNode, {upsert: true}, function(err) {
             if (err) {
-                return console.error(err);
+                console.error(err);
+                callback('node not found');
             } else {
                 callback('updated', updatedNode);
             }
@@ -119,7 +121,8 @@ DAO.prototype.getNode = function(id, callback) {
         // find node with matching id
         this.nodeSchema.findById(id, function(err, node) {
             if (err) {
-                return console.error(err);
+                console.error(err);
+                callback('node not found');
             } else {
                 callback('node returned', node);
             }
@@ -145,7 +148,8 @@ DAO.prototype.deleteNode = function(id, callback) {
         // remove node from database
         this.nodeSchema.remove({_id: id}, function(err) {
             if (err) {
-                return console.error(err);
+                console.error(err);
+                callback('node not found');
             }
         });
         // remove references
@@ -188,7 +192,8 @@ DAO.prototype.addTagToNode = function(tag, id, callback) {
         var update = { $push: { tags_ : tag } };
         this.nodeSchema.findByIdAndUpdate(id, update, {upsert: true}, function(err, node) {
             if (err) {
-                return console.error(err);
+                console.error(err);
+                callback('node not found');
             } else {
                 callback('added tag', node, tag);
             }
@@ -208,7 +213,8 @@ DAO.prototype.removeTagFromNode = function(tag, id, callback) {
         var remove = { $pull : { tags_: tag } };
         this.nodeSchema.findByIdAndUpdate(id, remove, {upsert: true}, function(err, node) {
             if (err) {
-                return console.error(err);
+                console.error(err);
+                callback('node not found');
             } else {
                 callback('removed tag', node);
             }
@@ -237,7 +243,8 @@ DAO.prototype.getWay = function(id, callback) {
         // find way with matching id
         this.waySchema.findById(id, function(err, way) {
             if (err) {
-                return console.error(err);
+                console.error(err);
+                callback('way not found');
             } else {
                 callback('returned way', way);
             }
@@ -263,7 +270,8 @@ DAO.prototype.deleteWay = function(id, callback) {
         // remove way from database
         this.waySchema.remove({_id: id}, function(err) {
             if (err) {
-                return console.error(err);
+                console.error(err);
+                callback('way not found');
             }
         });
         // remove references
@@ -300,6 +308,7 @@ DAO.prototype.addNodeToWay = function(nodeId, wayId, callback) {
         this.waySchema.findByIdAndUpdate(wayId, update, {upsert: true}, function(err, way) {
             if (err) {
                 console.error(err);
+                callback('way not found');
             } else {
                 callback('added node', way);
             }
@@ -317,7 +326,8 @@ DAO.prototype.removeNodeFromWay = function(nodeId, wayId, callback) {
         var remove = { $pull: { nodes_: nodeId } }; 
         this.waySchema.findByIdAndUpdate(wayId, remove, {upsert: true}, function(err, way) {
             if (err) {
-                return console.error(err);
+                console.error(err);
+                callback('way not found');
             } else {
                 // remove and readjust array
                 callback('removed node', way);
@@ -369,7 +379,8 @@ DAO.prototype.addTagToWay = function(tag, id, callback) {
         var update = { $push: { tags_: tag } };
         this.waySchema.findByIdAndUpdate(id, update, {upsert:true}, function(err, way) {
             if (err) {
-                return console.error(err);
+                console.error(err);
+                callback('way not found');
             } else {
                 callback('added tag', way, tag);
             }
@@ -389,7 +400,8 @@ DAO.prototype.removeTagFromWay = function(tag, id, callback) {
         var remove = { $pull: { tags_: tag } };
         this.waySchema.findByIdAndUpdate(id, remove, {upsert:true}, function(err, way) {
             if (err) {
-                return console.error(err);
+                console.error(err);
+                callback('way not found');
             } else {
                 callback('removed tag', way);
             }
@@ -419,7 +431,8 @@ DAO.prototype.getRelation = function(id, callback) {
         // find relation matching id
         this.relationSchema.findById(id, function(err, relation) {
             if (err) {
-                return console.error(err); 
+                console.error(err);
+                callback('relation not found');
             } else {
                 callback('returned relation', relation);
             }
@@ -445,7 +458,8 @@ DAO.prototype.deleteRelation = function(id, callback) {
         // remove relation from database
         this.relationSchema.remove({_id: id}, function(err) {
             if (err) {
-                return console.error(err);
+                console.error(err);
+                callback('relation not found');
             }
         });
         // remove references
@@ -481,7 +495,8 @@ DAO.prototype.addNodeToRelation = function(nodeId, relationId, callback) {
         var update = { $push: { nodes_: nodeId } };
         this.relationSchema.findByIdAndUpdate(relationId, update, {upsert:true}, function(err, relation) {
             if (err) {
-                return console.error(err);
+                console.error(err);
+                callback('relation not found');
             } else {
                 callback('added node', relation);
             }
@@ -499,7 +514,8 @@ DAO.prototype.removeNodeFromRelation = function(nodeId, relationId, callback) {
         var remove = { $pull: { nodes_: nodeId } };
         this.relationSchema.findByIdAndUpdate(relationId, remove, {upsert:true}, function(err, relation) {
             if (err) {
-                return console.error(err);
+                console.error(err);
+                callback('relation not found');
             } else {
                 callback('removed node', relation);
             }
@@ -550,7 +566,8 @@ DAO.prototype.addTagToRelation = function(tag, id, callback) {
         var update = { $push: { tags_: tag } };
         this.relationSchema.findByIdAndUpdate(id, update, {upsert: true}, function(err, relation) {
             if (err) {
-                return console.error(err);
+                console.error(err);
+                callback('relation not found');
             } else {
                 callback('added tag', relation, tag);
             }
@@ -570,7 +587,8 @@ DAO.prototype.removeTagFromRelation = function(tag, id, callback) {
         var remove = { $pull: { tags_: tag } };
         this.relationSchema.findByIdAndUpdate(id, remove, {upsert: true}, function(err, relation) {
             if (err) {
-                return console.error(err);
+                console.error(err);
+                callback('relation not found');
             } else {
                 callback('removed tag', relation);
             }
@@ -588,7 +606,8 @@ DAO.prototype.addWayToRelation = function(wayId, relationId, callback) {
         var update = { $push: { ways_: wayId } };
         this.relationSchema.findByIdAndUpdate(relationId, update, {upsert: true}, function(err, relation) {
             if (err) {
-                return console.error(err);
+                console.error(err);
+                callback('relation not found');
             } else {
                 callback('added way', relation);
             }
@@ -606,7 +625,8 @@ DAO.prototype.removeWayFromRelation = function(wayId, relationId, callback) {
         var remove = { $pull: { ways_: wayId } };
         this.relationSchema.findByIdAndUpdate(relationId, remove, {upsert: true}, function(err, relation) {
             if (err) {
-                return console.error(err);
+                console.error(err);
+                callback('relation not found');
             } else {
                 callback('removed way', relation);
             }
@@ -655,7 +675,8 @@ DAO.prototype.addRelationToRelation = function(relationToAddId, relationId, call
         var update = { $push: { relations_: relationToAddId } };
         this.relationSchema.findByIdAndUpdate(relationId, update, {upsert: true}, function(err, relation) {
             if (err) {
-                return console.error(err);
+                console.error(err);
+                callback('relation not found');
             } else {
                 relation.relations_.push(relationToAddId);
                 callback('added relation', relation);
@@ -675,7 +696,8 @@ DAO.prototype.removeRelationFromRelation = function(relationToRemoveId, relation
         var remove = { $pull: { relations_: relationToRemoveId } };
         this.relationSchema.findByIdAndUpdate(relationId, remove, {upsert: true}, function(err, relation) {
             if (err) {
-                return console.error(err);
+                console.error(err);
+                callback('relation not found');
             } else {
                 relation.relations_.splice(relation.ways_.indexOf(relationId));
                 callback('removed relation', relation);

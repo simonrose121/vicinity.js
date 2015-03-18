@@ -649,6 +649,28 @@ describe("app tests", function() {
             }); 
         });
     });
+    it("update node", function() {
+        runs(function() {
+            var req = "/node/update?id=" + testingNode._id + "&lat=-22.794701&lon=-43.173398";
+            var result;
+            
+            // mimic start function without writing to page
+            var url_parse = url.parse(req);
+            route(handles.handle, url_parse.pathname, querystring.parse(url_parse.query), function(response) {
+                result = response;
+            });
+             
+            waitsFor(function() {
+                return result !== undefined;
+            }, 'should return a status that is not undefined', 1000);
+        
+            runs(function() {
+                console.log("updated node = " + result.content);
+                expect(JSON.parse(result.content).lat_).toEqual(-22.794701);
+                expect(JSON.parse(result.content).lon_).toEqual(-43.173398);
+            }); 
+        });
+    });
     it("delete node", function() {
         runs(function() {
             var req = "/node/delete?id=" + testingNode._id;
