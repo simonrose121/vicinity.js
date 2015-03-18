@@ -1,8 +1,8 @@
-var DAO = require("../DAO");
-var node = require("../model/node");
-var tag = require("../model/tag");
-var way = require("../model/way");
-var relation = require("../model/relation");
+var DAO = require("../../DAO");
+var node = require("../../model/node");
+var tag = require("../../model/tag");
+var way = require("../../model/way");
+var relation = require("../../model/relation");
 
 describe("DAO unit tests", function() {
     // objects persistent between tests for testing removal, etc.
@@ -22,10 +22,12 @@ describe("DAO unit tests", function() {
     
     it("create node", function() {
         runs(function() {
-            dao.deleteAllNodes();
+            dao.deleteAllNodes(function(result) {
+                
+            });
             
-            var node0 = new node(53.373656, -1.450626);
-            var node1 = new node(53.378491, -1.472634);
+            var node0 = new node(40.689245, -74.044489);
+            var node1 = new node(48.860593, 2.337698);
 
             var response;
             dao.createNode(node0, function(result, myNode) {
@@ -43,20 +45,23 @@ describe("DAO unit tests", function() {
         
             runs(function() {
                 expect(response).toEqual('added');
+                expect(testingNode.lat_).toEqual(node0.lat_);
+                expect(testingNode.lon_).toEqual(node0.lon_);
             });
        });
     });
     it("update node", function() {
         runs(function() {
             var id = testingNode._id;
-            testingNode = new node(53.378491, -1.472634);
+            var updatedNode = new node(53.378491, -1.472634);
             
             // keep id the same
-            testingNode._id = id;
+            updatedNode._id = id;
             
             var response;
-            dao.updateNode(testingNode, function(result) {
+            dao.updateNode(updatedNode, function(result, node) {
                 response = result;
+                testingNode = node;
             });
             
             waitsFor(function() {
@@ -65,21 +70,26 @@ describe("DAO unit tests", function() {
             
             runs(function() {
                 expect(response).toEqual('updated');
+                expect(testingNode.lat_).toEqual(updatedNode.lat_);
+                expect(testingNode.lon_).toEqual(updatedNode.lon_);
             });
         }); 
     });
     it("get node", function() {
         runs(function() {
             var node;
-            dao.getNode(testingNode._id, function(newNode) {
+            var response;
+            dao.getNode(testingNode._id, function(result, newNode) {
+                response = result;
                 node = newNode;
             });
             
             waitsFor(function() {
-                return node !== undefined;
+                return response !== undefined;
             }, 'should return a status that is not undefined', 1000);
             
             runs(function() {
+                expect(response).toEqual('node returned');
                 expect(node.lat_).toEqual(testingNode.lat_);
                 expect(node.lon_).toEqual(testingNode.lon_);
             });
@@ -127,7 +137,6 @@ describe("DAO unit tests", function() {
     it("delete node", function() {
         runs(function() {
             var response;
-            
             dao.deleteNode(testingNodeForDeletion._id, function(result) {
                 response = result;
             });
@@ -144,15 +153,18 @@ describe("DAO unit tests", function() {
     it("get all nodes", function() {
         runs(function() {
             var nodes;
-            dao.getAllNodes(function(allNodes) {
+            var response;
+            dao.getAllNodes(function(result, allNodes) {
+                response = result;
                 nodes = allNodes;
             });
             
             waitsFor(function() {
-                return nodes !== undefined;
+                return response !== undefined;
             }, 'should return a status that is not undefined', 3000);
 
             runs(function() {
+                expect(response).toEqual('nodes returned');
                 expect(nodes.length).toEqual(1);
                 expect(nodes[nodes.length-1].lat_).toEqual(testingNode.lat_);
                 expect(nodes[nodes.length-1].lon_).toEqual(testingNode.lon_);
@@ -173,8 +185,8 @@ describe("DAO unit tests", function() {
             
             var response;
             dao.createWay(way0, function(result, myWay) {
-                 response = result;
-                 testingWay = myWay;
+                response = result;
+                testingWay = myWay;
             });
             
             waitsFor(function() {
@@ -190,16 +202,18 @@ describe("DAO unit tests", function() {
     it("get way", function() {
         runs(function() {
             var way;
-            
-            dao.getWay(testingWay._id, function(newWay) {
+            var response;
+            dao.getWay(testingWay._id, function(result, newWay) {
+                response = result;
                 way = newWay;
             });
             
             waitsFor(function() {
-                return way !== undefined;
+                return response !== undefined;
             }, 'should return a status that is not undefined', 1000);
             
             runs(function() {
+                expect(response).toEqual('returned way');
                 expect(way.tags_[way.tags_.length-1].value_).toEqual(testingWay.tags_[testingWay.tags_.length-1].value_);
             });
         });
@@ -212,7 +226,6 @@ describe("DAO unit tests", function() {
                 testingWay = way;
             });
         
-            
             waitsFor(function() {
                 return response !== undefined; 
             }, 'should return a status that is not undefined', 1000);
@@ -336,7 +349,9 @@ describe("DAO unit tests", function() {
     it("get relation", function() {
         runs(function() {
             var relation;
-            dao.getRelation(testingRelation._id, function(newRelation) {
+            var response;
+            dao.getRelation(testingRelation._id, function(result, newRelation) {
+                response = result;
                 relation = newRelation;
             });
             
@@ -345,6 +360,7 @@ describe("DAO unit tests", function() {
             }, 'should return a status that is not undefined', 1000);
             
             runs(function() {
+                expect(response).toEqual('return relation');
                 expect(relation.tags_[relation.tags_.length-1].value_).toEqual(testingRelation.tags_[testingRelation.tags_.length-1].value_);
             });
         });
@@ -555,7 +571,7 @@ describe("DAO unit tests", function() {
         });
     });
     
-    // DELETE METHODS
+    // DELETE METHODS - RUN LAST
     it("delete way", function() {
         runs(function() {
             var response;
@@ -591,20 +607,18 @@ describe("DAO unit tests", function() {
     });
     it("delete all nodes", function() {
         runs(function() {
-            dao.deleteAllNodes();
-            
-            var nodes;
-            dao.getAllNodes(function(allNodes) {
-                nodes = allNodes;
+            var response;
+            dao.deleteAllNodes(function(result) {
+                response = result;
             });
             
             waitsFor(function() {
-                return nodes !== undefined;
+                return response !== undefined;
             }, 'should return a status that is not undefined', 1000);
             
             runs(function() {
                 //check nodes are empty
-                expect(nodes).toEqual([]);
+                expect(response).toEqual('deleted all nodes');
             });
         });
     });

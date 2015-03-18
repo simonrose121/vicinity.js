@@ -1,13 +1,9 @@
 var querystring = require('querystring');
 var url = require('url');
 
-var app = require('../app');
-var handles = require('../handles');
-var router = require('../router');
-
-var nodeHandler = require('../handlers/node');
-var wayHandler = require('../handlers/way');
-
+var app = require('../../app');
+var handles = require('../../handles');
+var router = require('../../router');
 
 // n.b. these tests will only run alone
 describe("app tests", function() {

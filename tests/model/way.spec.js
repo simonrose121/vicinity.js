@@ -1,6 +1,6 @@
-var way = require("../model/way");
-var node = require("../model/node");
-var tag = require("../model/tag");
+var way = require("../../model/way");
+var node = require("../../model/node");
+var tag = require("../../model/tag");
 
 describe("way unit tests", function() {
     it("object construction", function() {
@@ -15,8 +15,8 @@ describe("way unit tests", function() {
     it("storing nodes", function() {
         runs(function() {
             // create new nodes
-            var node1 = new node(0.0, 1.4, 4.5);
-            var node2 = new node(1.0, 1.4, 4.5);
+            var node1 = new node(40.689245, -74.044489);
+            var node2 = new node(48.860593, 2.337698);
 
             // create new way
             var way1 = new way();
@@ -50,7 +50,7 @@ describe("way unit tests", function() {
     it("removing nodes", function(){
         runs(function() {
             // create new node
-            var node1 = new node(0.0, 1.4, 4.5);
+            var node1 = new node(40.689245, -74.044489);
             
             // create new way
             var way3 = new way();

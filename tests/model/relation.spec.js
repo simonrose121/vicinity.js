@@ -1,7 +1,7 @@
-var relation = require("../model/relation");
-var node = require("../model/node");
-var tag = require("../model/tag");
-var way = require("../model/way");
+var relation = require("../../model/relation");
+var node = require("../../model/node");
+var tag = require("../../model/tag");
+var way = require("../../model/way");
 
 describe("relation unit tests", function() {
     it("object construction", function() {
@@ -16,8 +16,8 @@ describe("relation unit tests", function() {
     it("storing nodes", function() {
         runs(function() {
             // create new nodes
-            var node1 = new node(0.0, 1.4, 4.5);
-            var node2 = new node(1.0, 1.4, 4.5);
+            var node1 = new node(40.689245, -74.044489);
+            var node2 = new node(-22.794701, -43.173398);
 
             // create new way
             var relation1 = new relation();
@@ -34,8 +34,8 @@ describe("relation unit tests", function() {
     it("storing tags", function() {
         runs(function() {
             // create new tags
-            var tag1 = new tag("name", "a place");
-            var tag2 = new tag("_id", "2841098241");
+            var tag1 = new tag("route", "road");
+            var tag2 = new tag("highway", "traffic_signals");
 
             // create new way
             var relation2 = new relation();
@@ -85,7 +85,7 @@ describe("relation unit tests", function() {
     it("removing nodes", function() {
         runs(function() {
              // create new node
-            var node1 = new node(0.0, 1.4, 4.5);
+            var node1 = new node(51.500712, -0.124625);
             
             // create new way
             var relation6 = new relation();
@@ -106,7 +106,7 @@ describe("relation unit tests", function() {
     it("removing tags", function(){
         runs(function() {
             // create new tag
-            var tag1 = new tag("name", "a place");
+            var tag1 = new tag("name", "a_place");
             
             // create new way
             var relation7 = new relation();

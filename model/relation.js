@@ -7,7 +7,10 @@ elements. A member of a relation can optionally have a role which describe the
 part that a particular feature plays within a relation.
 */
 
-// as this is a collection class i've decided not to initialise values on construction
+/**
+ * as this is a collection class i've decided not to 
+ * initialise values on construction
+ **/
 
 // class constructor
 var relation = function() {
@@ -18,6 +21,15 @@ var relation = function() {
 };
 
 // node methods
+relation.prototype.addNode = function(node) {
+    this.nodes_.push(node);
+};
+
+relation.prototype.removeNode = function(node) {
+    var index = this.nodes_.indexOf(node);
+    this.nodes_.splice(index);
+};
+
 relation.prototype.nodeExists = function(node) {
     var index = this.nodes_.indexOf(node);
     if(index > -1) {

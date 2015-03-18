@@ -104,7 +104,7 @@ DAO.prototype.getNode = function(id, callback) {
         if (err) {
             return console.error(err);
         } else {
-            callback(node);
+            callback('node returned', node);
         }
     });
 };
@@ -115,7 +115,7 @@ DAO.prototype.getAllNodes = function(callback) {
         if (err) {
             return console.error(err);
         } else {
-            callback(nodes);
+            callback('nodes returned', nodes);
         }
     });
 };
@@ -143,11 +143,13 @@ DAO.prototype.deleteNode = function(id, callback) {
     });
 };
 
-DAO.prototype.deleteAllNodes = function() {
+DAO.prototype.deleteAllNodes = function(callback) {
     // delete all nodes
     this.nodeSchema.remove(function(err) {
         if (err) {
             return console.error(err);
+        } else {
+            callback('deleted all nodes');
         }
     });
 };
@@ -196,7 +198,7 @@ DAO.prototype.getWay = function(id, callback) {
         if (err) {
             return console.error(err);
         } else {
-            callback(way);
+            callback('returned way', way);
         }
     });
 };
@@ -334,11 +336,11 @@ DAO.prototype.createRelation = function(obj, callback) {
 
 DAO.prototype.getRelation = function(id, callback) {
     // find relation matching id
-    this.relationSchema.findById(id, function(err, r) {
+    this.relationSchema.findById(id, function(err, relation) {
         if (err) {
             return console.error(err); 
         } else {
-            callback(r);
+            callback(relation);
         }
     });
 };
